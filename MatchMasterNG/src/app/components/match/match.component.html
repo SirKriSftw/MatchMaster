@@ -1,0 +1,8 @@
+<div>
+    <h2>ALL Matches</h2>
+    <ul>
+        <li *ngFor = "let match of matches">
+            {{match.matchId}}.({{match.tournamentId}}) [{{match.winnerId}}] - {{match.matchTitle}} | {{match.description}} - {{match.matchDateTime}}
+        </li>
+    </ul>
+</div>

@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatchComponent } from './components/match/match.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TournamentComponent
+    TournamentComponent,
+    MatchComponent
   ],
   imports: [
     BrowserModule,

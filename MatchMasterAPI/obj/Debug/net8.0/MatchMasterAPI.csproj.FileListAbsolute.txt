@@ -135,3 +135,4 @@ C:\Users\Kristian\Desktop\Coding\Projects\DotNet\Projects\MatchMaster\MatchMaste
 C:\Users\Kristian\Desktop\Coding\Projects\DotNet\Projects\MatchMaster\MatchMasterAPI\obj\Debug\net8.0\MatchMasterAPI.pdb
 C:\Users\Kristian\Desktop\Coding\Projects\DotNet\Projects\MatchMaster\MatchMasterAPI\obj\Debug\net8.0\MatchMasterAPI.genruntimeconfig.cache
 C:\Users\Kristian\Desktop\Coding\Projects\DotNet\Projects\MatchMaster\MatchMasterAPI\obj\Debug\net8.0\ref\MatchMasterAPI.dll
+C:\Users\Kristian\Desktop\Coding\Projects\DotNet\Projects\MatchMaster\MatchMasterAPI\obj\Debug\net8.0\MatchMasterAPI.sourcelink.json
