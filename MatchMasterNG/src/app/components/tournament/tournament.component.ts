@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
@@ -16,10 +16,12 @@ export class TournamentComponent {
     title: '',
     description: ''
   }; // Initialize to an empty object with default values
-  
+
   matches: Match[] = [];
 
-  constructor(private tournamentService: TournamentService, private route: ActivatedRoute) {}
+  constructor(private tournamentService: TournamentService, 
+              private route: ActivatedRoute,
+              private router: Router) {}
 
   ngOnInit(): void {
     const tournamentId = this.route.snapshot.paramMap.get("id");
@@ -43,5 +45,10 @@ export class TournamentComponent {
   {
     this.tournamentService.getTournamentMatches(tournamentId)
     .subscribe(matches => this.matches = matches)
+  }
+
+  showAllTournaments()
+  {
+    this.router.navigate(["/tournaments"]);
   }
 }

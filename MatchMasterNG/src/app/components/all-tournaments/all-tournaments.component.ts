@@ -38,7 +38,6 @@ export class AllTournamentsComponent {
 
   showTournament(tournamentId: number)
   {
-    console.log(tournamentId)
     this.router.navigate(["/tournament", tournamentId])
   }
 }
