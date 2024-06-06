@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
@@ -9,29 +10,38 @@ import { TournamentService } from '../../services/tournament.service';
   styleUrl: './tournament.component.css'
 })
 export class TournamentComponent {
-  tournaments : Tournament[] = [];
-  tournamentMatchesMap: { [tournamentId: number]: Match[]} = {};
+  tournament: Tournament = {
+    tournamentId: 0,
+    creatorId: 0,
+    title: '',
+    description: ''
+  }; // Initialize to an empty object with default values
+  
+  matches: Match[] = [];
 
-  constructor(private tournamentService: TournamentService) {}
+  constructor(private tournamentService: TournamentService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.getAllTournaments();
+    const tournamentId = this.route.snapshot.paramMap.get("id");
+    if(tournamentId)
+    {
+      this.getTournament(parseInt(tournamentId))
+      if(this.tournament)
+      {
+        this.getMatches(parseInt(tournamentId))
+      }
+    }
   }
 
-  getAllTournaments(): void {
-    this.tournamentService.getAllTournaments()
-      .subscribe(tournaments => this.tournaments = tournaments);
+  getTournament(tournamentId: number)
+  {
+    this.tournamentService.getTournamentById(tournamentId)
+    .subscribe(tournament => this.tournament = tournament);
   }
 
-  toggleTournamentMatches(tournamentId: number): void {
-    if (this.tournamentMatchesMap[tournamentId])
-    {
-      delete this.tournamentMatchesMap[tournamentId];
-    }
-    else
-    {
-      this.tournamentService.getTournamentMatches(tournamentId)
-        .subscribe(matches => this.tournamentMatchesMap[tournamentId] = matches)
-    }
+  getMatches(tournamentId: number)
+  {
+    this.tournamentService.getTournamentMatches(tournamentId)
+    .subscribe(matches => this.matches = matches)
   }
 }

@@ -1,12 +1,17 @@
 <div>
     <h2>ALL Tournaments</h2>
     <ul>
-        <li *ngFor = "let tournament of tournaments">
-            {{tournament.tournamentId}}.({{tournament.creatorId}}) - {{tournament.title}} | {{tournament.description}}
-            <button (click)="toggleTournamentMatches(tournament.tournamentId)"> {{ tournamentMatchesMap[tournament.tournamentId] ? 'Hide Matches' : 'View Matches' }} </button>
+        <li *ngFor="let tournament of tournaments">
+            {{ tournament.tournamentId }}.({{ tournament.creatorId }}) - 
+            <span class="tournament-link" (click)="showTournament(tournament.tournamentId)">
+                {{ tournament.title }}
+            </span> | {{ tournament.description }}
+            <button (click)="toggleTournamentMatches(tournament.tournamentId)">
+                {{ tournamentMatchesMap[tournament.tournamentId] ? 'Hide Matches' : 'View Matches' }}
+            </button>
             <ul *ngIf="tournamentMatchesMap[tournament.tournamentId]">
                 <li *ngFor="let match of tournamentMatchesMap[tournament.tournamentId]">
-                Match ID: {{ match.matchId }} - {{ match.matchTitle }} | {{ match.description }}
+                    Match ID: {{ match.matchId }} - {{ match.matchTitle }} | {{ match.description }}
                 </li>
             </ul>
         </li>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
@@ -12,7 +13,7 @@ export class AllTournamentsComponent {
   tournaments : Tournament[] = [];
   tournamentMatchesMap: { [tournamentId: number]: Match[]} = {};
 
-  constructor(private tournamentService: TournamentService) {}
+  constructor(private tournamentService: TournamentService, private router: Router) {}
 
   ngOnInit(): void {
     this.getAllTournaments();
@@ -33,5 +34,11 @@ export class AllTournamentsComponent {
       this.tournamentService.getTournamentMatches(tournamentId)
         .subscribe(matches => this.tournamentMatchesMap[tournamentId] = matches)
     }
+  }
+
+  showTournament(tournamentId: number)
+  {
+    console.log(tournamentId)
+    this.router.navigate(["/tournament", tournamentId])
   }
 }

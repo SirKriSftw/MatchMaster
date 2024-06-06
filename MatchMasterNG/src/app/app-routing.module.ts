@@ -6,8 +6,9 @@ import { AllTournamentsComponent } from './components/all-tournaments/all-tourna
 const routes: Routes = 
 [
   {path: "tournaments", component: AllTournamentsComponent, title: "Tournaments"},
-  {path: "", redirectTo: "tournaments", pathMatch: "full"},
-  {path: "**", redirectTo: "tournaments"}
+  {path: "tournament/:id", component: TournamentComponent},
+  //{path: "", redirectTo: "tournaments", pathMatch: "full"},
+  //{path: "**", redirectTo: "tournaments"}
 ];
 
 @NgModule({

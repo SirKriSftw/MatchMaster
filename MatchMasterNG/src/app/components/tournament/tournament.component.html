@@ -1,14 +1,14 @@
 <div>
-    
+    <h1>{{tournament.title}}</h1>
+    <i>{{tournament.tournamentId}} by {{tournament.creatorId}}</i> <br />
+    {{tournament.description}}
+</div>
+<div>
     <ul>
-        <li *ngFor = "let tournament of tournaments">
-            {{tournament.tournamentId}}.({{tournament.creatorId}}) - {{tournament.title}} | {{tournament.description}}
-            <button (click)="toggleTournamentMatches(tournament.tournamentId)"> {{ tournamentMatchesMap[tournament.tournamentId] ? 'Hide Matches' : 'View Matches' }} </button>
-            <ul *ngIf="tournamentMatchesMap[tournament.tournamentId]">
-                <li *ngFor="let match of tournamentMatchesMap[tournament.tournamentId]">
-                Match ID: {{ match.matchId }} - {{ match.matchTitle }} | {{ match.description }}
-                </li>
-            </ul>
+        <li *ngFor = "let match of matches">
+            <h2>{{match.matchTitle}}</h2>
+            <i>{{match.description}}</i> &#64; {{match.matchDateTime}} <br />
+            <b>Winner:</b>[{{match.winnerId}}]
         </li>
     </ul>
 </div>
