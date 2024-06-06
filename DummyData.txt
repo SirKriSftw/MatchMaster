@@ -1,0 +1,46 @@
+-- Dummy data for Users table
+INSERT INTO Users (Username, Email, HashedPassword)
+VALUES
+    ('john_doe', 'john@example.com', 0x73616C743A24313024313024313024313024313024794C563256624B474B55435546715A76596A3947516E4F7A5145515432564C6F6144),
+    -- Password: 'password123'
+    ('jane_smith', 'jane@example.com', 0x73616C743A243130243130243130243130243130246E535177556E346A6A374A6867436A4C436E4F6A457747584732485734354130),
+    -- Password: 'abcde12345'
+    ('admin', 'admin@example.com', 0x73616C743A24313024313024313024313024313024324F33326E634A4452687A4F75324E704B3444626B576D5239574646417669)
+    -- Password: 'adminpassword'
+;
+
+-- Dummy data for Tournaments table
+INSERT INTO Tournaments (Title, Description, CreatorId)
+VALUES
+    ('Summer Tournament', 'A fun tournament for the summer season', 1),
+    ('Winter Tournament', 'A chilly tournament for the winter season', 2),
+    ('Spring Tournament', 'A lively tournament for the spring season', 3)
+;
+
+-- Dummy data for Matches table
+INSERT INTO Matches (TournamentId, MatchTitle, Description, MatchDateTime, WinnerId)
+VALUES
+    (1, 'Final Match', 'The ultimate showdown', '2024-06-30 14:00:00', 1),
+    (2, 'Semifinal Match', 'Intense competition ahead', '2024-06-30 15:00:00', NULL),
+    (3, 'Opening Match', 'Start of the tournament', '2024-06-30 16:00:00', 3)
+;
+
+-- Dummy data for TournamentParticipants table
+INSERT INTO TournamentParticipants (TournamentId, UserId)
+VALUES
+    (1, 1),
+    (1, 2),
+    (2, 2),
+    (3, 3),
+    (3, 1)
+;
+
+-- Dummy data for MatchParticipants table
+INSERT INTO MatchParticipants (MatchId, UserId)
+VALUES
+    (1, 1),
+    (1, 2),
+    (2, 2),
+    (3, 1),
+    (3, 3)
+;

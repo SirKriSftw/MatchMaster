@@ -1,0 +1,8 @@
+<div>
+    <h2>ALL Tournaments</h2>
+    <ul>
+        <li *ngFor = "let tournament of tournaments">
+            {{tournament.tournamentId}}.({{tournament.creatorID}}) - {{tournament.title}} | {{tournament.description}}
+        </li>
+    </ul>
+</div>

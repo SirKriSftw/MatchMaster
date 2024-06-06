@@ -1,0 +1,74 @@
+-- Tables Setup:
+-- Users keep track of user and authentication information
+-- OAuthInfos keeps track of all OAuth tokens and IDs for authentication through OAuth
+-- Tournaments keep track of their creator, title and description
+-- Matches keep track of when they take place, what tournament they are in and who won
+-- TournamentParticipants is a join table to keep track of all the users participating in a tournament
+-- MatchParticipants is similar to TournamentParticipants but instead keeps track of all users in a match
+
+-- Flow of tables:
+-- A user signs up using their own credentials or OAuth
+-- A signed in user can then make a tournament
+-- The tournament sets its creator ID to that user
+-- Other signed in users can JOIN the tournament and are added to TournamentParticipants
+-- The creator of the tournament can then add matches to the tournament
+-- These matches can then have participants
+-- When adding users to the matches, the creator will ONLY see users attending the current tournament
+-- This way a user who is not attending the tournament can not randomly join a match
+CREATE TABLE Users (
+    UserId INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50),
+    Email VARCHAR(100) UNIQUE NOT NULL,
+    HashedPassword VARBINARY(64),
+);
+
+CREATE TABLE OAuthInfos (
+    UserId INT PRIMARY KEY,
+    OAuthProvider VARCHAR(50),
+    OAuthProviderId VARCHAR(100),
+    AccessToken VARCHAR(1000),
+    RefreshToken VARCHAR(1000),
+    AccessTokenExpiration DATETIME,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE Tournaments (
+    TournamentId INT IDENTITY(1,1) PRIMARY KEY,
+    Title VARCHAR(100) NOT NULL,
+    Description TEXT,
+	CreatorId INT NOT NULL,
+    FOREIGN KEY (CreatorId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE Matches (
+    MatchId INT IDENTITY(1,1) PRIMARY KEY,
+    TournamentId INT NOT NULL,
+    MatchTitle VARCHAR(100) NOT NULL,
+    Description TEXT,
+    MatchDateTime DATETIME,
+    WinnerId INT,
+    FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId),
+    FOREIGN KEY (WinnerId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE TournamentParticipants (
+    TournamentParticipantId INT IDENTITY(1,1) PRIMARY KEY,
+    TournamentId INT NOT NULL,
+    UserId INT NOT NULL,
+    FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE MatchParticipants (
+    MatchId INT NOT NULL,
+    UserId INT NOT NULL,
+    PRIMARY KEY (MatchId, UserId),
+    FOREIGN KEY (MatchId) REFERENCES Matches(MatchId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE INDEX IX_TournamentParticipants_UserId ON TournamentParticipants (UserId);
+CREATE INDEX IX_TournamentParticipants_TournamentId ON TournamentParticipants (TournamentId);
+CREATE INDEX IX_Matches_TournamentId ON Matches (TournamentId);
+CREATE INDEX IX_MatchParticipants_MatchId ON MatchParticipants (MatchId);
+CREATE INDEX IX_OAuthInfo_UserId ON OAuthInfos (UserId);
