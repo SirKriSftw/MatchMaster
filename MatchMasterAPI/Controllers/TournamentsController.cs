@@ -54,6 +54,7 @@ namespace MatchMaster.Controllers
 
                 var matches = await _context.Matches
                 .Where(match => match.TournamentId == id)
+                .OrderBy(match => match.MatchDateTime)
                 .ToListAsync();
 
                 return matches;
