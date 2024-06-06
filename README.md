@@ -1,4 +1,4 @@
-#Match Master
+# Match Master
 ## What is it?
 Match Master is a simple web app that allows users to make accounts (or use OAuth) and then create tournaments where other users may join. The creator of tournaments can then make matches and assign attending users to these matches.
 The creator also picks the winner for each match.
