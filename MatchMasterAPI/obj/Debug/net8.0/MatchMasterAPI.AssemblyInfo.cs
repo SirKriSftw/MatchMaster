@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MatchMasterAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+592ac0825ed66f3c43abfad1cfa7d3ccbd4649c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb972b5982433c8b0f7081f523a7032ec2c51849")]
 [assembly: System.Reflection.AssemblyProductAttribute("MatchMasterAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MatchMasterAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tournament } from '../models/tournament.model';
+import { Match } from '../models/match.model';
 import { ApiConfigService } from './api-config.service';
 
 @Injectable({
@@ -13,5 +14,9 @@ export class TournamentService {
 
   getAllTournaments(): Observable<Tournament[]> {
     return this.http.get<Tournament[]>(this.apiUrl);
+  }
+
+  getTournamentMatches(tournamentId: number): Observable<Match[]> {
+    return this.http.get<Match[]>(this.apiUrl  + "/" + tournamentId + '/Matches');
   }
 }

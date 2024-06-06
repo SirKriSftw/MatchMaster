@@ -39,6 +39,34 @@ namespace MatchMaster.Controllers
             return tournament;
         }
 
+        // GET: api/Tournaments/5/Matches
+        [HttpGet("{id}/Matches")]
+        public async Task<ActionResult<IEnumerable<Match>>> GetTournamentMatches(int id)
+        {
+            try
+            {
+                var tournament = await _context.Tournaments.FindAsync(id);
+
+                if (tournament == null)
+                {
+                    return NotFound();
+                }
+
+                var matches = await _context.Matches
+                .Where(match => match.TournamentId == id)
+                .ToListAsync();
+
+                return matches;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
         // POST: api/Tournaments
         [HttpPost]
         public async Task<ActionResult<Tournament>> PostTournament(Tournament tournament)
