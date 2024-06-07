@@ -13,7 +13,6 @@ export class AuthenticationService {
 
   login(email: string, password: string): Observable<any> 
   {
-
     const loginUrl = `${this.apiUrl}/login`;
     var body = 
     { 
