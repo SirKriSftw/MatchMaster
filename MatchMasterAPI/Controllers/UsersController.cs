@@ -39,8 +39,8 @@ namespace MatchMaster.Controllers
             return user;
         }
 
-        // GET: api/Users/5/Created
-        [HttpGet("{id}/Created")]
+        // GET: api/Users/5/Created/Tournaments
+        [HttpGet("{id}/Created/Tournaments")]
         public async Task<ActionResult<IEnumerable<Tournament>>> GetUserCreatedTournaments(int id)
         {
             try
@@ -57,6 +57,138 @@ namespace MatchMaster.Controllers
                 .ToListAsync();
 
                 return tournaments;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        // GET: api/Users/5/Past/Tournaments
+        [HttpGet("{id}/Past/Tournaments")]
+        public async Task<ActionResult<IEnumerable<Tournament>>> GetUserPastTournaments(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var today = DateTime.UtcNow.Date;
+
+                var tournaments = await _context.Tournaments
+                .Where(tournament => tournament.TournamentParticipants
+                .Any(participant => participant.UserId == id)
+                && tournament.TournamentStart.HasValue
+                && tournament.TournamentStart.Value.Date < today)
+                .ToListAsync();
+
+                return tournaments;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        // GET: api/Users/5/Upcoming/Tournaments
+        [HttpGet("{id}/Upcoming/Tournaments")]
+        public async Task<ActionResult<IEnumerable<Tournament>>> GetUserUpcomingTournaments(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var today = DateTime.UtcNow.Date;
+
+                var tournaments = await _context.Tournaments
+                .Where(tournament => tournament.TournamentParticipants
+                .Any(participant => participant.UserId == id)
+                && tournament.TournamentStart.HasValue
+                && tournament.TournamentStart.Value.Date >= today)
+                .ToListAsync();
+
+                return tournaments;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        // GET: api/Users/5/Past/Matches
+        [HttpGet("{id}/Past/Matches")]
+        public async Task<ActionResult<IEnumerable<Match>>> GetUserPastMatches(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var today = DateTime.UtcNow.Date;
+
+                var matches = await _context.Matches
+                .Where(match => match.Users
+                .Any(participant => participant.UserId == id)
+                && match.MatchStart.HasValue
+                && match.MatchStart.Value.Date < today)
+                .ToListAsync();
+
+                return matches;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        // GET: api/Users/5/Upcoming/Matches
+        [HttpGet("{id}/Upcoming/Matches")]
+        public async Task<ActionResult<IEnumerable<Match>>> GetUserUpcomingMatches(int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                var today = DateTime.UtcNow.Date;
+
+                var matches = await _context.Matches
+                .Where(match => match.Users
+                .Any(participant => participant.UserId == id)
+                && match.MatchStart.HasValue
+                && match.MatchStart.Value.Date < today)
+                .ToListAsync();
+
+                return matches;
             }
             catch (Exception ex)
             {
