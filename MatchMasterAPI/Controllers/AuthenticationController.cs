@@ -12,11 +12,11 @@ namespace MatchMasterAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
         private readonly MatchMasterContext _context;
 
-        public AuthController(MatchMasterContext context)
+        public AuthenticationController(MatchMasterContext context)
         {
             _context = context;
         }
@@ -62,7 +62,7 @@ namespace MatchMasterAPI.Controllers
 
             if(hashedPassword.SequenceEqual(user.HashedPassword))
             {
-                return Ok("Login successful");
+                return Ok(new { Message = "Login successful", UserId = user.UserId});
             }
             else
             {
