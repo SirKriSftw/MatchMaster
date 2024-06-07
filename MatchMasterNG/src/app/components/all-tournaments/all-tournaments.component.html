@@ -1,5 +1,6 @@
 <div>
     <h2>ALL Tournaments</h2>
+    <span class="tournament-link" *ngIf = "isLoggedIn()" (click) = "goToProfile()">Profile</span>
     <ul>
         <li *ngFor="let tournament of tournaments">
             {{ tournament.tournamentId }}.({{ tournament.creatorId }}) - 

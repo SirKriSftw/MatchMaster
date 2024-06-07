@@ -7,6 +7,6 @@
 <ul>
 
     <li *ngFor = "let t of myTournaments">
-        {{t.title}}
+        <span class="tournament-link" (click)="showTournament(t.tournamentId)"> {{t.title}} </span>
     </li>
 </ul>

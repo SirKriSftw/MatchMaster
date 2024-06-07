@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-all-tournaments',
@@ -13,7 +14,7 @@ export class AllTournamentsComponent {
   tournaments : Tournament[] = [];
   tournamentMatchesMap: { [tournamentId: number]: Match[]} = {};
 
-  constructor(private tournamentService: TournamentService, private router: Router) {}
+  constructor(private tournamentService: TournamentService, private authService: AuthenticationService, private router: Router) {}
 
   ngOnInit(): void {
     this.getAllTournaments();
@@ -39,5 +40,15 @@ export class AllTournamentsComponent {
   showTournament(tournamentId: number)
   {
     this.router.navigate(["/tournament", tournamentId])
+  }
+
+  isLoggedIn()
+  {
+    return this.authService.isLoggedIn();
+  }
+
+  goToProfile()
+  {
+    this.router.navigate(["/profile"]);
   }
 }

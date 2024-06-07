@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Tournament } from '../../models/tournament.model';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +13,7 @@ export class UserComponent {
   userId:number;
   myTournaments: Tournament[] = [];
 
-  constructor(private userService: UserService, private authService: AuthenticationService) {
+  constructor(private router: Router,private userService: UserService, private authService: AuthenticationService) {
     this.userId = this.authService.getCurrentUserId();
   }
 
@@ -25,5 +26,10 @@ export class UserComponent {
   {
     this.userService.getMyTournaments(this.userId)
     .subscribe(tournaments => this.myTournaments = tournaments);
+  }
+
+  showTournament(tournamentId: number)
+  {
+    this.router.navigate(["tournament/", tournamentId]);
   }
 }

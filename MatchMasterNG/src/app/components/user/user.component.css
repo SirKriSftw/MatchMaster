@@ -1,0 +1,9 @@
+.tournament-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.tournament-link:hover {
+    color: darkblue;
+}
