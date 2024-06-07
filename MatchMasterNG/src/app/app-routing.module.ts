@@ -2,13 +2,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = 
 [
   {path: "tournaments", component: AllTournamentsComponent, title: "Tournaments"},
   {path: "tournament/:id", component: TournamentComponent},
-  //{path: "", redirectTo: "tournaments", pathMatch: "full"},
-  //{path: "**", redirectTo: "tournaments"}
+  {path: "login", component: LoginComponent},
+  {path: "", redirectTo: "tournaments", pathMatch: "full"},
+  {path: "**", redirectTo: "tournaments"}
 ];
 
 @NgModule({

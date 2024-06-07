@@ -49,16 +49,16 @@ namespace MatchMasterAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(Login model)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == model.Email);
 
             if (user == null)
             {
                 return NotFound("User not found");
             }
 
-            var hashedPassword = HashPassword(password, user.Salt);
+            var hashedPassword = HashPassword(model.Password, user.Salt);
 
             if(hashedPassword.SequenceEqual(user.HashedPassword))
             {
