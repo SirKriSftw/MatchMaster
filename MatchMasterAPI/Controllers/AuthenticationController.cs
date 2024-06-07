@@ -38,7 +38,8 @@ namespace MatchMasterAPI.Controllers
             {
                 Username = userToRegister.Username,
                 Email = userToRegister.Email,
-                HashedPassword = passwordHash
+                HashedPassword = passwordHash,
+                Salt = salt
             };
 
             _context.Users.Add(userToCreate);
@@ -48,15 +49,33 @@ namespace MatchMasterAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(User userToLogin)
+        public async Task<IActionResult> Login(string email, string password)
         {
-            return Ok();
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var hashedPassword = HashPassword(password, user.Salt);
+
+            if(hashedPassword.SequenceEqual(user.HashedPassword))
+            {
+                return Ok("Login successful");
+            }
+            else
+            {
+                return BadRequest("Wrong password");
+            }
         }
 
+
+        // Helper methods to generate password and salt ====================================
         private byte[] HashPassword(string password, byte[] salt)
         {
             byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
-            byte[] combineBytes = new byte[passwordBytes.Length + salt.Length];
+            byte[] combineBytes = passwordBytes.Concat(salt).ToArray();
 
             using(var sha256 = SHA256.Create())
             {
