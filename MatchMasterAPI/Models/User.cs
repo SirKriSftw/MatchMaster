@@ -13,6 +13,8 @@ public partial class User
 
     public byte[]? HashedPassword { get; set; }
 
+    public byte[]? Salt { get; set; }
+
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();
 
     public virtual OauthInfo? OauthInfo { get; set; }

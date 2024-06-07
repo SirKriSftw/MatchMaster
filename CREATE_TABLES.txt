@@ -20,6 +20,7 @@ CREATE TABLE Users (
     Username VARCHAR(50),
     Email VARCHAR(100) UNIQUE NOT NULL,
     HashedPassword VARBINARY(64),
+    Salt VARBINARY(MAX)
 );
 
 CREATE TABLE OAuthInfos (
@@ -36,7 +37,8 @@ CREATE TABLE Tournaments (
     TournamentId INT IDENTITY(1,1) PRIMARY KEY,
     Title VARCHAR(100) NOT NULL,
     Description TEXT,
-	CreatorId INT NOT NULL,
+    CreatorId INT NOT NULL,
+    TournamentStart DATETIME,
     FOREIGN KEY (CreatorId) REFERENCES Users(UserId)
 );
 
@@ -45,7 +47,7 @@ CREATE TABLE Matches (
     TournamentId INT NOT NULL,
     MatchTitle VARCHAR(100) NOT NULL,
     Description TEXT,
-    MatchDateTime DATETIME,
+    MatchStart DATETIME,
     WinnerId INT,
     FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId),
     FOREIGN KEY (WinnerId) REFERENCES Users(UserId)

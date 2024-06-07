@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace MatchMasterAPI.Models;
 
@@ -14,11 +13,10 @@ public partial class Match
 
     public string? Description { get; set; }
 
-    public DateTime? MatchDateTime { get; set; }
+    public DateTime? MatchStart { get; set; }
 
     public int? WinnerId { get; set; }
 
-    [JsonIgnore]
     public virtual Tournament Tournament { get; set; } = null!;
 
     public virtual User? Winner { get; set; }

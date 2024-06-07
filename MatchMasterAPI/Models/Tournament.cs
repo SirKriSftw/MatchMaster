@@ -13,6 +13,8 @@ public partial class Tournament
 
     public int CreatorId { get; set; }
 
+    public DateTime? TournamentStart { get; set; }
+
     public virtual User Creator { get; set; } = null!;
 
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();

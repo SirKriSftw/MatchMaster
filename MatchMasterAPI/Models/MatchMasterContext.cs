@@ -26,8 +26,8 @@ public partial class MatchMasterContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-            if (!optionsBuilder.IsConfigured)
+    {            
+        if (!optionsBuilder.IsConfigured)
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -38,7 +38,7 @@ public partial class MatchMasterContext : DbContext
                 optionsBuilder.UseSqlServer(connectionString);
             }
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Match>(entity =>
@@ -48,7 +48,7 @@ public partial class MatchMasterContext : DbContext
             entity.HasIndex(e => e.TournamentId, "IX_Matches_TournamentId");
 
             entity.Property(e => e.Description).HasColumnType("text");
-            entity.Property(e => e.MatchDateTime).HasColumnType("datetime");
+            entity.Property(e => e.MatchStart).HasColumnType("datetime");
             entity.Property(e => e.MatchTitle)
                 .HasMaxLength(100)
                 .IsUnicode(false);
@@ -120,6 +120,7 @@ public partial class MatchMasterContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.TournamentStart).HasColumnType("datetime");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.Tournaments)
                 .HasForeignKey(d => d.CreatorId)
