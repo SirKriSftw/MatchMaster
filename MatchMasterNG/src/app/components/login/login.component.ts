@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class LoginComponent {
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
   login(email: string, password: string, event: Event)
   {
@@ -16,7 +17,14 @@ export class LoginComponent {
     console.log(event);
     this.authService.login(email, password)
       .subscribe((response) => 
-        localStorage.setItem('userData', JSON.stringify(response))
-    );
+        {
+          localStorage.setItem('userData', JSON.stringify(response));
+          this.router.navigate(["/"]);
+        },
+        (error) => 
+        {
+          console.log(error)
+        }
+      )
   }
 }

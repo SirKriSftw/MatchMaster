@@ -19,6 +19,10 @@ export class UserComponent {
 
   ngOnInit()
   {
+    if(!this.authService.isLoggedIn())
+    {
+      this.router.navigate(["/"]);
+    }
     this.getMyTournaments()
   }
 
