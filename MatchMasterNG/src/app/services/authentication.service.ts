@@ -22,4 +22,19 @@ export class AuthenticationService {
 
     return this.http.post<any>(loginUrl, body, {headers:new HttpHeaders({'Content-Type':'application/json'})});
   }
+
+  getCurrentUserId(): number 
+  {
+    const userDataString = localStorage.getItem('userData');
+    if (userDataString)
+    {
+      const userData = JSON.parse(userDataString);
+      const userId = userData.userId;
+      return userId;
+    }
+    else
+    {
+      return -1;
+    }
+  }
 }

@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = 
 [
   {path: "tournaments", component: AllTournamentsComponent, title: "Tournaments"},
   {path: "tournament/:id", component: TournamentComponent},
   {path: "login", component: LoginComponent},
+  {path: "profile", component: UserComponent},
   {path: "", redirectTo: "tournaments", pathMatch: "full"},
   {path: "**", redirectTo: "tournaments"}
 ];

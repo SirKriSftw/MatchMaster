@@ -19,19 +19,4 @@ export class LoginComponent {
         localStorage.setItem('userData', JSON.stringify(response))
     );
   }
-
-  getCurrentUserId(): number 
-  {
-    const userDataString = localStorage.getItem('userData');
-    if (userDataString)
-    {
-      const userData = JSON.parse(userDataString);
-      const userId = userData.userId;
-      return userId;
-    }
-    else
-    {
-      return -1;
-    }
-  }
 }

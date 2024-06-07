@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatchComponent } from './components/match/match.component';
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LoginComponent } from './components/login/login.component';
     TournamentComponent,
     MatchComponent,
     AllTournamentsComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

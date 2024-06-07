@@ -1,0 +1,12 @@
+<h1>Tournaments you have created</h1>
+
+<p *ngIf = "myTournaments.length <= 0">
+    You have not made any tournaments :(
+</p>
+
+<ul>
+
+    <li *ngFor = "let t of myTournaments">
+        {{t.title}}
+    </li>
+</ul>
