@@ -4,6 +4,7 @@ import { TournamentComponent } from './components/tournament/tournament.componen
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
+import { NewTournamentComponent } from './components/new-tournament/new-tournament.component';
 
 const routes: Routes = 
 [
@@ -11,6 +12,7 @@ const routes: Routes =
   {path: "tournament/:id", component: TournamentComponent},
   {path: "login", component: LoginComponent},
   {path: "profile", component: UserComponent},
+  {path: "create", component: NewTournamentComponent},
   {path: "", redirectTo: "tournaments", pathMatch: "full"},
   {path: "**", redirectTo: "tournaments"}
 ];

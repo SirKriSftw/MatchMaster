@@ -36,4 +36,9 @@ export class UserComponent {
   {
     this.router.navigate(["tournament/", tournamentId]);
   }
+
+  newTournament()
+  {
+    this.router.navigate(["create"]);
+  }
 }
