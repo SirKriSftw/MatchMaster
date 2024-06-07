@@ -42,4 +42,9 @@ export class AuthenticationService {
   {
     return localStorage.getItem('userData') != null
   }
+
+  logout()
+  {
+    localStorage.removeItem('userData');
+  }
 }

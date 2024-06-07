@@ -47,6 +47,16 @@ export class AllTournamentsComponent {
     return this.authService.isLoggedIn();
   }
 
+  logout()
+  {
+    this.authService.logout();
+  }
+
+  login()
+  {
+    this.router.navigate(["/login"]);
+  }
+
   goToProfile()
   {
     this.router.navigate(["/profile"]);
