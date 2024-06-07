@@ -4,6 +4,6 @@ export interface Match {
     winnerId: number;
     matchTitle: string;
     description: string;
-    matchDateTime: Date;
+    matchStart: Date;
   }
   
