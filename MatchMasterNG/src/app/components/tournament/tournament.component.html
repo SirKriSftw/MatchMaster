@@ -1,18 +1,16 @@
-<span class="all-tournaments-link" (click)="showAllTournaments()">
-    <<<
-</span>
-<div>
-    <h1>{{tournament.title}}</h1>
-    <i>{{tournament.tournamentId}} by {{tournament.creatorId}}</i> <br />
-    {{tournament.description}}
-</div>
-<div>
-    <ul>
-        <li *ngFor = "let match of matches">
-            <h2>{{match.matchTitle}}</h2>
-            <i>{{match.description}}</i> &#64; {{match.matchStart}} <br />
-            <b>Winner:</b>[{{match.winnerId}}]
-        </li>
-    </ul>
-</div>
-<button *ngIf = "currentUserId == tournament.creatorId" (click) = "deleteTournament(tournament.tournamentId)">Delete Tournament</button>
+<form #myForm="ngForm" (ngSubmit)="createTournament(myForm.value)">
+    <div>
+        <label>Title: </label>
+        <input type="text" name="title" ngModel>
+    </div>
+    <div>
+        <label>Description: </label>
+        <textarea type="textarea" name="description" ngModel></textarea>
+    </div>
+    <div>
+        <label>Tournament Start: </label>
+        <input type="datetime-local" name="tournamentStart" ngModel>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  

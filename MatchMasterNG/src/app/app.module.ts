@@ -9,8 +9,8 @@ import { MatchComponent } from './components/match/match.component';
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
-import { NewTournamentComponent } from './components/new-tournament/new-tournament.component';
 import { FormsModule } from '@angular/forms';
+import { ShowTournamentComponent } from './components/show-tournament/show-tournament.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { FormsModule } from '@angular/forms';
     AllTournamentsComponent,
     LoginComponent,
     UserComponent,
-    NewTournamentComponent
+    ShowTournamentComponent
   ],
   imports: [
     BrowserModule,
