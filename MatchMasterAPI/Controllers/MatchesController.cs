@@ -39,6 +39,31 @@ namespace MatchMaster.Controllers
             return match;
         }
 
+        // GET: api/Matches/5/Participants
+        [HttpGet("{id}/Participants")]
+        public async Task<ActionResult<IEnumerable<User>>> GetMatchParticipants(int id)
+        {
+            var match = await _context.Matches
+            .Include(match => match.Users)
+            .FirstOrDefaultAsync(match => match.MatchId == id);
+        
+            if (match == null)
+            {                
+                return NotFound();
+            }
+
+            var participants = match.Users.ToList();
+
+            if (participants == null)
+            {                
+                return NotFound();
+            }
+
+            return participants;
+        }
+
+
+
         // POST: api/Matches
         [HttpPost]
         public async Task<ActionResult<Match>> PostMatch(Match match)
