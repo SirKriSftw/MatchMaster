@@ -14,7 +14,8 @@ export class TournamentComponent {
     tournamentId: 0,
     creatorId: 0,
     title: '',
-    description: ''
+    description: '',
+    tournamentStart: new Date()
   }; // Initialize to an empty object with default values
 
   matches: Match[] = [];

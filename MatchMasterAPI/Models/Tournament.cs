@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MatchMasterAPI.Models;
 
@@ -15,7 +16,8 @@ public partial class Tournament
 
     public DateTime? TournamentStart { get; set; }
 
-    public virtual User Creator { get; set; } = null!;
+    [JsonIgnore]
+    public virtual User? Creator { get; set; }
 
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();
 

@@ -3,5 +3,6 @@ export interface Tournament {
     creatorId: number;
     title: string;
     description: string;
+    tournamentStart: Date;
   }
   

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MatchMasterAPI.Models;
 
@@ -17,5 +18,6 @@ public partial class OauthInfo
 
     public DateTime? AccessTokenExpiration { get; set; }
 
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

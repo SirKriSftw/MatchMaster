@@ -23,5 +23,6 @@ public partial class Match
 
     public virtual User? Winner { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

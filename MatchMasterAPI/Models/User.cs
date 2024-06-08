@@ -20,9 +20,9 @@ public partial class User
 
     public virtual OauthInfo? OauthInfo { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<TournamentParticipant> TournamentParticipants { get; set; } = new List<TournamentParticipant>();
 
-    [JsonIgnore]
     public virtual ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
 
     public virtual ICollection<Match> MatchesNavigation { get; set; } = new List<Match>();
