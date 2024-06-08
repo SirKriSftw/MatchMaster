@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-tournament',
@@ -19,13 +20,16 @@ export class TournamentComponent {
   }; // Initialize to an empty object with default values
 
   matches: Match[] = [];
+  currentUserId: number = -1;
 
-  constructor(private tournamentService: TournamentService, 
+  constructor(private tournamentService: TournamentService,
+              private authService: AuthenticationService, 
               private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit(): void {
     const tournamentId = this.route.snapshot.paramMap.get("id");
+    this.currentUserId = this.authService.getCurrentUserId();
     if(tournamentId)
     {
       this.getTournament(parseInt(tournamentId))
@@ -51,5 +55,13 @@ export class TournamentComponent {
   showAllTournaments()
   {
     this.router.navigate(["/tournaments"]);
+  }
+
+  deleteTournament(tournamentId: number)
+  {
+    this.tournamentService.deleteTournament(tournamentId)
+     .subscribe(
+      (r) => this.router.navigate(["/"])
+     );
   }
 }

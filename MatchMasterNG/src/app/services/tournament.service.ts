@@ -18,16 +18,21 @@ export class TournamentService {
   }
 
   getTournamentMatches(tournamentId: number): Observable<Match[]> {
-    return this.http.get<Match[]>(this.apiUrl  + "/" + tournamentId + '/Matches');
+    return this.http.get<Match[]>(`${this.apiUrl}/${tournamentId}/Matches`);
   }
 
   getTournamentById(tournamentId: number): Observable<Tournament> {
-    return this.http.get<Tournament>(this.apiUrl  + "/" + tournamentId);
+    return this.http.get<Tournament>(`${this.apiUrl}/${tournamentId}`);
   }
 
   createTournament(tournament: Tournament)
   {
     tournament.creatorId = this.authService.getCurrentUserId();
     return this.http.post<Tournament>(this.apiUrl, tournament);
+  }
+
+  deleteTournament(tournamentId: number)
+  {
+    return this.http.delete<Tournament>(`${this.apiUrl}/${tournamentId}`);
   }
 }

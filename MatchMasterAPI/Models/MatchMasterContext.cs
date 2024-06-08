@@ -55,7 +55,7 @@ public partial class MatchMasterContext : DbContext
 
             entity.HasOne(d => d.Tournament).WithMany(p => p.Matches)
                 .HasForeignKey(d => d.TournamentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Matches__Tournam__403A8C7D");
 
             entity.HasOne(d => d.Winner).WithMany(p => p.Matches)
@@ -138,7 +138,7 @@ public partial class MatchMasterContext : DbContext
 
             entity.HasOne(d => d.Tournament).WithMany(p => p.TournamentParticipants)
                 .HasForeignKey(d => d.TournamentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__Tournamen__Tourn__440B1D61");
 
             entity.HasOne(d => d.User).WithMany(p => p.TournamentParticipants)

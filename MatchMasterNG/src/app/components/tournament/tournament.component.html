@@ -15,3 +15,4 @@
         </li>
     </ul>
 </div>
+<button *ngIf = "currentUserId == tournament.creatorId" (click) = "deleteTournament(tournament.tournamentId)">Delete Tournament</button>
