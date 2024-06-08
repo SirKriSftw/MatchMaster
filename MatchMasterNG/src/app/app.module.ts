@@ -10,6 +10,7 @@ import { AllTournamentsComponent } from './components/all-tournaments/all-tourna
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
 import { NewTournamentComponent } from './components/new-tournament/new-tournament.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NewTournamentComponent } from './components/new-tournament/new-tourname
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -70,7 +70,7 @@ namespace MatchMaster.Controllers
 
         // POST: api/Tournaments
         [HttpPost]
-        public async Task<ActionResult<Tournament>> PostTournament(Tournament tournament)
+        public async Task<ActionResult<Tournament>> CreateTournament(Tournament tournament)
         {
             _context.Tournaments.Add(tournament);
             await _context.SaveChangesAsync();
@@ -80,7 +80,7 @@ namespace MatchMaster.Controllers
 
         // PUT: api/Tournaments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTournament(int id, Tournament tournament)
+        public async Task<IActionResult> EditTournament(int id, Tournament tournament)
         {
             if (id != tournament.TournamentId)
             {
