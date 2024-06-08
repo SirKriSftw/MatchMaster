@@ -23,7 +23,9 @@ public partial class User
     [JsonIgnore]
     public virtual ICollection<TournamentParticipant> TournamentParticipants { get; set; } = new List<TournamentParticipant>();
 
+    [JsonIgnore]
     public virtual ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
 
+    [JsonIgnore]
     public virtual ICollection<Match> MatchesNavigation { get; set; } = new List<Match>();
 }

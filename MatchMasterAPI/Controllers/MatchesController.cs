@@ -76,19 +76,16 @@ namespace MatchMaster.Controllers
 
         // PUT: api/Matches/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMatch(int id, Match match)
+        public async Task<IActionResult> EditMatch(Match match)
         {
-            if (id != match.MatchId)
-            {
-                return BadRequest();
-            }
-
+            var id = match.MatchId;
             _context.Entry(match).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
+            
             catch (DbUpdateConcurrencyException)
             {
                 if (!MatchExists(id))

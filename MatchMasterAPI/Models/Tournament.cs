@@ -19,7 +19,9 @@ public partial class Tournament
     [JsonIgnore]
     public virtual User? Creator { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();
 
+    [JsonIgnore]
     public virtual ICollection<TournamentParticipant> TournamentParticipants { get; set; } = new List<TournamentParticipant>();
 }

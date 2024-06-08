@@ -1,7 +1,11 @@
 <div>
-<h1>{{match.matchTitle}}</h1>
-<li *ngFor = "let participant of participants">
-    {{participant.username}}
-</li>
-<p>{{match.matchStart}}</p>
+    <h1><span *ngIf = "!isEditing" (dblclick) = "startEditing()" (mouseenter) = "showDescription = true" (mouseleave) = "showDescription = false">{{match.matchTitle}}</span></h1>
+    <p *ngIf = "showDescription && !isEditing">{{match.description}}</p>
+    <input *ngIf = "isEditing" type = "text" [(ngModel)] = "match.matchTitle" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
+    <input *ngIf = "isEditing" type = "text" [(ngModel)] = "match.description" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
+        <li *ngFor = "let participant of participants">
+            {{participant.username}}
+        </li>
+    <p><span *ngIf = "!isEditing">{{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</span></p>
+    <input *ngIf = "isEditing" type = "datetime-local" [(ngModel)] = "match.matchStart" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
 </div>

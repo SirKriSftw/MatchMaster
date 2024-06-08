@@ -15,5 +15,6 @@ public partial class TournamentParticipant
     [JsonIgnore]
     public virtual Tournament Tournament { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }

@@ -19,8 +19,9 @@ public partial class Match
     public int? WinnerId { get; set; }
 
     [JsonIgnore]
-    public virtual Tournament Tournament { get; set; } = null!;
+    public virtual Tournament? Tournament { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual User? Winner { get; set; }
 
     [JsonIgnore]
