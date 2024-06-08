@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TournamentService } from '../../services/tournament.service';
 import { Tournament } from '../../models/tournament.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-tournament',
@@ -9,7 +10,7 @@ import { Tournament } from '../../models/tournament.model';
 })
 export class NewTournamentComponent {
 
-  constructor(private tournamentService: TournamentService){}
+  constructor(private router: Router,private tournamentService: TournamentService){}
 
   createTournament(form: any)
   {
@@ -23,6 +24,8 @@ export class NewTournamentComponent {
     }
 
     this.tournamentService.createTournament(tournament)
-     .subscribe();
+     .subscribe(
+      (r) => this.router.navigate(["/"]) 
+     );
   }
 }
