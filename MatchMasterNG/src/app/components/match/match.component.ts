@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-match',
@@ -10,16 +11,21 @@ import { MatchService } from '../../services/match.service';
 })
 export class MatchComponent {
   @Input() match!: Match;
+  @Input() ownerId: number = -1;
+  currentUserId = -1;
   participants: User[] = [];
   showDescription = false;
   isEditing = false;
   originalTitle = "";
   originalDescription = "";
   originalTime!: Date;
+  
 
-  constructor(private matchService: MatchService) {}   
+  constructor(private authService: AuthenticationService,
+              private matchService: MatchService) {}   
 
   ngOnInit(): void {
+    this.currentUserId = this.authService.getCurrentUserId();
     this.getParticipants();
   }
 
@@ -33,10 +39,13 @@ export class MatchComponent {
 
   startEditing()
   {
+    if(this.currentUserId == this.ownerId)
+    {
     this.isEditing = true;
     this.originalTitle = this.match.matchTitle;
     this.originalDescription = this.match.description;
     this.originalTime = this.match.matchStart;
+    }
   }
 
   cancelEditing()
