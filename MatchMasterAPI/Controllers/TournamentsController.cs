@@ -68,6 +68,22 @@ namespace MatchMaster.Controllers
             }
         }
 
+        // GET: api/Tournaments/5
+        [HttpGet("{id}/Participants")]
+        public async Task<ActionResult<IEnumerable<TournamentParticipant>>> GetTournamentParticipants(int id)
+        {
+            var participants = await _context.TournamentParticipants
+            .Where(entry => entry.TournamentId == id)
+            .ToListAsync();
+
+            if (participants == null)
+            {
+                return NotFound();
+            }
+
+            return participants;
+        }
+
         // POST: api/Tournaments
         [HttpPost]
         public async Task<ActionResult<Tournament>> CreateTournament(Tournament tournament)
