@@ -1,16 +1,16 @@
 <form #myForm="ngForm" (ngSubmit)="createTournament(myForm.value)">
     <div>
         <label>Title: </label>
-        <input type="text" name="title" ngModel>
+        <input type="text" name="title" [ngModel]="tournamentToEdit?.title">
     </div>
     <div>
         <label>Description: </label>
-        <textarea type="textarea" name="description" ngModel></textarea>
+        <textarea type="textarea" name="description" [ngModel]="tournamentToEdit?.description"></textarea>
     </div>
     <div>
         <label>Tournament Start: </label>
-        <input type="datetime-local" name="tournamentStart" ngModel>
+        <input type="datetime-local" name="tournamentStart" [ngModel]="tournamentToEdit?.tournamentStart">
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">{{ tournamentToEdit ? "Update" : "Submit"}}</button>
   </form>
   

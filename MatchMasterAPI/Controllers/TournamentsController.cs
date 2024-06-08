@@ -80,13 +80,9 @@ namespace MatchMaster.Controllers
 
         // PUT: api/Tournaments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditTournament(int id, Tournament tournament)
+        public async Task<IActionResult> EditTournament(Tournament tournament)
         {
-            if (id != tournament.TournamentId)
-            {
-                return BadRequest();
-            }
-
+            var id = tournament.TournamentId;
             _context.Entry(tournament).State = EntityState.Modified;
 
             try

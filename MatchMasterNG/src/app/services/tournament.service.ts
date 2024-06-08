@@ -35,4 +35,9 @@ export class TournamentService {
   {
     return this.http.delete<Tournament>(`${this.apiUrl}/${tournamentId}`);
   }
+
+  updateTournament(tournament: Tournament)
+  {
+    return this.http.put<Tournament>(`${this.apiUrl}/${tournament.tournamentId}`, tournament);
+  }
 }

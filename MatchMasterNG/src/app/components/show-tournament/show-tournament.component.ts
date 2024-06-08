@@ -64,5 +64,10 @@ export class ShowTournamentComponent {
       (r) => this.router.navigate(["/"])
      );
   }
+
+  editTournament(tournamentId: number)
+  {
+    this.router.navigate(["/create", tournamentId]);
+  }
 }
 

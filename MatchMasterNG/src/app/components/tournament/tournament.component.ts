@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TournamentService } from '../../services/tournament.service';
 import { Tournament } from '../../models/tournament.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tournament',
@@ -9,24 +9,47 @@ import { Router } from '@angular/router';
   styleUrl: './tournament.component.css'
 })
 export class TournamentComponent {
+  tournamentToEdit: Tournament | undefined;
 
-  constructor(private router: Router,private tournamentService: TournamentService){}
+  constructor(private route: ActivatedRoute, 
+              private router: Router, 
+              private tournamentService: TournamentService){}
+
+  ngOnInit()
+  {
+    const tournamentId = Number(this.route.snapshot.paramMap.get("id"));
+    if(tournamentId)
+    {
+      this.tournamentService.getTournamentById(tournamentId).subscribe(t => this.tournamentToEdit = t);
+    }
+  }
 
   createTournament(form: any)
   {
     var tournament: Tournament = 
     {
-      "tournamentId": 0,
-      "creatorId": 0,
+      "tournamentId": this.tournamentToEdit ? this.tournamentToEdit.tournamentId : 0,
+      "creatorId": this.tournamentToEdit ? this.tournamentToEdit.creatorId : 0,
       "title": form.title,
       "description": form.description,
       "tournamentStart": form.tournamentStart
     }
 
-    this.tournamentService.createTournament(tournament)
-     .subscribe(
-      (r) => this.router.navigate(["/"]) 
-     );
+    if(this.tournamentToEdit)
+    {
+      this.tournamentService.updateTournament(tournament)
+      .subscribe(
+       (r) => this.router.navigate(["/"]) 
+      );
+    }
+    else
+    {
+      this.tournamentService.createTournament(tournament)
+      .subscribe(
+       (r) => this.router.navigate(["/"]) 
+      );
+    }
+
   }
 }
 

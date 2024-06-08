@@ -15,4 +15,5 @@
         </li>
     </ul>
 </div>
+<button *ngIf = "currentUserId == tournament.creatorId" (click) = "editTournament(tournament.tournamentId)">Edit Tournament</button>
 <button *ngIf = "currentUserId == tournament.creatorId" (click) = "deleteTournament(tournament.tournamentId)">Delete Tournament</button>

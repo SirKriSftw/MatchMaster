@@ -13,6 +13,7 @@ const routes: Routes =
   {path: "login", component: LoginComponent},
   {path: "profile", component: UserComponent},
   {path: "create", component: TournamentComponent},
+  {path: "create/:id", component: TournamentComponent},
   {path: "", redirectTo: "tournaments", pathMatch: "full"},
   {path: "**", redirectTo: "tournaments"}
 ];
