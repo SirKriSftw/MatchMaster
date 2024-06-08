@@ -12,14 +12,18 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class MatchComponent {
   @Input() match!: Match;
   @Input() ownerId: number = -1;
+  @Input() tournamentParticipants: User[] = [];
   currentUserId = -1;
   participants: User[] = [];
+
+  // Flags for when to show description or edit
   showDescription = false;
   isEditing = false;
+
+  // Used for cancelling edit
   originalTitle = "";
   originalDescription = "";
   originalTime!: Date;
-  
 
   constructor(private authService: AuthenticationService,
               private matchService: MatchService) {}   

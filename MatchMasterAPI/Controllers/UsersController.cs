@@ -149,7 +149,7 @@ namespace MatchMaster.Controllers
                 var today = DateTime.UtcNow.Date;
 
                 var matches = await _context.Matches
-                .Where(match => match.Users
+                .Where(match => match.MatchParticipants
                 .Any(participant => participant.UserId == id)
                 && match.MatchStart.HasValue
                 && match.MatchStart.Value.Date < today)
@@ -182,10 +182,10 @@ namespace MatchMaster.Controllers
                 var today = DateTime.UtcNow.Date;
 
                 var matches = await _context.Matches
-                .Where(match => match.Users
+                .Where(match => match.MatchParticipants
                 .Any(participant => participant.UserId == id)
                 && match.MatchStart.HasValue
-                && match.MatchStart.Value.Date < today)
+                && match.MatchStart.Value.Date >= today)
                 .ToListAsync();
 
                 return matches;

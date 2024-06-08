@@ -16,8 +16,13 @@ public partial class User
 
     public byte[]? Salt { get; set; }
 
+    [JsonIgnore]
+    public virtual ICollection<MatchParticipant> MatchParticipants { get; set; } = new List<MatchParticipant>();
+
+    [JsonIgnore]
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();
 
+    [JsonIgnore]
     public virtual OauthInfo? OauthInfo { get; set; }
 
     [JsonIgnore]
@@ -25,7 +30,4 @@ public partial class User
 
     [JsonIgnore]
     public virtual ICollection<Tournament> Tournaments { get; set; } = new List<Tournament>();
-
-    [JsonIgnore]
-    public virtual ICollection<Match> MatchesNavigation { get; set; } = new List<Match>();
 }

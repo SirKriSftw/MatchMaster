@@ -41,27 +41,25 @@ namespace MatchMaster.Controllers
 
         // GET: api/Matches/5/Participants
         [HttpGet("{id}/Participants")]
-        public async Task<ActionResult<IEnumerable<User>>> GetMatchParticipants(int id)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetMatchParticipants(int id)
         {
-            var match = await _context.Matches
-            .Include(match => match.Users)
-            .FirstOrDefaultAsync(match => match.MatchId == id);
-        
-            if (match == null)
-            {                
-                return NotFound();
-            }
+            var participants = await _context.MatchParticipants
+            .Where(entry => entry.MatchId == id)
+            .Join(
+                _context.Users,
+                entry => entry.UserId,
+                user => user.UserId,
+                (entry, user) => new UserDto {UserId = user.UserId, Username = user.Username, Email = user.Email}
+            )
+            .ToListAsync();
 
-            var participants = match.Users.ToList();
-
-            if (participants == null)
-            {                
+            if (participants == null || participants.Count == 0)
+            {
                 return NotFound();
             }
 
             return participants;
         }
-
 
 
         // POST: api/Matches
@@ -85,7 +83,7 @@ namespace MatchMaster.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            
+
             catch (DbUpdateConcurrencyException)
             {
                 if (!MatchExists(id))
@@ -100,6 +98,37 @@ namespace MatchMaster.Controllers
 
             return NoContent();
         }
+
+        // PUT: api/Matches/5/Participants
+        [HttpPut("{id}/Participants")]
+        public async Task<IActionResult> EditMatchParticipants(int id, int userId, int newUserId)
+        {
+            var participantToEdit = await _context.MatchParticipants
+                .Where(p => p.MatchId == id && p.UserId == userId)
+                .FirstOrDefaultAsync();    
+            participantToEdit.UserId = newUserId;            
+            _context.Entry(participantToEdit).State = EntityState.Modified;
+            
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatchExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         // DELETE: api/Matches/5
         [HttpDelete("{id}")]
