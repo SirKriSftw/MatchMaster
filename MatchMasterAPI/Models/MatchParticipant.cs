@@ -13,8 +13,8 @@ public partial class MatchParticipant
     public int UserId { get; set; }
 
     [JsonIgnore]
-    public virtual Match Match { get; set; } = null!;
+    public virtual Match? Match { get; set; } = null!;
 
     [JsonIgnore]
-    public virtual User User { get; set; } = null!;
+    public virtual User? User { get; set; } = null!;
 }

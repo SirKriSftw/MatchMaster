@@ -22,7 +22,7 @@ public partial class Match
     public virtual ICollection<MatchParticipant> MatchParticipants { get; set; } = new List<MatchParticipant>();
 
     [JsonIgnore]
-    public virtual Tournament Tournament { get; set; } = null!;
+    public virtual Tournament? Tournament { get; set; } = null!;
 
     [JsonIgnore]
     public virtual User? Winner { get; set; }

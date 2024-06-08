@@ -100,9 +100,11 @@ namespace MatchMaster.Controllers
         }
 
         // PUT: api/Matches/5/Participants
-        [HttpPut("{id}/Participants")]
+        [HttpPut("{id}/Participants/{userId}/{newUserId}")]
         public async Task<IActionResult> EditMatchParticipants(int id, int userId, int newUserId)
         {
+            Console.WriteLine(userId);
+            Console.WriteLine(newUserId);
             var participantToEdit = await _context.MatchParticipants
                 .Where(p => p.MatchId == id && p.UserId == userId)
                 .FirstOrDefaultAsync();    
@@ -116,7 +118,7 @@ namespace MatchMaster.Controllers
 
             catch (DbUpdateConcurrencyException)
             {
-                if (!MatchExists(id))
+                if (!MatchParticipantExists(id))
                 {
                     return NotFound();
                 }
@@ -126,7 +128,7 @@ namespace MatchMaster.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
 
@@ -149,6 +151,11 @@ namespace MatchMaster.Controllers
         private bool MatchExists(int id)
         {
             return _context.Matches.Any(e => e.MatchId == id);
+        }
+
+        private bool MatchParticipantExists(int id)
+        {
+            return _context.MatchParticipants.Any(e => e.MatchId == id);
         }
     }
 }

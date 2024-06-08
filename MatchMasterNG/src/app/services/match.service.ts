@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Match } from '../models/match.model';
 import { User } from '../models/user.model';
 import { ApiConfigService } from './api-config.service';
+import { MatchParticipant } from '../models/match-participant.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,11 @@ export class MatchService {
   updateMatch(match: Match)
   {
     return this.http.put<Match>(`${this.apiUrl}/${match.matchId}`, match)
+  }
+
+  updateMatchParticipants(matchId: number, userId: number, newUserId: number)
+  {
+    var body = { userId: userId, newUserId: newUserId}
+    return this.http.put<Match>(`${this.apiUrl}/${matchId}/participants/${userId}/${newUserId}`, body);
   }
 }

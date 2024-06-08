@@ -4,6 +4,11 @@ import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
 import { AuthenticationService } from '../../services/authentication.service';
 
+interface Options {
+  new: number;
+  old: number;
+}
+
 @Component({
   selector: 'app-match',
   templateUrl: './match.component.html',
@@ -15,10 +20,12 @@ export class MatchComponent {
   @Input() tournamentParticipants: User[] = [];
   currentUserId = -1;
   participants: User[] = [];
+  participantIds: Options[] = [];
 
   // Flags for when to show description or edit
   showDescription = false;
   isEditing = false;
+  changed = false;
 
   // Used for cancelling edit
   originalTitle = "";
@@ -37,12 +44,16 @@ export class MatchComponent {
   {
     this.matchService.getMatchParticipants(this.match.matchId)
      .subscribe(
-      (r) => this.participants = r
+      (r) => {
+        this.participants = r;
+        this.participantIds = this.participants.map(participant => ({new: participant.userId, old: participant.userId}));
+      }
      )
   }
 
   startEditing()
   {
+    console.log(this.participantIds);
     if(this.currentUserId == this.ownerId)
     {
     this.isEditing = true;
@@ -63,11 +74,29 @@ export class MatchComponent {
 
   saveEditing()
   {
-    console.log(`Saving title: ${this.match.matchTitle}`);
+    console.log(this.participantIds)
     if(this.match.matchTitle != "")
-      {
-        this.matchService.updateMatch(this.match).subscribe();
-      }
+    {
+      this.matchService.updateMatch(this.match).subscribe();
+    }
+
+    // If a match participant was changed
+    if(this.changed)
+    {
+      this.changed = false;
+      const changedOptions = this.participantIds.filter(p => p.new !== p.old);
+      changedOptions.forEach(e => {
+          this.matchService.updateMatchParticipants(this.match.matchId, e.old, e.new).subscribe(
+            (r) => this.getParticipants()
+          );
+      })
+    }
     this.isEditing = false;
   }
+
+  hasChanged()
+  {
+    this.changed = true;
+  }
+
 }

@@ -17,7 +17,7 @@ public partial class Tournament
     public DateTime? TournamentStart { get; set; }
 
     [JsonIgnore]
-    public virtual User Creator { get; set; } = null!;
+    public virtual User? Creator { get; set; } = null!;
 
     [JsonIgnore]
     public virtual ICollection<Match> Matches { get; set; } = new List<Match>();

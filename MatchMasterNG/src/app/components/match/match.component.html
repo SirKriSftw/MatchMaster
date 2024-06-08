@@ -9,9 +9,11 @@
             </li>
         </ul>
         <div *ngIf = "isEditing">
-            <select *ngFor = "let participant of participants">
-                <option *ngFor = "let tournamentParticipant of tournamentParticipants">{{tournamentParticipant.username}}</option>
-            </select>
+            <div *ngFor = "let participant of participants; let pNum = index">
+                <select [(ngModel)] = "participantIds[pNum].new" (change) = "hasChanged()">
+                    <option *ngFor = "let tournamentParticipant of tournamentParticipants" [ngValue] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</option>
+                </select>
+            </div>
         </div>
     <p><span *ngIf = "!isEditing">{{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</span></p>
     <input *ngIf = "isEditing" type = "datetime-local" [(ngModel)] = "match.matchStart" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
