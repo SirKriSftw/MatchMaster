@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { MatchService } from '../../services/match.service';
 
@@ -8,16 +8,11 @@ import { MatchService } from '../../services/match.service';
   styleUrl: './match.component.css'
 })
 export class MatchComponent {
-  matches : Match[] = [];
+  @Input() match: any;
 
-  constructor(private matchService: MatchService) {}
+  constructor(private matchService: MatchService) {}   
 
   ngOnInit(): void {
-    this.getAllMatches();
-  }
 
-  getAllMatches(): void {
-    this.matchService.getAllMatches()
-      .subscribe(matches => this.matches = matches);
   }
 }

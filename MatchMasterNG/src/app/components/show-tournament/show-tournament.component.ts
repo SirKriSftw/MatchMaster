@@ -4,6 +4,7 @@ import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { MatchComponent } from '../match/match.component';
 
 @Component({
   selector: 'app-show-tournament',
@@ -68,6 +69,11 @@ export class ShowTournamentComponent {
   editTournament(tournamentId: number)
   {
     this.router.navigate(["/create", tournamentId]);
+  }
+
+  makeMatch()
+  {
+
   }
 }
 

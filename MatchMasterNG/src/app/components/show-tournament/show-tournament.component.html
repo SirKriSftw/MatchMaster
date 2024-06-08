@@ -8,11 +8,11 @@
 </div>
 <div>
     <ul>
+        
         <li *ngFor = "let match of matches">
-            <h2>{{match.matchTitle}}</h2>
-            <i>{{match.description}}</i> &#64; {{match.matchStart}} <br />
-            <b>Winner:</b>[{{match.winnerId}}]
+            <app-match [match] = match></app-match>
         </li>
+        <button *ngIf = "currentUserId == tournament.creatorId" (click) = "makeMatch()">Make new match</button>
     </ul>
 </div>
 <button *ngIf = "currentUserId == tournament.creatorId" (click) = "editTournament(tournament.tournamentId)">Edit Tournament</button>

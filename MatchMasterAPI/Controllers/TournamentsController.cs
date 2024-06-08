@@ -68,7 +68,7 @@ namespace MatchMaster.Controllers
             }
         }
 
-        // GET: api/Tournaments/5
+        // GET: api/Tournaments/5/Participants
         [HttpGet("{id}/Participants")]
         public async Task<ActionResult<IEnumerable<TournamentParticipant>>> GetTournamentParticipants(int id)
         {
