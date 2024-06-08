@@ -70,13 +70,19 @@ namespace MatchMaster.Controllers
 
         // GET: api/Tournaments/5/Participants
         [HttpGet("{id}/Participants")]
-        public async Task<ActionResult<IEnumerable<TournamentParticipant>>> GetTournamentParticipants(int id)
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetTournamentParticipants(int id)
         {
             var participants = await _context.TournamentParticipants
             .Where(entry => entry.TournamentId == id)
+            .Join(
+                _context.Users,
+                entry => entry.UserId,
+                user => user.UserId,
+                (entry, user) => new UserDto {UserId = user.UserId, Username = user.Username, Email = user.Email}
+            )
             .ToListAsync();
 
-            if (participants == null)
+            if (participants == null || participants.Count == 0)
             {
                 return NotFound();
             }

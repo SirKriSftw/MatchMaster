@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
+import { User } from '../../models/user.model';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MatchComponent } from '../match/match.component';
 
 @Component({
   selector: 'app-show-tournament',
@@ -21,6 +21,7 @@ export class ShowTournamentComponent {
   }; // Initialize to an empty object with default values
 
   matches: Match[] = [];
+  participants: User[] = [];
   currentUserId: number = -1;
 
   constructor(private tournamentService: TournamentService,
@@ -37,6 +38,7 @@ export class ShowTournamentComponent {
       if(this.tournament)
       {
         this.getMatches(parseInt(tournamentId))
+        this.getParticipants(parseInt(tournamentId))
       }
     }
   }
@@ -51,6 +53,12 @@ export class ShowTournamentComponent {
   {
     this.tournamentService.getTournamentMatches(tournamentId)
     .subscribe(matches => this.matches = matches)
+  }
+
+  getParticipants(tournamentId: number)
+  {
+    this.tournamentService.getTournamentParticipants(tournamentId)
+    .subscribe(participants => this.participants = participants)
   }
 
   showAllTournaments()

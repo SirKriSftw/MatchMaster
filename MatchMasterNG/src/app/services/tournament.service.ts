@@ -5,6 +5,7 @@ import { Tournament } from '../models/tournament.model';
 import { Match } from '../models/match.model';
 import { ApiConfigService } from './api-config.service';
 import { AuthenticationService } from './authentication.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class TournamentService {
 
   getTournamentById(tournamentId: number): Observable<Tournament> {
     return this.http.get<Tournament>(`${this.apiUrl}/${tournamentId}`);
+  }
+
+  getTournamentParticipants(tournamentId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/${tournamentId}/participants`);
   }
 
   createTournament(tournament: Tournament)

@@ -7,6 +7,14 @@
     {{tournament.description}}
 </div>
 <div>
+    <h3>Participants</h3>
+    <ul>
+        <li *ngFor = "let participant of participants">
+            {{participant.username}}
+        </li>
+    </ul>
+</div>
+<div>
     <ul>
         
         <li *ngFor = "let match of matches">
