@@ -1,4 +1,7 @@
 <div>
 <h1>{{match.matchTitle}}</h1>
+<li *ngFor = "let participant of participants">
+    {{participant.username}}
+</li>
 <p>{{match.matchStart}}</p>
 </div>
