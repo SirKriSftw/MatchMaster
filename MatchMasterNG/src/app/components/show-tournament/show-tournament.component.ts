@@ -25,6 +25,12 @@ export class ShowTournamentComponent {
   participants: User[] = [];
   currentUserId: number = -1;
 
+  isEditing = false;
+  originalTitle = "";
+  originalDescription = "";
+  originalStart = new Date;
+
+
   constructor(private tournamentService: TournamentService,
               private authService: AuthenticationService, 
               private route: ActivatedRoute,
@@ -47,7 +53,12 @@ export class ShowTournamentComponent {
   getTournament(tournamentId: number)
   {
     this.tournamentService.getTournamentById(tournamentId)
-    .subscribe(tournament => this.tournament = tournament);
+    .subscribe(tournament => {
+      this.tournament = tournament
+      this.originalTitle = this.tournament.title;
+      this.originalDescription = this.tournament.description;
+      this.originalStart = this.tournament.tournamentStart;
+    });
   }
 
   getMatches(tournamentId: number)
@@ -75,9 +86,29 @@ export class ShowTournamentComponent {
      );
   }
 
-  editTournament(tournamentId: number)
+  editTournament()
   {
-    this.router.navigate(["/create", tournamentId]);
+    this.isEditing = true;
+  }
+
+  cancelEdit()
+  {
+    this.isEditing = false;
+    this.tournament.title = this.originalTitle;
+    this.tournament.description = this.originalDescription;
+    this.tournament.tournamentStart = this.originalStart;
+  }
+
+  saveChanges()
+  {
+    this.tournamentService.updateTournament(this.tournament).subscribe(
+      (r) => {
+        this.originalTitle = this.tournament.title;
+        this.originalDescription = this.tournament.description;
+        this.originalStart = this.tournament.tournamentStart;
+      }
+    );
+    this.isEditing = false;
   }
 
   makeMatch()
@@ -93,5 +124,7 @@ export class ShowTournamentComponent {
     this.newMatches.push(newMatch);
     console.log(this.newMatches);
   }
+
+
 }
 
