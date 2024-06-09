@@ -6,7 +6,7 @@ namespace MatchMasterAPI.Models;
 
 public partial class Match
 {
-    public int MatchId { get; set; }
+    public int? MatchId { get; set; }
 
     public int TournamentId { get; set; }
 

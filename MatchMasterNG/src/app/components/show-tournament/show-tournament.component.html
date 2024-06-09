@@ -16,9 +16,11 @@
 </div>
 <div>
     <ul>
-        
         <li *ngFor = "let match of matches">
             <app-match [match] = match [ownerId] = "tournament.tournamentId" [tournamentParticipants] = "participants"></app-match>
+        </li>
+        <li *ngFor = "let match of newMatches">
+            <app-match [match] = match [ownerId] = "tournament.tournamentId" [tournamentParticipants] = "participants" [isEditing]= "true"></app-match>
         </li>
         <button *ngIf = "currentUserId == tournament.creatorId" (click) = "makeMatch()">Make new match</button>
     </ul>

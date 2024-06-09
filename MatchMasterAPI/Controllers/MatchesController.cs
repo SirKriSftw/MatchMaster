@@ -64,8 +64,10 @@ namespace MatchMaster.Controllers
 
         // POST: api/Matches
         [HttpPost]
-        public async Task<ActionResult<Match>> PostMatch(Match match)
+        public async Task<ActionResult<Match>> NewMatch(Match match)
         {
+            match.MatchId = null;
+            match.WinnerId = null;
             _context.Matches.Add(match);
             await _context.SaveChangesAsync();
 
@@ -184,7 +186,7 @@ namespace MatchMaster.Controllers
             return NoContent();
         }
 
-        private bool MatchExists(int id)
+        private bool MatchExists(int? id)
         {
             return _context.Matches.Any(e => e.MatchId == id);
         }

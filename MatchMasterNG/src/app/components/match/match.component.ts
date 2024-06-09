@@ -25,7 +25,7 @@ export class MatchComponent {
 
   // Flags for when to show description or edit
   showDescription = false;
-  isEditing = false;
+  @Input() isEditing = false;
   changed = false;
   addingParticipant = false;
 
@@ -82,37 +82,68 @@ export class MatchComponent {
   saveEditing()
   {
     console.log(this.participantIds)
+    if(this.match.matchId == -1)
+    {
+      console.log(this.match)
+      this.saveNewMatch();
+    }
     
-    if(this.match.matchTitle != "")
+    else
     {
-      this.matchService.updateMatch(this.match).subscribe();
+      if(this.match.matchTitle != "")
+      {
+        this.matchService.updateMatch(this.match).subscribe();
+      }
+
+      // If a match participant was changed
+      if(this.changed)
+      {
+        this.updateParticipants();
+      }
+
+      // If adding a new participant
+      if(this.addingParticipant)
+      {
+        this.saveNewParticipants();   
+      }
     }
 
-    // If a match participant was changed
-    if(this.changed)
-    {
-      this.changed = false;
-      const changedOptions = this.participantIds.filter(p => p.new !== p.old);
-      changedOptions.forEach(p => {
-          if(p.new == -1)
-          {
-            this.matchService.removeMatchParticipant(this.match.matchId, p.old).subscribe(
-              (r) => this.getParticipants()
-            );
-          }
-          else
-          {
-            this.matchService.updateMatchParticipant(this.match.matchId, p.old, p.new).subscribe(
-              (r) => this.getParticipants()
-            );
-          }
-      })
-    }
+    this.isEditing = false;    
+  }
 
-    // If adding a new participant
-    if(this.addingParticipant)
-    {
-      this.addingParticipant = false;
+  saveNewMatch()
+  {
+    this.matchService.newMatch(this.match).subscribe(
+      (r) => {
+        this.match.matchId = r.matchId;
+        this.saveNewParticipants();
+      }
+    );
+  }
+
+  updateParticipants()
+  {
+    this.changed = false;
+    const changedOptions = this.participantIds.filter(p => p.new !== p.old);
+    changedOptions.forEach(p => {
+        if(p.new == -1)
+        {
+          this.matchService.removeMatchParticipant(this.match.matchId, p.old).subscribe(
+            (r) => this.getParticipants()
+          );
+        }
+        else
+        {
+          this.matchService.updateMatchParticipant(this.match.matchId, p.old, p.new).subscribe(
+            (r) => this.getParticipants()
+          );
+        }
+    })
+  }
+
+  saveNewParticipants()
+  {
+    this.addingParticipant = false;
       this.participantsToAdd.forEach(p => {
         if(p != -1)
         {
@@ -125,9 +156,6 @@ export class MatchComponent {
         }
       })
       this.participantsToAdd = [];
-    }
-
-    this.isEditing = false;    
   }
 
   hasChanged()

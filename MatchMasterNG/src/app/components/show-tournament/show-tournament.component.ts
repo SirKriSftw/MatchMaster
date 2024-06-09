@@ -21,6 +21,7 @@ export class ShowTournamentComponent {
   }; // Initialize to an empty object with default values
 
   matches: Match[] = [];
+  newMatches: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
 
@@ -81,7 +82,16 @@ export class ShowTournamentComponent {
 
   makeMatch()
   {
-
+    let newMatch = {
+      matchId: -1,
+      winnerId: -1,
+      tournamentId: this.tournament.tournamentId,
+      matchTitle: "New Match Title",
+      description: "",
+      matchStart: new Date()
+    }
+    this.newMatches.push(newMatch);
+    console.log(this.newMatches);
   }
 }
 

@@ -22,6 +22,11 @@ export class MatchService {
     return this.http.get<User[]>(`${this.apiUrl}/${id}/participants`);
   }
 
+  newMatch(match: Match)
+  {
+    return this.http.post<Match>(`${this.apiUrl}`, match)
+  }
+
   updateMatch(match: Match)
   {
     return this.http.put<Match>(`${this.apiUrl}/${match.matchId}`, match)
