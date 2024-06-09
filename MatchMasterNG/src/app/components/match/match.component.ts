@@ -21,11 +21,13 @@ export class MatchComponent {
   currentUserId = -1;
   participants: User[] = [];
   participantIds: Options[] = [];
+  participantsToAdd: number[] = [];
 
   // Flags for when to show description or edit
   showDescription = false;
   isEditing = false;
   changed = false;
+  addingParticipant = false;
 
   // Used for cancelling edit
   originalTitle = "";
@@ -70,11 +72,13 @@ export class MatchComponent {
     this.match.description = this.originalDescription;
     this.match.matchStart = this.originalTime;
     this.isEditing = false;
+    this.addingParticipant = false;
   }
 
   saveEditing()
   {
     console.log(this.participantIds)
+    
     if(this.match.matchTitle != "")
     {
       this.matchService.updateMatch(this.match).subscribe();
@@ -91,12 +95,34 @@ export class MatchComponent {
           );
       })
     }
-    this.isEditing = false;
+
+    // If adding a new participant
+    if(this.addingParticipant)
+    {
+      this.addingParticipant = false;
+      this.participantsToAdd.forEach(p => {
+        this.matchService.newMatchParticipant(this.match.matchId, p).subscribe(
+          (r) => {
+            this.getParticipants();
+          }
+        )
+      })
+      this.participantsToAdd = [];
+    }
+
+    this.isEditing = false;    
   }
 
   hasChanged()
   {
     this.changed = true;
+  }
+
+  addParticipant()
+  {
+    this.addingParticipant = true;
+    this.participantsToAdd.push(-1);
+    console.log(this.participantsToAdd);
   }
 
 }

@@ -72,6 +72,22 @@ namespace MatchMaster.Controllers
             return CreatedAtAction(nameof(GetMatch), new { id = match.MatchId }, match);
         }
 
+        // POST: api/Matches/1/Participant/1
+        [HttpPost("{id}/Participant/{userId}")]
+        public async Task<ActionResult<Match>> NewMatchParticipant(int id, int userId)
+        {
+            var participant = new MatchParticipant
+            {
+                MatchId = id,
+                UserId = userId
+            };
+
+            _context.MatchParticipants.Add(participant);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         // PUT: api/Matches/5
         [HttpPut("{id}")]
         public async Task<IActionResult> EditMatch(Match match)

@@ -62,12 +62,13 @@ CREATE TABLE TournamentParticipants (
 );
 
 CREATE TABLE MatchParticipants (
+    MatchParticipantId INT IDENTITY(1,1) PRIMARY KEY,
     MatchId INT NOT NULL,
     UserId INT NOT NULL,
-    PRIMARY KEY (MatchId, UserId),
     FOREIGN KEY (MatchId) REFERENCES Matches(MatchId) ON DELETE CASCADE,
     FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
+
 
 CREATE INDEX IX_TournamentParticipants_UserId ON TournamentParticipants (UserId);
 CREATE INDEX IX_TournamentParticipants_TournamentId ON TournamentParticipants (TournamentId);
