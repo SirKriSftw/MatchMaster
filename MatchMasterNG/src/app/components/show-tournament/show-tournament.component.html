@@ -10,6 +10,7 @@
         <input type = "text" [(ngModel)] = "tournament.title">
         <input type = "text" [(ngModel)] = "tournament.description">
         <input type = "datetime-local" [(ngModel)] = "tournament.tournamentStart">
+        <button (click) = "deleteTournament(tournament.tournamentId)">Delete Tournament</button>
     </div>
 
     <div>
