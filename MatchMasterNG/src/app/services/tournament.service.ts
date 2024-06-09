@@ -36,13 +36,18 @@ export class TournamentService {
     return this.http.post<Tournament>(this.apiUrl, tournament);
   }
 
-  deleteTournament(tournamentId: number)
-  {
-    return this.http.delete<Tournament>(`${this.apiUrl}/${tournamentId}`);
-  }
-
   updateTournament(tournament: Tournament)
   {
     return this.http.put<Tournament>(`${this.apiUrl}/${tournament.tournamentId}`, tournament);
+  }
+  
+  deleteTournament(tournamentId: number)
+  {
+    return this.http.delete(`${this.apiUrl}/${tournamentId}`);
+  }
+
+  removeParticipant(tournamentId: number, userId: number)
+  {
+    return this.http.delete(`${this.apiUrl}/${tournamentId}/participant/${userId}`);
   }
 }

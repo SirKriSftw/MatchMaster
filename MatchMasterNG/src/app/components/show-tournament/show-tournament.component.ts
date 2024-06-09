@@ -26,6 +26,7 @@ export class ShowTournamentComponent {
   currentUserId: number = -1;
 
   isEditing = false;
+  editingParticipants = false;
   originalTitle = "";
   originalDescription = "";
   originalStart = new Date;
@@ -88,7 +89,11 @@ export class ShowTournamentComponent {
 
   editTournament()
   {
-    this.isEditing = true;
+    if(this.currentUserId == this.tournament.creatorId)
+    {
+      this.isEditing = true;
+    }
+    
   }
 
   cancelEdit()
@@ -109,6 +114,15 @@ export class ShowTournamentComponent {
       }
     );
     this.isEditing = false;
+  }
+
+  removeParticipant(userId: number)
+  {
+    this.tournamentService.removeParticipant(this.tournament.tournamentId, userId).subscribe(
+      (r) => {
+        this.getParticipants(this.tournament.tournamentId);
+      }
+    );
   }
 
   makeMatch()

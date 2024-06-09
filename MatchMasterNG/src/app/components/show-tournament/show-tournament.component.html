@@ -1,12 +1,12 @@
 <div class = "wrapper" (keydown.escape) = "cancelEdit()">
     <span class="all-tournaments-link" (click)="showAllTournaments()"><<<</span>
-    <div class = "displayTournament" *ngIf = "!isEditing || currentUserId != tournament.creatorId" (dblclick) = "editTournament()">
+    <div class = "displayTournament" *ngIf = "!isEditing" (dblclick) = "editTournament()">
         <h1>{{tournament.title}}</h1>
         <i>{{tournament.tournamentId}} by {{tournament.creatorId}}</i> <br />
         {{tournament.description}}
     </div>
 
-    <div class = "editTournament" *ngIf = "isEditing && currentUserId == tournament.creatorId" (keydown.enter) = "saveChanges()">
+    <div class = "editTournament" *ngIf = "isEditing" (keydown.enter) = "saveChanges()">
         <input type = "text" [(ngModel)] = "tournament.title">
         <input type = "text" [(ngModel)] = "tournament.description">
         <input type = "datetime-local" [(ngModel)] = "tournament.tournamentStart">
@@ -17,7 +17,7 @@
         <h3>Participants</h3>
         <ul>
             <li *ngFor = "let participant of participants">
-                {{participant.username}}
+                <button (click) = "removeParticipant(participant.userId)" *ngIf = "isEditing">X</button>     {{participant.username}}
             </li>
         </ul>
     </div>
