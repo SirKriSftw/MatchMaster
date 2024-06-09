@@ -49,6 +49,10 @@ export class MatchComponent {
       (r) => {
         this.participants = r;
         this.participantIds = this.participants.map(participant => ({new: participant.userId, old: participant.userId}));
+      },
+      (e) => {
+        this.participants = [];
+        this.participantIds = [];
       }
      )
   }
@@ -89,10 +93,19 @@ export class MatchComponent {
     {
       this.changed = false;
       const changedOptions = this.participantIds.filter(p => p.new !== p.old);
-      changedOptions.forEach(e => {
-          this.matchService.updateMatchParticipants(this.match.matchId, e.old, e.new).subscribe(
-            (r) => this.getParticipants()
-          );
+      changedOptions.forEach(p => {
+          if(p.new == -1)
+          {
+            this.matchService.removeMatchParticipant(this.match.matchId, p.old).subscribe(
+              (r) => this.getParticipants()
+            );
+          }
+          else
+          {
+            this.matchService.updateMatchParticipant(this.match.matchId, p.old, p.new).subscribe(
+              (r) => this.getParticipants()
+            );
+          }
       })
     }
 
@@ -101,11 +114,15 @@ export class MatchComponent {
     {
       this.addingParticipant = false;
       this.participantsToAdd.forEach(p => {
-        this.matchService.newMatchParticipant(this.match.matchId, p).subscribe(
-          (r) => {
-            this.getParticipants();
-          }
-        )
+        if(p != -1)
+        {
+          this.matchService.newMatchParticipant(this.match.matchId, p).subscribe(
+            (r) => {
+              this.getParticipants();
+            }
+        
+          )
+        }
       })
       this.participantsToAdd = [];
     }
@@ -122,7 +139,6 @@ export class MatchComponent {
   {
     this.addingParticipant = true;
     this.participantsToAdd.push(-1);
-    console.log(this.participantsToAdd);
   }
 
 }

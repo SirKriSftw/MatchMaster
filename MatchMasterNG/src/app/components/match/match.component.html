@@ -11,11 +11,13 @@
         <div *ngIf = "isEditing">
             <div *ngFor = "let participant of participants; let pNum = index">
                 <select [(ngModel)] = "participantIds[pNum].new" (change) = "hasChanged()">
+                    <option [ngValue] = "-1">Remove Participant</option>
                     <option *ngFor = "let tournamentParticipant of tournamentParticipants" [ngValue] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</option>
                 </select>
             </div>
             <div *ngFor = "let participant of participantsToAdd; let pNum = index">
                 <select [(ngModel)] = "participantsToAdd[pNum]">
+                    <option [ngValue] = "-1">Cancel</option>
                     <option *ngFor = "let tournamentParticipant of tournamentParticipants" [ngValue] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</option>
                 </select>
             </div>

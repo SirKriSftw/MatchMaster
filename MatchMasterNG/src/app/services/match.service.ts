@@ -33,9 +33,14 @@ export class MatchService {
     return this.http.post<MatchParticipant>(`${this.apiUrl}/${matchId}/participant/${userId}`, body)
   }
 
-  updateMatchParticipants(matchId: number, userId: number, newUserId: number)
+  updateMatchParticipant(matchId: number, userId: number, newUserId: number)
   {
     var body = { userId: userId, newUserId: newUserId}
-    return this.http.put<Match>(`${this.apiUrl}/${matchId}/participants/${userId}/${newUserId}`, body);
+    return this.http.put<Match>(`${this.apiUrl}/${matchId}/participant/${userId}/${newUserId}`, body);
+  }
+
+  removeMatchParticipant(matchId: number, userId: number)
+  {
+    return this.http.delete<MatchParticipant>(`${this.apiUrl}/${matchId}/participant/${userId}`)
   }
 }

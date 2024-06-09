@@ -116,8 +116,8 @@ namespace MatchMaster.Controllers
         }
 
         // PUT: api/Matches/5/Participants
-        [HttpPut("{id}/Participants/{userId}/{newUserId}")]
-        public async Task<IActionResult> EditMatchParticipants(int id, int userId, int newUserId)
+        [HttpPut("{id}/Participant/{userId}/{newUserId}")]
+        public async Task<IActionResult> EditMatchParticipant(int id, int userId, int newUserId)
         {
             Console.WriteLine(userId);
             Console.WriteLine(newUserId);
@@ -159,6 +159,26 @@ namespace MatchMaster.Controllers
             }
 
             _context.Matches.Remove(match);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        
+        // DELETE: api/Matches/5/Participant/1
+        [HttpDelete("{id}/Participant/{userId}")]
+        public async Task<IActionResult> DeleteMatchParticipant(int id, int userId)
+        {
+            var participant = await _context.MatchParticipants
+                .Where(p => p.MatchId == id & p.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            if (participant == null)
+            {
+                return NotFound();
+            }
+
+            _context.MatchParticipants.Remove(participant);
             await _context.SaveChangesAsync();
 
             return NoContent();
