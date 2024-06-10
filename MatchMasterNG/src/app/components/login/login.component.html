@@ -1,61 +1,64 @@
+<div class = "wrapper">
 <div *ngIf="!signingUp">
-  <h2>Login</h2>
-  <form [formGroup]="loginForm" (submit)="login()">
-    <div>
-      <label>Email:</label>
-      <input type="email" formControlName="email">
-      <div *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" class="error-message">
-        Email is required.
+    <h2>Login</h2>
+    <form [formGroup]="loginForm" (submit)="login()">
+      <div>
+        <label>Email:</label>
+        <input type="email" formControlName="email">
+        <div *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" class="error-message">
+          Email is required.
+        </div>
+        <div *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" class="error-message">
+          Must be a valid email address.
+        </div>
       </div>
-      <div *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" class="error-message">
-        Must be a valid email address.
+      <div>
+        <label>Password:</label>
+        <input type="password" formControlName="password">
+        <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched" class="error-message">
+          Password is required.
+        </div>
+        <div *ngIf="loginForm.get('password')?.hasError('wrong') && loginForm.get('password')?.touched" class="error-message">
+          Email or Password is wrong.
+        </div>
       </div>
-    </div>
-    <div>
-      <label>Password:</label>
-      <input type="password" formControlName="password">
-      <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched" class="error-message">
-        Password is required.
+      <button type="submit">Login</button>      
+    </form>
+    <button (click)="signingUp = true">Sign up</button>
+  </div>
+
+  <div *ngIf="signingUp">
+    <h2>Sign Up</h2>
+    <form [formGroup]="signupForm" (submit)="register()">
+      <div>
+        <label>Username:</label>
+        <input type="text" formControlName="username">
+        <div *ngIf="signupForm.get('username')?.hasError('required') && signupForm.get('username')?.touched" class="error-message">
+          Username is required.
+        </div>
       </div>
-      <div *ngIf="loginForm.get('password')?.hasError('wrong') && loginForm.get('password')?.touched" class="error-message">
-        Email or Password is wrong.
+      <div>
+        <label>Email:</label>
+        <input type="email" formControlName="email">
+        <div *ngIf="signupForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" class="error-message">
+          Email is required.
+        </div>
+        <div *ngIf="signupForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" class="error-message">
+          Must be a valid email address.
+        </div>
+        <div *ngIf="signupForm.get('email')?.hasError('taken') && signupForm.get('email')?.touched" class="error-message">
+          Email is already taken.
+        </div>
       </div>
-    </div>
-    <button type="submit">Login</button>      
-  </form>
-  <button (click)="signingUp = true">Sign up</button>
+      <div>
+        <label>Password:</label>
+        <input type="password" formControlName="password">
+        <div *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched" class="error-message">
+          Password is required.
+        </div>
+      </div>
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
 </div>
 
-<div *ngIf="signingUp">
-  <h2>Sign Up</h2>
-  <form [formGroup]="signupForm" (submit)="register()">
-    <div>
-      <label>Username:</label>
-      <input type="text" formControlName="username">
-      <div *ngIf="signupForm.get('username')?.hasError('required') && signupForm.get('username')?.touched" class="error-message">
-        Username is required.
-      </div>
-    </div>
-    <div>
-      <label>Email:</label>
-      <input type="email" formControlName="email">
-      <div *ngIf="signupForm.get('email')?.hasError('required') && loginForm.get('email')?.touched" class="error-message">
-        Email is required.
-      </div>
-      <div *ngIf="signupForm.get('email')?.hasError('email') && loginForm.get('email')?.touched" class="error-message">
-        Must be a valid email address.
-      </div>
-      <div *ngIf="signupForm.get('email')?.hasError('taken') && signupForm.get('email')?.touched" class="error-message">
-        Email is already taken.
-      </div>
-    </div>
-    <div>
-      <label>Password:</label>
-      <input type="password" formControlName="password">
-      <div *ngIf="signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched" class="error-message">
-        Password is required.
-      </div>
-    </div>
-    <button type="submit">Sign up</button>
-  </form>
-</div>
