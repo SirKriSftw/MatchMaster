@@ -90,6 +90,15 @@ export class ShowTournamentComponent {
     );
   }
 
+  leaveTournament()
+  {
+    this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
+      (r) => {
+        this.getParticipants(this.tournament.tournamentId)
+      }
+    );
+  }
+
   isParticipating()
   {
     return this.participants.some(participant => participant.userId == this.currentUserId)

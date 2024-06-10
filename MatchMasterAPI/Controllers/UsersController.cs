@@ -261,6 +261,25 @@ namespace MatchMaster.Controllers
             return NoContent();
         }
 
+        // DELETE: api/Users/5/Tournament/1
+        [HttpDelete("{id}/Tournament/{tournamentId}")]
+        public async Task<IActionResult> LeaveTournament(int id, int tournamentId)
+        {
+            var participant = await _context.TournamentParticipants
+                .Where(p => p.UserId == id && p.TournamentId == tournamentId)
+                .FirstOrDefaultAsync();
+
+            if (participant == null)
+            {
+                return NotFound();
+            }
+
+            _context.TournamentParticipants.Remove(participant);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserId == id);
