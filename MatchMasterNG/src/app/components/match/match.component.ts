@@ -59,7 +59,6 @@ export class MatchComponent {
 
   startEditing()
   {
-    console.log(this.participantIds);
     if(this.currentUserId == this.ownerId)
     {
     this.isEditing = true;
@@ -71,7 +70,6 @@ export class MatchComponent {
 
   cancelEditing()
   {
-    console.log("Canceling title edit");
     this.match.matchTitle = this.originalTitle;
     this.match.description = this.originalDescription;
     this.match.matchStart = this.originalTime;
@@ -84,7 +82,6 @@ export class MatchComponent {
     console.log(this.participantIds)
     if(this.match.matchId == -1)
     {
-      console.log(this.match)
       this.saveNewMatch();
     }
     

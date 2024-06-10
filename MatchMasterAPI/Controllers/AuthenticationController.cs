@@ -22,7 +22,7 @@ namespace MatchMasterAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(User userToRegister, string password)
+        public async Task<IActionResult> Register(RegisterUser userToRegister)
         {
             // Check if email already exists
             if (await _context.Users.AnyAsync(u => u.Email == userToRegister.Email))
@@ -32,7 +32,7 @@ namespace MatchMasterAPI.Controllers
             byte[] salt = GenerateSalt(16);
 
             // Hash the password
-            var passwordHash = HashPassword(password, salt);
+            var passwordHash = HashPassword(userToRegister.Password, salt);
 
             var userToCreate = new User
             {
