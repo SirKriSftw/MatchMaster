@@ -47,20 +47,15 @@ export class ShowTournamentComponent {
   ngOnInit(): void {
     this.tournamentId = parseInt(this.route.snapshot.paramMap.get("id")!);
     this.currentUserId = this.authService.getCurrentUserId();
-    if(this.tournamentId)
-    {
-      this.getTournament(this.tournamentId)
-      if(this.tournament)
-      {
-        this.getMatches(this.tournamentId)
-        this.getParticipants(this.tournamentId)
-      }
-    }
+    this.getTournament()
+    this.getMatches()
+    this.getParticipants()
+
   }
 
-  getTournament(tournamentId: number)
+  getTournament()
   {
-    this.tournamentService.getTournamentById(tournamentId)
+    this.tournamentService.getTournamentById(this.tournamentId)
     .subscribe(tournament => {
       this.tournament = tournament
       this.originalTitle = this.tournament.title;
@@ -69,15 +64,15 @@ export class ShowTournamentComponent {
     });
   }
 
-  getMatches(tournamentId: number)
+  getMatches()
   {
-    this.tournamentService.getTournamentMatches(tournamentId)
+    this.tournamentService.getTournamentMatches(this.tournamentId)
     .subscribe(matches => this.matches = matches)
   }
 
-  getParticipants(tournamentId: number)
+  getParticipants()
   {
-    this.tournamentService.getTournamentParticipants(tournamentId)
+    this.tournamentService.getTournamentParticipants(this.tournamentId)
     .subscribe(participants => this.participants = participants)
   }
 
@@ -90,7 +85,7 @@ export class ShowTournamentComponent {
   {
     this.userService.joinTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
       (r) => {
-        this.getParticipants(this.tournament.tournamentId)
+        this.getParticipants()
       }
     );
   }
@@ -99,7 +94,7 @@ export class ShowTournamentComponent {
   {
     this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
       (r) => {
-        this.getParticipants(this.tournament.tournamentId)
+        this.getParticipants()
       }
     );
   }
@@ -150,7 +145,7 @@ export class ShowTournamentComponent {
   {
     this.tournamentService.removeParticipant(this.tournament.tournamentId, userId).subscribe(
       (r) => {
-        this.getParticipants(this.tournament.tournamentId);
+        this.getParticipants();
       }
     );
   }
@@ -170,7 +165,7 @@ export class ShowTournamentComponent {
   {
     this.matchService.deleteMatch(matchId).subscribe(
       (r) => {
-        this.getMatches(this.tournamentId);
+        this.getMatches();
       }
     );
   }
