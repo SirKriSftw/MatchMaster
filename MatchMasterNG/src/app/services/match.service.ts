@@ -17,11 +17,6 @@ export class MatchService {
     return this.http.get<Match[]>(this.apiUrl);
   }
 
-  getMatchParticipants(id: number)
-  {
-    return this.http.get<User[]>(`${this.apiUrl}/${id}/participants`);
-  }
-
   newMatch(match: Match)
   {
     return this.http.post<Match>(`${this.apiUrl}`, match)
@@ -32,6 +27,16 @@ export class MatchService {
     return this.http.put<Match>(`${this.apiUrl}/${match.matchId}`, match)
   }
 
+  deleteMatch(matchId: number)
+  {
+    return this.http.delete(`${this.apiUrl}/${matchId}`)
+  }
+
+  getMatchParticipants(id: number)
+  {
+    return this.http.get<User[]>(`${this.apiUrl}/${id}/participants`);
+  }
+  
   newMatchParticipant(matchId: number, userId: number)
   {
     var body = {id: matchId, userId: userId};

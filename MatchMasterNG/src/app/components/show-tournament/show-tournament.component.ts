@@ -6,6 +6,7 @@ import { User } from '../../models/user.model';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
+import { MatchService } from '../../services/match.service';
 
 @Component({
   selector: 'app-show-tournament',
@@ -27,6 +28,7 @@ export class ShowTournamentComponent {
   newMatches: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
+  tournamentId: number = -1;
 
   isEditing = false;
   editingParticipants = false;
@@ -36,21 +38,22 @@ export class ShowTournamentComponent {
 
 
   constructor(private tournamentService: TournamentService,
+              private matchService: MatchService,
               private userService: UserService,
               private authService: AuthenticationService, 
               private route: ActivatedRoute,
               private router: Router) {}
 
   ngOnInit(): void {
-    const tournamentId = this.route.snapshot.paramMap.get("id");
+    this.tournamentId = parseInt(this.route.snapshot.paramMap.get("id")!);
     this.currentUserId = this.authService.getCurrentUserId();
-    if(tournamentId)
+    if(this.tournamentId)
     {
-      this.getTournament(parseInt(tournamentId))
+      this.getTournament(this.tournamentId)
       if(this.tournament)
       {
-        this.getMatches(parseInt(tournamentId))
-        this.getParticipants(parseInt(tournamentId))
+        this.getMatches(this.tournamentId)
+        this.getParticipants(this.tournamentId)
       }
     }
   }
@@ -161,9 +164,15 @@ export class ShowTournamentComponent {
       matchStart: new Date()
     }
     this.newMatches.push(newMatch);
-    console.log(this.newMatches);
   }
 
-
+  deleteMatch(matchId: number)
+  {
+    this.matchService.deleteMatch(matchId).subscribe(
+      (r) => {
+        this.getMatches(this.tournamentId);
+      }
+    );
+  }
 }
 

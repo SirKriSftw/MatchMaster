@@ -26,6 +26,7 @@
     <div>
         <ul>
             <li *ngFor = "let match of matches">
+                <button *ngIf = "isEditing" (click) = "deleteMatch(match.matchId!)">X</button>
                 <app-match [match] = match [ownerId] = "tournament.tournamentId" [tournamentParticipants] = "participants"></app-match>
             </li>
             <li *ngFor = "let match of newMatches">
