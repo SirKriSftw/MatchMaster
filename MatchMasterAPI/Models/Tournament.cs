@@ -14,7 +14,14 @@ public partial class Tournament
 
     public int CreatorId { get; set; }
 
+    public int? CategoryId { get; set; }
+
+    public bool? AcceptingParticipants { get; set; }
+
     public DateTime? TournamentStart { get; set; }
+
+    [JsonIgnore]
+    public virtual Category? Category { get; set; }
 
     [JsonIgnore]
     public virtual User? Creator { get; set; } = null!;

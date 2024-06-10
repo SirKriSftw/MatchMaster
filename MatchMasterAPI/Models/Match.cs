@@ -18,8 +18,16 @@ public partial class Match
 
     public int? WinnerId { get; set; }
 
+    public int? NextMatch { get; set; }
+
+    [JsonIgnore]
+    public virtual ICollection<Match> InverseNextMatchNavigation { get; set; } = new List<Match>();
+
     [JsonIgnore]
     public virtual ICollection<MatchParticipant> MatchParticipants { get; set; } = new List<MatchParticipant>();
+
+    [JsonIgnore]
+    public virtual Match? NextMatchNavigation { get; set; }
 
     [JsonIgnore]
     public virtual Tournament? Tournament { get; set; } = null!;

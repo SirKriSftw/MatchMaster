@@ -15,6 +15,8 @@ public partial class MatchMasterContext : DbContext
     {
     }
 
+    public virtual DbSet<Category> Categories { get; set; }
+
     public virtual DbSet<Match> Matches { get; set; }
 
     public virtual DbSet<MatchParticipant> MatchParticipants { get; set; }
@@ -38,14 +40,23 @@ public partial class MatchMasterContext : DbContext
 
             string connectionString = configuration.GetConnectionString("MatchMasterConnection");
             optionsBuilder.UseSqlServer(connectionString);
-        }    
+        }  
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A0BAA24167B");
+
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C81745E25EB7");
+            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C817D1DB306D");
 
             entity.HasIndex(e => e.TournamentId, "IX_Matches_TournamentId");
 
@@ -55,34 +66,38 @@ public partial class MatchMasterContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false);
 
+            entity.HasOne(d => d.NextMatchNavigation).WithMany(p => p.InverseNextMatchNavigation)
+                .HasForeignKey(d => d.NextMatch)
+                .HasConstraintName("FK__Matches__NextMat__5224328E");
+
             entity.HasOne(d => d.Tournament).WithMany(p => p.Matches)
                 .HasForeignKey(d => d.TournamentId)
-                .HasConstraintName("FK__Matches__Tournam__0B91BA14");
+                .HasConstraintName("FK__Matches__Tournam__503BEA1C");
 
             entity.HasOne(d => d.Winner).WithMany(p => p.Matches)
                 .HasForeignKey(d => d.WinnerId)
-                .HasConstraintName("FK__Matches__WinnerI__0C85DE4D");
+                .HasConstraintName("FK__Matches__WinnerI__51300E55");
         });
 
         modelBuilder.Entity<MatchParticipant>(entity =>
         {
-            entity.HasKey(e => e.MatchParticipantId).HasName("PK__MatchPar__7BB53638080992F3");
+            entity.HasKey(e => e.MatchParticipantId).HasName("PK__MatchPar__7BB536385502EABD");
 
             entity.HasIndex(e => e.MatchId, "IX_MatchParticipants_MatchId");
 
             entity.HasOne(d => d.Match).WithMany(p => p.MatchParticipants)
                 .HasForeignKey(d => d.MatchId)
-                .HasConstraintName("FK__MatchPart__Match__1332DBDC");
+                .HasConstraintName("FK__MatchPart__Match__58D1301D");
 
             entity.HasOne(d => d.User).WithMany(p => p.MatchParticipants)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MatchPart__UserI__14270015");
+                .HasConstraintName("FK__MatchPart__UserI__59C55456");
         });
 
         modelBuilder.Entity<OauthInfo>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__OAuthInf__1788CC4C8F064D77");
+            entity.HasKey(e => e.UserId).HasName("PK__OAuthInf__1788CC4C23F55454");
 
             entity.ToTable("OAuthInfos");
 
@@ -108,28 +123,38 @@ public partial class MatchMasterContext : DbContext
             entity.HasOne(d => d.User).WithOne(p => p.OauthInfo)
                 .HasForeignKey<OauthInfo>(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OAuthInfo__UserI__05D8E0BE");
+                .HasConstraintName("FK__OAuthInfo__UserI__45BE5BA9");
         });
 
         modelBuilder.Entity<Tournament>(entity =>
         {
-            entity.HasKey(e => e.TournamentId).HasName("PK__Tourname__AC63131311D6F30C");
+            entity.HasKey(e => e.TournamentId).HasName("PK__Tourname__AC631313F49CAD5D");
 
+            entity.HasIndex(e => e.CategoryId, "IX_Tournaments_CategoryId");
+
+            entity.HasIndex(e => e.Title, "IX_Tournaments_Title");
+
+            entity.Property(e => e.AcceptingParticipants).HasDefaultValue(true);
+            entity.Property(e => e.CategoryId).HasDefaultValue(1);
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.TournamentStart).HasColumnType("datetime");
 
+            entity.HasOne(d => d.Category).WithMany(p => p.Tournaments)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK__Tournamen__Categ__4D5F7D71");
+
             entity.HasOne(d => d.Creator).WithMany(p => p.Tournaments)
                 .HasForeignKey(d => d.CreatorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Tournamen__Creat__08B54D69");
+                .HasConstraintName("FK__Tournamen__Creat__4C6B5938");
         });
 
         modelBuilder.Entity<TournamentParticipant>(entity =>
         {
-            entity.HasKey(e => e.TournamentParticipantId).HasName("PK__Tourname__1E66AF1439C44A7B");
+            entity.HasKey(e => e.TournamentParticipantId).HasName("PK__Tourname__1E66AF1465974B75");
 
             entity.HasIndex(e => e.TournamentId, "IX_TournamentParticipants_TournamentId");
 
@@ -137,19 +162,19 @@ public partial class MatchMasterContext : DbContext
 
             entity.HasOne(d => d.Tournament).WithMany(p => p.TournamentParticipants)
                 .HasForeignKey(d => d.TournamentId)
-                .HasConstraintName("FK__Tournamen__Tourn__0F624AF8");
+                .HasConstraintName("FK__Tournamen__Tourn__55009F39");
 
             entity.HasOne(d => d.User).WithMany(p => p.TournamentParticipants)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Tournamen__UserI__10566F31");
+                .HasConstraintName("FK__Tournamen__UserI__55F4C372");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C86DB0FE7");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4CC1244437");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534F19A6391").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__A9D10534ECA07BB0").IsUnique();
 
             entity.Property(e => e.Email)
                 .HasMaxLength(100)

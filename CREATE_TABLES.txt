@@ -33,13 +33,21 @@ CREATE TABLE OAuthInfos (
     FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 
+CREATE TABLE Categories (
+    CategoryId INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE Tournaments (
     TournamentId INT IDENTITY(1,1) PRIMARY KEY,
     Title VARCHAR(100) NOT NULL,
     Description TEXT,
     CreatorId INT NOT NULL,
+    CategoryId INT DEFAULT(1),
+    AcceptingParticipants BIT NULL DEFAULT(1),
     TournamentStart DATETIME,
-    FOREIGN KEY (CreatorId) REFERENCES Users(UserId)
+    FOREIGN KEY (CreatorId) REFERENCES Users(UserId),
+    FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId)
 );
 
 CREATE TABLE Matches (
@@ -73,5 +81,8 @@ CREATE TABLE MatchParticipants (
 CREATE INDEX IX_TournamentParticipants_UserId ON TournamentParticipants (UserId);
 CREATE INDEX IX_TournamentParticipants_TournamentId ON TournamentParticipants (TournamentId);
 CREATE INDEX IX_Matches_TournamentId ON Matches (TournamentId);
+CREATE INDEX IX_Tournaments_Title ON Tournaments (Title);
+CREATE INDEX IX_Tournaments_CategoryId ON Tournaments (CategoryId);
+
 CREATE INDEX IX_MatchParticipants_MatchId ON MatchParticipants (MatchId);
 CREATE INDEX IX_OAuthInfo_UserId ON OAuthInfos (UserId);
