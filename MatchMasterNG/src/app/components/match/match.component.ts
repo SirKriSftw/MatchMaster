@@ -80,7 +80,7 @@ export class MatchComponent {
   saveEditing()
   {
     console.log(this.participantIds)
-    if(this.match.matchId == -1)
+    if(this.match.matchId == null)
     {
       this.saveNewMatch();
     }

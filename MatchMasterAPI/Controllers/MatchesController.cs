@@ -66,8 +66,6 @@ namespace MatchMaster.Controllers
         [HttpPost]
         public async Task<ActionResult<Match>> NewMatch(Match match)
         {
-            match.MatchId = null;
-            match.WinnerId = null;
             _context.Matches.Add(match);
             await _context.SaveChangesAsync();
 
