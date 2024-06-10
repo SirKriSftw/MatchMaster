@@ -7,6 +7,7 @@ import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 import { MatchService } from '../../services/match.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-show-tournament',
