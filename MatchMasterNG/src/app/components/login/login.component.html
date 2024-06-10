@@ -22,9 +22,9 @@
           Email or Password is wrong.
         </div>
       </div>
-      <button type="submit">Login</button>      
+      <button mat-flat-button color = "accent" type="submit">Login</button>      
     </form>
-    <button (click)="signingUp = true">Sign up</button>
+    <button mat-raised-button color = "primary" (click)="signingUp = true">Sign up</button>
   </div>
 
   <div *ngIf="signingUp">
