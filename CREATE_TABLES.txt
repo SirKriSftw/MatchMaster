@@ -57,8 +57,10 @@ CREATE TABLE Matches (
     Description TEXT,
     MatchStart DATETIME,
     WinnerId INT,
+    NextMatch INT NULL,
     FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId) ON DELETE CASCADE,
-    FOREIGN KEY (WinnerId) REFERENCES Users(UserId)
+    FOREIGN KEY (WinnerId) REFERENCES Users(UserId),
+    FOREIGN KEY (NextMatch) REFERENCES Match(MatchId)
 );
 
 CREATE TABLE TournamentParticipants (

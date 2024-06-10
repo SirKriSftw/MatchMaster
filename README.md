@@ -12,7 +12,7 @@ To run Match Master locally:
 2. Install [.NET](https://learn.microsoft.com/en-us/dotnet/core/install/) and [Angular](https://v17.angular.io/guide/setup-local)
 3. Setup a local [SQL database](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (I used [SSMS](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms))
 4. Run the Query in the CREATE_TABLES.txt file
-   - 3b. Optionally run the DummyData.txt query for some basic data in the tables
+   - 4b. Make Categories for tournaments `INSERT INTO Categories (Name) VALUES ('Category1'),('Category2'),('Category3')`
 5. Go into the MatchMasterAPI file and add `appsettings.json` file into the root directory
 6. Inside that file include your connection string like this: <br />	
     ```
