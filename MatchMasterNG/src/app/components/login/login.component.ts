@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
+  signingUp = false;
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   login(email: string, password: string, event: Event)
@@ -26,5 +27,18 @@ export class LoginComponent {
           console.log(error)
         }
       )
+  }
+
+  signup()
+  {
+    this.signingUp = true;
+  }
+
+  register(username: string, email: string, password: string)
+  {
+    this.authService.register(username, email, password).subscribe(
+      (r) => {},
+      (e) => {console.log(e.error)}
+    )
   }
 }

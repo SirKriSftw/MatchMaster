@@ -1,4 +1,4 @@
-<div>
+<div *ngIf = "!signingUp">
     <h2>Login</h2>
     <form (submit)="login(email.value, password.value, $event)">
       <div>
@@ -9,7 +9,28 @@
         <label>Password:</label>
         <input type="password" #password required>
       </div>
-      <button type="submit">Login</button>
+      <button type="submit">Login</button>      
+    </form>
+      <button (click) = "signup()">Sign up</button>
+  </div>
+
+  <div *ngIf = "signingUp">
+    <h2>Sign Up</h2>
+    <form (submit)="register(username.value, email.value, password.value)">
+      <div>
+        <label>Username:</label>
+        <input type="text" #username required>
+      </div>
+      <div>
+        <label>Email:</label>
+        <input type="email" #email required>
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" #password required>
+      </div>
+      <button type = "submit">Sign up</button>
     </form>
   </div>
+  
   

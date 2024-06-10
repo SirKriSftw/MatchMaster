@@ -11,6 +11,12 @@ export class AuthenticationService {
   private apiUrl = `${this.apiConfig.apiUrl}/authentication`; 
   constructor(private http: HttpClient, private apiConfig: ApiConfigService) { }
 
+  register(username: string, email: string, password: string)
+  {
+    var body = {username: username, email: email, password: password}
+    return this.http.post(`${this.apiUrl}/register`, body);
+  }
+
   login(email: string, password: string): Observable<any> 
   {
     const loginUrl = `${this.apiUrl}/login`;
