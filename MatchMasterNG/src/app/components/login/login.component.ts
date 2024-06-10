@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,34 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   signingUp = false;
-  constructor(private authService: AuthenticationService, private router: Router) {}
-
-  login(email: string, password: string, event: Event)
+  errors: string[] = [];
+  loginForm: FormGroup;
+  signupForm: FormGroup;
+  
+  constructor(private authService: AuthenticationService, 
+              private router: Router,
+              private formBuilder: FormBuilder) 
   {
-    event.preventDefault();
-    console.log(event);
-    this.authService.login(email, password)
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    })
+            
+    this.signupForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    })
+  }
+
+  login()
+  {
+    const email = this.loginForm.get("email")?.value;
+    const password = this.loginForm.get("password")?.value;
+
+    if(this.loginForm.valid)
+    {    
+      this.authService.login(email, password)
       .subscribe((response) => 
         {
           localStorage.setItem('userData', JSON.stringify(response));
@@ -24,9 +46,10 @@ export class LoginComponent {
         },
         (error) => 
         {
-          console.log(error)
+          this.loginForm.get("password")!.setErrors({ wrong: true })
         }
       )
+    }
   }
 
   signup()
@@ -34,11 +57,20 @@ export class LoginComponent {
     this.signingUp = true;
   }
 
-  register(username: string, email: string, password: string)
+  register()
   {
-    this.authService.register(username, email, password).subscribe(
-      (r) => {},
-      (e) => {console.log(e.error)}
-    )
+    if(this.signupForm.valid)
+    {
+      const username = this.signupForm.get("username")?.value;
+      const email = this.signupForm.get("email")?.value;
+      const password = this.signupForm.get("password")?.value;
+      this.authService.register(username, email, password).subscribe(
+        (r) => {},
+        (e) => {
+          this.signupForm.get("email")!.setErrors({ taken: true })
+          console.log(this.signupForm.get("email")!.errors);
+        }
+      )
+    }
   }
 }

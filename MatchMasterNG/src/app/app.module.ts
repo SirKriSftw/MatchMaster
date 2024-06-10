@@ -9,7 +9,7 @@ import { MatchComponent } from './components/match/match.component';
 import { AllTournamentsComponent } from './components/all-tournaments/all-tournaments.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserComponent } from './components/user/user.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShowTournamentComponent } from './components/show-tournament/show-tournament.component';
 
 @NgModule({
@@ -26,7 +26,8 @@ import { ShowTournamentComponent } from './components/show-tournament/show-tourn
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
