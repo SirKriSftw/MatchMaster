@@ -20,3 +20,40 @@
         </li>
     </ul>
 </div>
+
+
+<div>
+    <mat-accordion *ngFor="let tournament of tournaments">
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{tournament.title}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{tournament.tournamentStart}}                    
+                </mat-panel-description>                
+            </mat-expansion-panel-header>
+            {{tournament.description}}
+        </mat-expansion-panel>
+    </mat-accordion>
+    <ul>
+        <li *ngFor="let tournament of tournaments">
+            {{ tournament.tournamentId }}.({{ tournament.creatorId }}) - 
+            <span class="tournament-link" (click)="showTournament(tournament.tournamentId)">
+                {{ tournament.title }}
+            </span> | {{ tournament.description }}
+            <button (click)="toggleTournamentMatches(tournament.tournamentId)">
+                {{ tournamentMatchesMap[tournament.tournamentId] ? 'Hide Matches' : 'View Matches' }}
+            </button>
+            <ul *ngIf="tournamentMatchesMap[tournament.tournamentId]">
+                <li *ngFor="let match of tournamentMatchesMap[tournament.tournamentId]">
+                    Match ID: {{ match.matchId }} - {{ match.matchTitle }} | {{ match.description }}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+
