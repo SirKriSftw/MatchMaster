@@ -5,6 +5,7 @@ import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-show-tournament',
@@ -33,6 +34,7 @@ export class ShowTournamentComponent {
 
 
   constructor(private tournamentService: TournamentService,
+              private userService: UserService,
               private authService: AuthenticationService, 
               private route: ActivatedRoute,
               private router: Router) {}
@@ -77,6 +79,20 @@ export class ShowTournamentComponent {
   showAllTournaments()
   {
     this.router.navigate(["/tournaments"]);
+  }
+
+  joinTournament()
+  {
+    this.userService.joinTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
+      (r) => {
+        this.getParticipants(this.tournament.tournamentId)
+      }
+    );
+  }
+
+  isParticipating()
+  {
+    return this.participants.some(participant => participant.userId == this.currentUserId)
   }
 
   deleteTournament(tournamentId: number)

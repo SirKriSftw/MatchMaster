@@ -199,6 +199,22 @@ namespace MatchMaster.Controllers
             }
         }
 
+        // POST: api/Users/5/Tournament/1
+        [HttpPost("{id}/Tournament/{tournamentId}")]
+        public async Task<IActionResult> JoinTournament(int id, int tournamentId)
+        {
+            var participant = new TournamentParticipant
+            {
+                UserId = id,
+                TournamentId = tournamentId
+            };
+
+            _context.TournamentParticipants.Add(participant);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> EditUser(int id, User user)

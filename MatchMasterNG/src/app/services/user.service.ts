@@ -14,6 +14,11 @@ export class UserService {
 
   getMyTournaments(userId: number)
   {
-    return this.http.get<Tournament[]>(`${this.apiUrl}/${userId}/Created/Tournaments`);
+    return this.http.get<Tournament[]>(`${this.apiUrl}/${userId}/created/tournaments`);
+  }
+
+  joinTournament(userId: number, tournamentId: number)
+  {
+    return this.http.post(`${this.apiUrl}/${userId}/tournament/${tournamentId}`,{})
   }
 }

@@ -1,7 +1,7 @@
 <div class = "wrapper" (keydown.escape) = "cancelEdit()">
     <span class="all-tournaments-link" (click)="showAllTournaments()"><<<</span>
     <div class = "displayTournament" *ngIf = "!isEditing" (dblclick) = "editTournament()">
-        <h1>{{tournament.title}}</h1>
+        <h1>{{tournament.title}}</h1> <button *ngIf = "!isParticipating()" (click) = "joinTournament()">Join tournament</button>
         <i>{{tournament.tournamentId}} by {{tournament.creatorId}}</i> <br />
         {{tournament.description}}
     </div>
