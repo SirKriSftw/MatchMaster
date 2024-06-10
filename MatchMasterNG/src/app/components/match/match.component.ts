@@ -44,7 +44,7 @@ export class MatchComponent {
 
   getParticipants()
   {
-    this.matchService.getMatchParticipants(this.match.matchId)
+    this.matchService.getMatchParticipants(this.match.matchId!)
      .subscribe(
       (r) => {
         this.participants = r;
@@ -125,13 +125,13 @@ export class MatchComponent {
     changedOptions.forEach(p => {
         if(p.new == -1)
         {
-          this.matchService.removeMatchParticipant(this.match.matchId, p.old).subscribe(
+          this.matchService.removeMatchParticipant(this.match.matchId!, p.old).subscribe(
             (r) => this.getParticipants()
           );
         }
         else
         {
-          this.matchService.updateMatchParticipant(this.match.matchId, p.old, p.new).subscribe(
+          this.matchService.updateMatchParticipant(this.match.matchId!, p.old, p.new).subscribe(
             (r) => this.getParticipants()
           );
         }
@@ -144,7 +144,7 @@ export class MatchComponent {
       this.participantsToAdd.forEach(p => {
         if(p != -1)
         {
-          this.matchService.newMatchParticipant(this.match.matchId, p).subscribe(
+          this.matchService.newMatchParticipant(this.match.matchId!, p).subscribe(
             (r) => {
               this.getParticipants();
             }

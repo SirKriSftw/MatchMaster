@@ -1,9 +1,10 @@
 export interface Match {
-    matchId: number;
+    matchId?: number;
     tournamentId: number;
-    winnerId: number;
+    winnerId?: number;
     matchTitle: string;
     description: string;
     matchStart: Date;
+    nextMatch?: number;
   }
   

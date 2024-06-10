@@ -30,9 +30,11 @@ export class TournamentComponent {
     {
       "tournamentId": this.tournamentToEdit ? this.tournamentToEdit.tournamentId : 0,
       "creatorId": this.tournamentToEdit ? this.tournamentToEdit.creatorId : 0,
+      "categoryId": 1,
       "title": form.title,
       "description": form.description,
-      "tournamentStart": form.tournamentStart
+      "tournamentStart": form.tournamentStart,
+      "acceptingParticipants": true
     }
 
     if(this.tournamentToEdit)

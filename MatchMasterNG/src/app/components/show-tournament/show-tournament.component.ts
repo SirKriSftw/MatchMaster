@@ -16,9 +16,11 @@ export class ShowTournamentComponent {
   tournament: Tournament = {
     tournamentId: 0,
     creatorId: 0,
+    categoryId: 1,
     title: '',
     description: '',
-    tournamentStart: new Date()
+    tournamentStart: new Date(),
+    acceptingParticipants: true
   }; // Initialize to an empty object with default values
 
   matches: Match[] = [];
@@ -153,8 +155,6 @@ export class ShowTournamentComponent {
   makeMatch()
   {
     let newMatch = {
-      matchId: -1,
-      winnerId: -1,
       tournamentId: this.tournament.tournamentId,
       matchTitle: "New Match Title",
       description: "",

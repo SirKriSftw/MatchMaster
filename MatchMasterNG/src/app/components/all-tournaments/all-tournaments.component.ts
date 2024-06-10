@@ -22,7 +22,10 @@ export class AllTournamentsComponent {
 
   getAllTournaments(): void {
     this.tournamentService.getAllTournaments()
-      .subscribe(tournaments => this.tournaments = tournaments);
+      .subscribe((tournaments) => {
+        this.tournaments = tournaments
+        console.log(this.tournaments)
+      });
   }
 
   toggleTournamentMatches(tournamentId: number): void {
