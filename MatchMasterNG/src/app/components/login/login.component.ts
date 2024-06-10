@@ -65,7 +65,15 @@ export class LoginComponent {
       const email = this.signupForm.get("email")?.value;
       const password = this.signupForm.get("password")?.value;
       this.authService.register(username, email, password).subscribe(
-        (r) => {},
+        (r) => {
+          this.authService.login(email, password).subscribe(
+            (r) => 
+            {
+              localStorage.setItem('userData', JSON.stringify(r));
+              this.router.navigate(["/"]);
+            }
+          )
+        },
         (e) => {
           this.signupForm.get("email")!.setErrors({ taken: true })
           console.log(this.signupForm.get("email")!.errors);
