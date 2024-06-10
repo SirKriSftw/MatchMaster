@@ -24,7 +24,6 @@ export class AllTournamentsComponent {
     this.tournamentService.getAllTournaments()
       .subscribe((tournaments) => {
         this.tournaments = tournaments
-        console.log(this.tournaments)
       });
   }
 
