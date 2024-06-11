@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ApiConfigService } from './api-config.service';
 
 
@@ -8,6 +8,7 @@ import { ApiConfigService } from './api-config.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
   private apiUrl = `${this.apiConfig.apiUrl}/authentication`; 
   constructor(private http: HttpClient, private apiConfig: ApiConfigService) { }
 
@@ -29,7 +30,7 @@ export class AuthenticationService {
     return this.http.post<any>(loginUrl, body, {headers:new HttpHeaders({'Content-Type':'application/json'})});
   }
 
-  getCurrentUserId(): number 
+  getCurrentUserId() 
   {
     const userDataString = localStorage.getItem('userData');
     if (userDataString)
@@ -38,15 +39,21 @@ export class AuthenticationService {
       const userId = userData.userId;
       return userId;
     }
-    else
-    {
-      return -1;
-    }
   }
 
-  isLoggedIn()
+  isLoggedIn(): boolean
   {
     return localStorage.getItem('userData') != null
+  }
+
+  get isLoggedIn$(): Observable<boolean> 
+  {
+    return this.loggedIn.asObservable();
+  }
+
+  setLoggedIn(value: boolean)
+  {
+    this.loggedIn.next(value);
   }
 
   logout()

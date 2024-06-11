@@ -1,3 +1,13 @@
+.wrapper {
+    position: fixed;
+    top: 1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1b1b;
+    color: white;
+}
+
 .tournament-link {
     cursor: pointer;
     color: blue;
@@ -6,4 +16,13 @@
 
 .tournament-link:hover {
     color: darkblue;
+}
+
+.tournament {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+
 }

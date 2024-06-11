@@ -1,0 +1,17 @@
+.navbar {
+    z-index: 999;
+    background-color: #A32929;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left a, .right a {
+    color:white
+}
+
+.right {
+    display: flex;
+}

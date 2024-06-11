@@ -12,7 +12,6 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class AllTournamentsComponent {
   tournaments : Tournament[] = [];
-  tournamentMatchesMap: { [tournamentId: number]: Match[]} = {};
 
   constructor(private tournamentService: TournamentService, private authService: AuthenticationService, private router: Router) {}
 
@@ -25,23 +24,6 @@ export class AllTournamentsComponent {
       .subscribe((tournaments) => {
         this.tournaments = tournaments
       });
-  }
-
-  toggleTournamentMatches(tournamentId: number): void {
-    if (this.tournamentMatchesMap[tournamentId])
-    {
-      delete this.tournamentMatchesMap[tournamentId];
-    }
-    else
-    {
-      this.tournamentService.getTournamentMatches(tournamentId)
-        .subscribe(matches => this.tournamentMatchesMap[tournamentId] = matches)
-    }
-  }
-
-  showTournament(tournamentId: number)
-  {
-    this.router.navigate(["/tournament", tournamentId])
   }
 
   isLoggedIn()

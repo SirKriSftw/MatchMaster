@@ -42,6 +42,7 @@ export class LoginComponent {
       .subscribe((response) => 
         {
           localStorage.setItem('userData', JSON.stringify(response));
+          this.authService.setLoggedIn(true);
           this.router.navigate(["/"]);
         },
         (error) => 
