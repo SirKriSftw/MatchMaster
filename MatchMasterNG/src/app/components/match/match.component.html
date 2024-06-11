@@ -3,7 +3,7 @@
         <mat-expansion-panel-header class = "panel-header"> 
             <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
             <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
-            <button mat-icon-button (click) = "startEditing()" *ngIf = "isCreator"><mat-icon>edit_calendar</mat-icon></button>
+            <button mat-icon-button matTooltip = "Edit Match" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "startEditing()" *ngIf = "isCreator"><mat-icon>edit_calendar</mat-icon></button>
         </mat-expansion-panel-header>
         <div class = "match-body">
             {{match.description}}
@@ -19,7 +19,7 @@
                     <input matInput type = "text" formControlName = "title">
                     <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>
                 </mat-form-field>
-                <button mat-icon-button matTooltip = "Cancel edit" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
+                <button mat-icon-button matTooltip = "Cancel edit" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
             </div>  
             <div class =  "row">
                 <mat-form-field class = "form-field">
