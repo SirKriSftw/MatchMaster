@@ -25,6 +25,7 @@ export class ShowTournamentComponent {
     acceptingParticipants: true
   }; // Initialize to an empty object with default values
 
+  creatorUsername: string = "";
   matches: Match[] = [];
   newMatches: Match[] = [];
   participants: User[] = [];
@@ -48,9 +49,9 @@ export class ShowTournamentComponent {
   ngOnInit(): void {
     this.tournamentId = parseInt(this.route.snapshot.paramMap.get("id")!);
     this.currentUserId = this.authService.getCurrentUserId();
-    this.getTournament()
-    this.getMatches()
-    this.getParticipants()
+    this.getTournament();
+    this.getMatches();
+    this.getParticipants();
 
   }
 
@@ -62,6 +63,7 @@ export class ShowTournamentComponent {
       this.originalTitle = this.tournament.title;
       this.originalDescription = this.tournament.description;
       this.originalStart = this.tournament.tournamentStart;
+      this.getCreatorName();
     });
   }
 
@@ -77,9 +79,13 @@ export class ShowTournamentComponent {
     .subscribe(participants => this.participants = participants)
   }
 
-  showAllTournaments()
+  getCreatorName()
   {
-    this.router.navigate(["/tournaments"]);
+    this.userService.getUserInfo(this.tournament.creatorId).subscribe(
+      (r) => {
+        this.creatorUsername = r.username;
+      }
+    );
   }
 
   joinTournament()

@@ -16,7 +16,6 @@ import { NewTournamentComponent } from './components/new-tournament/new-tourname
 import { ShowTournamentComponent } from './components/show-tournament/show-tournament.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { MatchComponent } from './components/match/match.component';
-import { MatchParticipantsComponent } from './components/match-participants/match-participants.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ParticipantsComponent } from './components/participants/participants.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     ShowTournamentComponent,
     TournamentComponent,
     NavbarComponent,
-    MatchParticipantsComponent,
+    ParticipantsComponent,
   ],
   imports: [
     BrowserModule,
