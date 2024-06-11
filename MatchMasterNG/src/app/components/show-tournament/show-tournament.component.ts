@@ -55,6 +55,13 @@ export class ShowTournamentComponent {
 
   }
 
+  goToProfile(userId: number)
+  {
+    this.router.navigate(["/profile", userId]). then(() =>{
+      window.location.reload();
+    });
+  }
+
   getTournament()
   {
     this.tournamentService.getTournamentById(this.tournamentId)

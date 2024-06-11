@@ -1,7 +1,7 @@
 <div class = "wrapper" (keydown.escape) = "cancelEdit()">
     <div class = "tournament-info">
         <h1 class = "title header">{{tournament.title}}</h1>
-        <p class = "host header">Hosted by {{creatorUsername}}</p>
+        <p class = "host header">Hosted by <a class = "creator-link" (click) = "goToProfile(tournament.creatorId)">{{creatorUsername}}</a></p>
 
         <mat-accordion class = "participants">
             <mat-expansion-panel hideToggle>

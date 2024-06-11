@@ -8,6 +8,11 @@
     color: white;
 }
 
+.creator-link:hover {
+    cursor: pointer;
+    color: #CD3C3C;
+}
+
 .tournament-info {
     display: flex;
     flex-direction: column;
