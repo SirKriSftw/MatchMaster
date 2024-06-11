@@ -1,5 +1,5 @@
 <mat-selection-list #participants [multiple] = "false" hideSingleSelectionIndicator>
     @for (participant of matchParticipants; track participant) {
-        <mat-list-option [value] = "participant.userId">{{participant.username}}</mat-list-option>
+        <mat-list-option [value] = "participant.userId" (click) = "goToProfile(participant.userId)">{{participant.username}}</mat-list-option>
     }
 </mat-selection-list>

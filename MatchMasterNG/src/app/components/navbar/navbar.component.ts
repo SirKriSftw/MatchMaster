@@ -19,7 +19,6 @@ export class NavbarComponent {
     this.router.events.subscribe((e) => {
       if (e instanceof NavigationEnd) {
         const currentRoute = this.router.url;
-        console.log(currentRoute)
         this.inLogin = currentRoute == '/login';
       }
     })
