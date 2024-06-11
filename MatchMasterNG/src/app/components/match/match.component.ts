@@ -39,6 +39,11 @@ export class MatchComponent {
 
   ngOnInit(): void {
     this.currentUserId = this.authService.getCurrentUserId();
+  }
+
+  loadParticipants()
+  {
+    console.log("Loading participants");
     this.getParticipants();
   }
 

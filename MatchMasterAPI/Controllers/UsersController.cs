@@ -27,7 +27,7 @@ namespace MatchMaster.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             var user = await _context.Users.FindAsync(id);
 
@@ -36,7 +36,14 @@ namespace MatchMaster.Controllers
                 return NotFound();
             }
 
-            return user;
+            var userDto = new UserDto
+            {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email
+            };
+
+            return userDto;
         }
 
         // GET: api/Users/5/Created/Tournaments

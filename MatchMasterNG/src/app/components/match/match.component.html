@@ -1,9 +1,10 @@
-<mat-expansion-panel class = "match-full-panel" hideToggle>
+<mat-expansion-panel class = "match-full-panel" hideToggle (opened) = "loadParticipants()">
     <mat-expansion-panel-header class = "match-header"> 
         <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
         <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
     </mat-expansion-panel-header>
     <div class = "match-body">
         {{match.description}}
+        <app-match-participants [matchParticipants]="participants"></app-match-participants>
     </div>
 </mat-expansion-panel>

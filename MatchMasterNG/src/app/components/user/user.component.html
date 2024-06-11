@@ -1,14 +1,56 @@
-<h1>Tournaments you have created</h1>
+<div class = "wrapper">
+    <h1>{{userProfile.username}}'s Profile</h1>
 
-<p *ngIf = "myTournaments.length <= 0">
-    You have not made any tournaments :(
-</p>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{userProfile.username}}'s Created Tournaments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
 
-<ul>
 
-    <li *ngFor = "let t of myTournaments">
-        <span class="tournament-link" (click)="showTournament(t.tournamentId)"> {{t.title}} </span>
-    </li>
-</ul>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{userProfile.username}}'s  Upcoming Tournaments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
 
-<button (click) = "newTournament()">Create a New Tournament</button>
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{userProfile.username}}'s  Upcoming Matches
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{userProfile.username}}'s Past Tournaments
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{userProfile.username}}'s Past Matches
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+</div>
