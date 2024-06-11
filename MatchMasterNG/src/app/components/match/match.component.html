@@ -19,6 +19,7 @@
                     <input matInput type = "text" formControlName = "title">
                     <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>
                 </mat-form-field>
+                <button mat-icon-button matTooltip = "Cancel edit" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
             </div>  
             <div class =  "row">
                 <mat-form-field class = "form-field">
@@ -38,7 +39,8 @@
                     <input matInput type = "time" formControlName = "matchTime">
                 </mat-form-field>
             </div>
-            <button mat-flat-button color = "primary" type="submit" class = "save-btn">Save</button>      
+            <button mat-flat-button color = "accent" type = "button" class = "form-btn">Edit Participants</button>
+            <button mat-flat-button color = "primary" type = "submit" class = "form-btn">Save</button>      
         </form>
     </div>
 </div>
