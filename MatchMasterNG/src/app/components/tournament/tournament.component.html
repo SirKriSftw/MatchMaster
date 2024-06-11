@@ -5,16 +5,12 @@
                 <h1 (click) = "showTournament()" class = "tournament-link">{{tournament.title}}</h1>
             </mat-panel-title>
             <mat-panel-description class = "panel-description">
-                {{tournament.tournamentStart | date : "MM/dd/yyyy hh:mm a"}}                    
-            </mat-panel-description>              
+                {{tournament.tournamentStart | date : "MMM d y | h:mm a"}}                    
+            </mat-panel-description>           
         </mat-expansion-panel-header>
         {{tournament.description}}
-        <div class = "matches">
-            <h3 class = "matches-header">Matches</h3>
-            <div class = "match" *ngFor = "let match of matches">
-                <p class = "match-title">{{match.matchTitle}}</p>
-                <p class = "match-time">{{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</p>
-            </div>
+        <div class = "matches" *ngFor = "let match of matches">
+            <app-match [match] = match></app-match>
         </div>
     </mat-expansion-panel>
 </mat-accordion>

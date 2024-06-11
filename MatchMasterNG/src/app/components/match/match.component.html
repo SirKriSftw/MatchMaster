@@ -1,31 +1,9 @@
-<div>
-    <h1><span *ngIf = "!isEditing" (dblclick) = "startEditing()" (mouseenter) = "showDescription = true" (mouseleave) = "showDescription = false">{{match.matchTitle}}</span></h1>
-    <p *ngIf = "showDescription && !isEditing">{{match.description}}</p>
-    <input *ngIf = "isEditing" type = "text" [(ngModel)] = "match.matchTitle" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
-    <input *ngIf = "isEditing" type = "text" [(ngModel)] = "match.description" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />
-        <ul *ngIf = "!isEditing">
-            <li *ngFor = "let participant of participants">
-                <p >{{participant.username}}</p>                
-            </li>
-        </ul>
-        <div *ngIf = "isEditing">
-            <div *ngFor = "let participant of participants; let pNum = index">
-                <select [(ngModel)] = "participantIds[pNum].new" (change) = "hasChanged()">
-                    <option [ngValue] = "-1">Remove Participant</option>
-                    <option *ngFor = "let tournamentParticipant of tournamentParticipants" [ngValue] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</option>
-                </select>
-            </div>
-            <div *ngFor = "let participant of participantsToAdd; let pNum = index">
-                <select [(ngModel)] = "participantsToAdd[pNum]">
-                    <option [ngValue] = "-1">Cancel</option>
-                    <option *ngFor = "let tournamentParticipant of tournamentParticipants" [ngValue] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</option>
-                </select>
-            </div>
-            <button (click) = "addParticipant()" *ngIf = "participantsToAdd[participantsToAdd.length - 1] != -1">Add a participant</button>
-        </div>  
-
-        <p><span *ngIf = "!isEditing">{{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</span></p>
-        <input *ngIf = "isEditing" type = "datetime-local" [(ngModel)] = "match.matchStart" (keydown.escape) = "cancelEditing()" (keydown.enter) = "saveEditing()" />          
-</div>
-
-
+<mat-expansion-panel class = "match-full-panel" hideToggle>
+    <mat-expansion-panel-header class = "match-header"> 
+        <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
+        <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class = "match-body">
+        {{match.description}}
+    </div>
+</mat-expansion-panel>
