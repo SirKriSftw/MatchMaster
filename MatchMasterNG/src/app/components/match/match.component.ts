@@ -115,13 +115,15 @@ export class MatchComponent {
 
   saveMatch()
   {
+    const localDateTime = this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value)
+    const utcDateTime = new Date(localDateTime.getTime() - (localDateTime.getTimezoneOffset() * 60000))
     let match : Match =
     {
       "tournamentId": this.tournamentId,
       "matchId": this.match ? this.match.matchId : 0,
       "matchTitle": this.matchForm.get("title")?.value,
       "description": this.matchForm.get("description")?.value,
-      "matchStart": this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value),
+      "matchStart": utcDateTime,
     }
 
     if(match.matchId != 0)
@@ -131,6 +133,7 @@ export class MatchComponent {
           this.matchService.getMatch(this.match.matchId!).subscribe(
             (r) => {
               this.match = r;
+              console.log(this.match.matchStart)
             }
           )
           this.isEditing = false;
@@ -150,6 +153,7 @@ export class MatchComponent {
 
   combineDateTime(date: Date, time: string)
   {
+    console.log(time);
     // For some STRANGE reason you need to recreate the date obj to be able to use functions like getFullYear()
     date = new Date(date);
     const splitTime = time.split(":");
@@ -164,6 +168,7 @@ export class MatchComponent {
       minutes
     )
 
+    console.log(time);
     return combinedDateTime
   }
 
