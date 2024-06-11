@@ -17,9 +17,12 @@ export class TournamentComponent {
               private router: Router
   ){}
 
-  ngOnInit()
+  ngOnInit(){}
+
+  loadMatches()
   {
     this.getMatches();
+    console.log("loading matches");
   }
 
   getMatches()

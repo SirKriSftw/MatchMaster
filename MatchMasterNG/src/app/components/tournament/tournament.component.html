@@ -1,5 +1,5 @@
 <mat-accordion class = "tournament">
-    <mat-expansion-panel class = "full-panel" hideToggle>
+    <mat-expansion-panel class = "full-panel" hideToggle (opened) = "loadMatches()">
         <mat-expansion-panel-header class = "panel-header">
             <mat-panel-title class = "panel-title" >
                 <h1 (click) = "showTournament()" class = "tournament-link">{{tournament.title}}</h1>
