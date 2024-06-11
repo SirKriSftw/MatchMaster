@@ -1,9 +1,4 @@
 <div class = "wrapper">
-    <h2>ALL Tournaments</h2>
-    <span class="tournament-link" *ngIf = "isLoggedIn()" (click) = "goToProfile()">Profile</span>
-    <span class="tournament-link" *ngIf = "isLoggedIn()" (click) = "logout()">Logout</span>
-    <span class="tournament-link" *ngIf = "!isLoggedIn()" (click) = "login()">Login</span>
-
     <app-tournament class = "tournament" *ngFor = "let tournament of tournaments" [tournament] = "tournament"></app-tournament>
 </div>
 

@@ -1,7 +1,7 @@
 <nav class = "navbar">
     <div class = "links">
         <div class = "left">
-            <a routerLink="/">Match master</a>
+            <button mat-icon-button (click) = "home()"><mat-icon svgIcon = "Logo"></mat-icon></button>
         </div>
         <div class = "right">
             <button mat-icon-button (click) = "profile()" *ngIf = "isLoggedIn"><mat-icon>assignment_ind</mat-icon></button>

@@ -44,4 +44,9 @@ export class NavbarComponent {
   {
     this.router.navigate(["/profile"]);
   }
+
+  home()
+  {
+    this.router.navigate(["/"]);
+  }
 }
