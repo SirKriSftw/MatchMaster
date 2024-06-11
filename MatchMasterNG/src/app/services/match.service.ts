@@ -17,6 +17,11 @@ export class MatchService {
     return this.http.get<Match[]>(this.apiUrl);
   }
 
+  getMatch(id: number)
+  {
+    return this.http.get<Match>(`${this.apiUrl}/${id}`);
+  }
+
   newMatch(match: Match)
   {
     return this.http.post<Match>(`${this.apiUrl}`, match)

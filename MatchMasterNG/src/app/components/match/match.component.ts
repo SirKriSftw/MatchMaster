@@ -17,6 +17,7 @@ interface Options {
 })
 export class MatchComponent {
   @Input() match!: Match;
+  @Input() tournamentId!: number;
   @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
 
@@ -67,44 +68,21 @@ export class MatchComponent {
       // For some STRANGE reason you need to recreate the date obj to be able to use functions like getHours()
       matchTime: [this.getTimeFromDate(new Date(this.match.matchStart))]
     });
+
+    console.log(this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value))
   }
 
   getTimeFromDate(dateTime: Date)
   {
-    // Extract time portion from matchStart date
     const hours = dateTime.getHours();
     const minutes = dateTime.getMinutes();
-
-    // Construct string in 'HH:mm' format
     const timeString = `${this.padZeroTime(hours)}:${this.padZeroTime(minutes)}`;
-
     return timeString;
   }
 
   padZeroTime(n: number)
   {
     return n < 10 ? `0${n}` : `${n}`;
-  }
-
-  loadParticipants()
-  {
-    console.log("Loading participants");
-    this.getParticipants();
-  }
-
-  getParticipants()
-  {
-    this.matchService.getMatchParticipants(this.match.matchId!)
-     .subscribe(
-      (r) => {
-        this.participants = r;
-        this.participantIds = this.participants.map(participant => ({new: participant.userId, old: participant.userId}));
-      },
-      (e) => {
-        this.participants = [];
-        this.participantIds = [];
-      }
-     )
   }
 
   startEditing()
@@ -126,6 +104,69 @@ export class MatchComponent {
     this.isEditing = false;
     this.addingParticipant = false;
   }
+
+  validateAndSaveMatch()
+  {
+    if(this.matchForm.valid)
+    {
+      this.saveMatch();
+    }
+  }
+
+  saveMatch()
+  {
+    let match : Match =
+    {
+      "tournamentId": this.tournamentId,
+      "matchId": this.match ? this.match.matchId : 0,
+      "matchTitle": this.matchForm.get("title")?.value,
+      "description": this.matchForm.get("description")?.value,
+      "matchStart": this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value),
+    }
+
+    if(match.matchId != 0)
+    {
+      this.matchService.updateMatch(match).subscribe(
+        (r) => {
+          this.matchService.getMatch(this.match.matchId!).subscribe(
+            (r) => {
+              this.match = r;
+            }
+          )
+          this.isEditing = false;
+        }
+      );
+    }
+    else
+    {
+      this.matchService.newMatch(match).subscribe(
+        (r) => {
+          this.match = r;
+          this.isEditing = false;
+        }
+      );
+    }
+  }
+
+  combineDateTime(date: Date, time: string)
+  {
+    // For some STRANGE reason you need to recreate the date obj to be able to use functions like getFullYear()
+    date = new Date(date);
+    const splitTime = time.split(":");
+    const hours = parseInt(splitTime[0]);
+    const minutes = parseInt(splitTime[1]);
+
+    const combinedDateTime: Date = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      hours,
+      minutes
+    )
+
+    return combinedDateTime
+  }
+
 
   saveEditing()
   {
@@ -216,9 +257,25 @@ export class MatchComponent {
     this.participantsToAdd.push(-1);
   }
 
-  validateAndSaveMatch()
+  loadParticipants()
   {
-    
+    console.log("Loading participants");
+    this.getParticipants();
+  }
+
+  getParticipants()
+  {
+    this.matchService.getMatchParticipants(this.match.matchId!)
+     .subscribe(
+      (r) => {
+        this.participants = r;
+        this.participantIds = this.participants.map(participant => ({new: participant.userId, old: participant.userId}));
+      },
+      (e) => {
+        this.participants = [];
+        this.participantIds = [];
+      }
+     )
   }
 
 }
