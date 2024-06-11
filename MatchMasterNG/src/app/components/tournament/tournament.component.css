@@ -6,3 +6,63 @@
 .full-panel {
     background-color: #716F6F
 }
+
+.full-panel:hover {
+    background-color: #9A9898
+}
+
+.tournament-link:hover {
+    color: #CD3C3C
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.panel-title {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.panel-description {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+}
+  
+
+
+.matches {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.match-header {
+    padding: 0;
+    margin: 0;
+}
+
+.match {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.match-title {
+    padding: 0;
+    margin: 0;
+}
+
+.match-time {
+    padding: 0;
+    margin: 0;
+}

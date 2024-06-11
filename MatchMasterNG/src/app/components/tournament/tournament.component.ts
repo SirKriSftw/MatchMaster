@@ -30,4 +30,9 @@ export class TournamentComponent {
       }
     );
   }
+
+  showTournament()
+  {
+    this.router.navigate(["/tournament", this.tournament.tournamentId])
+  }
 }

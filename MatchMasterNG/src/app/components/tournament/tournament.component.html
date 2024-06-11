@@ -1,18 +1,19 @@
 <mat-accordion class = "tournament">
-    <mat-expansion-panel class = "full-panel">
+    <mat-expansion-panel class = "full-panel" hideToggle>
         <mat-expansion-panel-header class = "panel-header">
-            <mat-panel-title class = "panel-title">
-                <h1 class = "tournament-link">{{tournament.title}}</h1>
+            <mat-panel-title class = "panel-title" >
+                <h1 (click) = "showTournament()" class = "tournament-link">{{tournament.title}}</h1>
             </mat-panel-title>
             <mat-panel-description class = "panel-description">
                 {{tournament.tournamentStart | date : "MM/dd/yyyy hh:mm a"}}                    
-            </mat-panel-description>                
+            </mat-panel-description>              
         </mat-expansion-panel-header>
         {{tournament.description}}
         <div class = "matches">
-            <h3>Matches</h3>
+            <h3 class = "matches-header">Matches</h3>
             <div class = "match" *ngFor = "let match of matches">
-                <p>{{match.matchTitle}} &#64; {{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</p>
+                <p class = "match-title">{{match.matchTitle}}</p>
+                <p class = "match-time">{{match.matchStart | date: "MM/dd/yyyy hh:mm a"}}</p>
             </div>
         </div>
     </mat-expansion-panel>
