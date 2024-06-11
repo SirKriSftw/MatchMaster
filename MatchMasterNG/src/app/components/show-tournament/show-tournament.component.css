@@ -20,6 +20,14 @@
     align-items: center;
 }
 
+.full-panel {
+    background-color: #868383;
+}
+
+.full-panel:hover {
+    background-color: #B8B7B7;
+}
+
 .header {
     padding-top: 5px;
     padding-bottom: 3px;
@@ -52,6 +60,9 @@
 .panel-header {
     margin: 0;
     padding: 0;
+
+    font-size: large;
+    font-weight: bold;
 }
 
 .panel-title {

@@ -4,10 +4,10 @@
         <p class = "host header">Hosted by <a class = "creator-link" (click) = "goToProfile(tournament.creatorId)">{{creatorUsername}}</a></p>
 
         <mat-accordion class = "participants">
-            <mat-expansion-panel hideToggle>
+            <mat-expansion-panel class = "full-panel" hideToggle>
                 <mat-expansion-panel-header>
                     <mat-panel-title class = "panel-header">
-                        Participants
+                        Tournament Participants
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <app-participants [participantsList] = "participants"></app-participants>
@@ -17,6 +17,6 @@
 
 
     <div class = "matches">
-        <app-match class = "match" *ngFor = "let match of matches" [match] = match [creatorId] = "currentUserId" [tournamentId]= "tournamentId"></app-match>
+        <app-match class = "match" *ngFor = "let match of matches" [match] = match [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId"></app-match>
     </div>
 </div>

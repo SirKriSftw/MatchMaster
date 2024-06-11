@@ -51,6 +51,7 @@ export class MatchComponent {
   }   
 
   ngOnInit(): void {
+    console.log(this.creatorId)
     this.currentUserId = this.authService.getCurrentUserId();
     if(this.currentUserId == this.creatorId)
     {
@@ -68,8 +69,6 @@ export class MatchComponent {
       // For some STRANGE reason you need to recreate the date obj to be able to use functions like getHours()
       matchTime: [this.getTimeFromDate(new Date(this.match.matchStart))]
     });
-
-    console.log(this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value))
   }
 
   getTimeFromDate(dateTime: Date)
@@ -133,7 +132,6 @@ export class MatchComponent {
           this.matchService.getMatch(this.match.matchId!).subscribe(
             (r) => {
               this.match = r;
-              console.log(this.match.matchStart)
             }
           )
           this.isEditing = false;
@@ -153,7 +151,6 @@ export class MatchComponent {
 
   combineDateTime(date: Date, time: string)
   {
-    console.log(time);
     // For some STRANGE reason you need to recreate the date obj to be able to use functions like getFullYear()
     date = new Date(date);
     const splitTime = time.split(":");
@@ -168,14 +165,12 @@ export class MatchComponent {
       minutes
     )
 
-    console.log(time);
     return combinedDateTime
   }
 
 
   saveEditing()
   {
-    console.log(this.participantIds)
     if(this.match.matchId == null)
     {
       this.saveNewMatch();
