@@ -16,6 +16,7 @@ import { NewTournamentComponent } from './components/new-tournament/new-tourname
 import { ShowTournamentComponent } from './components/show-tournament/show-tournament.component';
 import { TournamentComponent } from './components/tournament/tournament.component';
 import { MatchComponent } from './components/match/match.component';
+import { MatchParticipantsComponent } from './components/match-participants/match-participants.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,11 +27,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
-import { MatchParticipantsComponent } from './components/match-participants/match-participants.component';
-
-
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -59,7 +57,9 @@ import { MatchParticipantsComponent } from './components/match-participants/matc
     MatExpansionModule,
     MatSlideToggleModule,
     MatTooltipModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     provideAnimationsAsync()

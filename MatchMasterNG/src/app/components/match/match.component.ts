@@ -3,6 +3,7 @@ import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Options {
   new: number;
@@ -16,15 +17,17 @@ interface Options {
 })
 export class MatchComponent {
   @Input() match!: Match;
-  @Input() ownerId: number = -1;
+  @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
+
   currentUserId = -1;
+  isCreator: boolean = false;
   participants: User[] = [];
   participantIds: Options[] = [];
   participantsToAdd: number[] = [];
+  matchForm: FormGroup;
 
   // Flags for when to show description or edit
-  showDescription = false;
   @Input() isEditing = false;
   changed = false;
   addingParticipant = false;
@@ -35,10 +38,52 @@ export class MatchComponent {
   originalTime!: Date;
 
   constructor(private authService: AuthenticationService,
-              private matchService: MatchService) {}   
+              private formBuilder: FormBuilder,
+              private matchService: MatchService) 
+  {
+    this.matchForm = this.formBuilder.group({
+      title: [],
+      description: [],
+      matchDate: new Date(),
+      matchTime: {},
+    });
+  }   
 
   ngOnInit(): void {
     this.currentUserId = this.authService.getCurrentUserId();
+    if(this.currentUserId == this.creatorId)
+    {
+      this.isCreator = true;
+    }
+    this.initForm();
+  }
+
+  initForm()
+  {
+    this.matchForm = this.formBuilder.group({
+      title: [this.match.matchTitle, [Validators.required]],
+      description: [this.match.description, []],
+      matchDate: [this.match.matchStart],
+      // For some STRANGE reason you need to recreate the date obj to be able to use functions like getHours()
+      matchTime: [this.getTimeFromDate(new Date(this.match.matchStart))]
+    });
+  }
+
+  getTimeFromDate(dateTime: Date)
+  {
+    // Extract time portion from matchStart date
+    const hours = dateTime.getHours();
+    const minutes = dateTime.getMinutes();
+
+    // Construct string in 'HH:mm' format
+    const timeString = `${this.padZeroTime(hours)}:${this.padZeroTime(minutes)}`;
+
+    return timeString;
+  }
+
+  padZeroTime(n: number)
+  {
+    return n < 10 ? `0${n}` : `${n}`;
   }
 
   loadParticipants()
@@ -64,12 +109,12 @@ export class MatchComponent {
 
   startEditing()
   {
-    if(this.currentUserId == this.ownerId)
+    if(this.currentUserId == this.creatorId)
     {
-    this.isEditing = true;
-    this.originalTitle = this.match.matchTitle;
-    this.originalDescription = this.match.description;
-    this.originalTime = this.match.matchStart;
+      this.isEditing = true;
+      this.originalTitle = this.match.matchTitle;
+      this.originalDescription = this.match.description;
+      this.originalTime = this.match.matchStart;
     }
   }
 
@@ -169,6 +214,11 @@ export class MatchComponent {
   {
     this.addingParticipant = true;
     this.participantsToAdd.push(-1);
+  }
+
+  validateAndSaveMatch()
+  {
+    
   }
 
 }

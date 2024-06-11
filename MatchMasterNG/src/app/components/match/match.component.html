@@ -1,10 +1,44 @@
-<mat-expansion-panel class = "match-full-panel" hideToggle (opened) = "loadParticipants()">
-    <mat-expansion-panel-header class = "match-header"> 
-        <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
-        <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class = "match-body">
-        {{match.description}}
-        <app-match-participants [matchParticipants]="participants"></app-match-participants>
+<div class = "wrapper">
+    <mat-expansion-panel *ngIf = "!isEditing" class = "full-panel" hideToggle (opened) = "loadParticipants()">
+        <mat-expansion-panel-header class = "panel-header"> 
+            <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
+            <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
+            <button mat-icon-button (click) = "startEditing()" *ngIf = "isCreator"><mat-icon>edit_calendar</mat-icon></button>
+        </mat-expansion-panel-header>
+        <div class = "match-body">
+            {{match.description}}
+            <app-match-participants [matchParticipants]="participants"></app-match-participants>
+        </div>
+    </mat-expansion-panel>
+
+    <div class = "edit-match" *ngIf = "isEditing">
+        <form [formGroup] = "matchForm" (submit) = "validateAndSaveMatch()" class = "match-form">
+            <div class =  "row">
+                <mat-form-field class = "form-field">
+                    <mat-label class = "form-title" [ngClass]="{'error': matchForm.get('title')?.invalid && matchForm.get('title')?.touched}">Title</mat-label>
+                    <input matInput type = "text" formControlName = "title">
+                    <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>
+                </mat-form-field>
+            </div>  
+            <div class =  "row">
+                <mat-form-field class = "form-field">
+                    <mat-label class = "form-title">Description</mat-label>
+                    <input matInput type = "text" formControlName = "description">
+                </mat-form-field>
+            </div>
+            <div class =  "row">
+                <mat-form-field class="form-field">
+                    <mat-label class="form-title">Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName = "matchDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="form-field">
+                    <mat-label class="form-title">Time</mat-label>
+                    <input matInput type = "time" formControlName = "matchTime">
+                </mat-form-field>
+            </div>
+            <button mat-flat-button color = "primary" type="submit" class = "save-btn">Save</button>      
+        </form>
     </div>
-</mat-expansion-panel>
+</div>

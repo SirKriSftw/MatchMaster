@@ -1,0 +1,39 @@
+.full-panel {
+    background-color: #868383;
+}
+
+.full-panel:hover {
+    background-color: #B8B7B7;
+}
+
+.wrapper {
+    width: 90%;
+}
+
+.edit-match {
+    background-color: #868383;
+}
+  
+.error {
+    color: red !important;
+}
+
+.match-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-field {
+    padding: 20px;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.save-btn {
+    margin: 10px;
+}

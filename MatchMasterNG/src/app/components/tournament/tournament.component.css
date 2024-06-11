@@ -4,7 +4,7 @@
 }
 
 .full-panel {
-    background-color: #716F6F
+    background-color: #716F6F;
 }
 
 .full-panel:hover {
@@ -15,22 +15,8 @@
     color: #CD3C3C
 }
 
-.panel-header {
+.matches {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-}
-
-.panel-title {
-    flex: 1;
-    padding: 0;
-    margin: 0;
-}
-
-.panel-description {
-    flex: 1;
-    padding: 0;
-    margin: 0;
+    flex-direction: column;
+    padding-bottom: 10px;
 }

@@ -1,0 +1,17 @@
+.wrapper {
+    position: fixed;
+    top: 1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1c1b1b;
+    color: white;
+}
+
+.match {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-bottom: 10px;
+}
