@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Tournament } from '../models/tournament.model';
 import { ApiConfigService } from './api-config.service';
 import { User } from '../models/user.model';
+import { Match } from '../models/match.model';
 
 
 @Injectable({
@@ -18,9 +19,29 @@ export class UserService {
     return this.http.get<User>(`${this.apiUrl}/${userId}`);
   }
 
-  getMyTournaments(userId: number)
+  getCreatedTournaments(userId: number)
   {
     return this.http.get<Tournament[]>(`${this.apiUrl}/${userId}/created/tournaments`)
+  }
+
+  getUpcomingTournaments(userId: number)
+  {
+    return this.http.get<Tournament[]>(`${this.apiUrl}/${userId}/upcoming/tournaments`)
+  }
+
+  getPastTournaments(userId: number)
+  {
+    return this.http.get<Tournament[]>(`${this.apiUrl}/${userId}/past/tournaments`)
+  }
+  
+  getUpcomingMatches(userId: number)
+  {
+    return this.http.get<Match[]>(`${this.apiUrl}/${userId}/upcoming/matches`)
+  }
+
+  getPastMatches(userId: number)
+  {
+    return this.http.get<Match[]>(`${this.apiUrl}/${userId}/past/matches`)
   }
 
   joinTournament(userId: number, tournamentId: number)

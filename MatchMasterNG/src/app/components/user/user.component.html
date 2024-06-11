@@ -2,55 +2,61 @@
     <h1>{{userProfile.username}}'s Profile</h1>
 
     <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel (opened) = "getCreatedTournaments()" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{userProfile.username}}'s Created Tournaments
                 </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-tournament *ngFor = "let tournament of createdTournaments" [tournament] = "tournament"></app-tournament>
         </mat-expansion-panel>
     </mat-accordion>
 
 
     <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel (opened) = "getUpcomingTournaments()" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{userProfile.username}}'s  Upcoming Tournaments
                 </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-tournament *ngFor = "let tournament of upcomingTournaments" [tournament] = "tournament"></app-tournament>
         </mat-expansion-panel>
     </mat-accordion>
 
     <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel  (opened) = "getUpcomingMatches()" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{userProfile.username}}'s  Upcoming Matches
                 </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-match *ngFor = "let match of upcomingMatches" [match] = "match"></app-match>
         </mat-expansion-panel>
     </mat-accordion>
 
     <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel (opened) = "getPastTournamennts()" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{userProfile.username}}'s Past Tournaments
                 </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-tournament *ngFor = "let tournament of pastTournaments" [tournament] = "tournament"></app-tournament>
         </mat-expansion-panel>
     </mat-accordion>
 
 
     <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel (opened) = "getPastMatches()" hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     {{userProfile.username}}'s Past Matches
                 </mat-panel-title>
             </mat-expansion-panel-header>
+            <app-match *ngFor = "let match of pastMatches" [match] = "match"></app-match>
         </mat-expansion-panel>
     </mat-accordion>
 
+    <button (click) = "newTournament()">New Tournament</button>
 </div>

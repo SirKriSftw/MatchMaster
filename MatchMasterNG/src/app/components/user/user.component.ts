@@ -4,6 +4,7 @@ import { Tournament } from '../../models/tournament.model';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user.model';
+import { Match } from '../../models/match.model';
 
 @Component({
   selector: 'app-user',
@@ -12,10 +13,15 @@ import { User } from '../../models/user.model';
 })
 export class UserComponent {
   userId: number;
-  tournaments: Tournament[] = [];
   userProfile: User;
   profileId: number;
   isMyProfile: boolean = false;
+
+  createdTournaments: Tournament[] = [];
+  upcomingTournaments: Tournament[] = [];
+  pastTournaments: Tournament[] = [];
+  upcomingMatches: Match[] = [];
+  pastMatches: Match[] = [];
 
   constructor(private router: Router,
               private userService: UserService, 
@@ -48,10 +54,7 @@ export class UserComponent {
     this.getUserInfo();
   }
 
-  ngOnInit()
-  {
-    this.getTournaments()
-  }
+  ngOnInit(){}
 
   getUserInfo()
   {
@@ -65,10 +68,34 @@ export class UserComponent {
     );
   }
 
-  getTournaments()
+  getCreatedTournaments()
   {
-    this.userService.getMyTournaments(this.profileId)
-    .subscribe(tournaments => this.tournaments = tournaments);
+    this.userService.getCreatedTournaments(this.profileId)
+    .subscribe(tournaments => this.createdTournaments = tournaments);
+  }
+
+  getUpcomingTournaments()
+  {
+    this.userService.getUpcomingTournaments(this.profileId)
+    .subscribe(tournaments => this.upcomingTournaments = tournaments);
+  }
+
+  getPastTournamennts()
+  {
+    this.userService.getPastTournaments(this.profileId)
+    .subscribe(tournaments => this.pastTournaments = tournaments);
+  }
+
+  getUpcomingMatches()
+  {
+    this.userService.getUpcomingMatches(this.profileId)
+    .subscribe(matches => this.upcomingMatches = matches);
+  }
+
+  getPastMatches()
+  {
+    this.userService.getPastMatches(this.profileId)
+    .subscribe(matches => this.pastMatches = matches);
   }
 
   showTournament(tournamentId: number)
