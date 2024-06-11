@@ -21,8 +21,11 @@ export class TournamentComponent {
 
   loadMatches()
   {
-    this.getMatches();
-    console.log("loading matches");
+    if(this.matches.length == 0)
+      {
+        this.getMatches();
+        console.log("loading matches");
+      }
   }
 
   getMatches()
