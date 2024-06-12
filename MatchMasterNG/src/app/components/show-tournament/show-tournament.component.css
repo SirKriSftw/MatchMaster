@@ -9,7 +9,7 @@
 }
 
 .viewport {
-    height: 900px;
+    height: 750px;
 }
 
 .creator-link:hover {
@@ -65,9 +65,7 @@
 .add-btn {
     color: green;
 }
-.matches {
-    padding-bottom: 200px;
-}
+
 .match {
     display: flex;
     justify-content: center;

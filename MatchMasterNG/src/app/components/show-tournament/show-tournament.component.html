@@ -23,8 +23,8 @@
 
     <div class = "matches-space">
         <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-            <div class = "matches">
-                <app-match class = "match" *cdkVirtualFor = "let match of matches" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [isEditing] = "match.matchId ? false : true"></app-match>
+            <div class = "matches" *cdkVirtualFor = "let match of matches">
+                <app-match class = "match"  [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [isEditing] = "match.matchId ? false : true"></app-match>
             </div>
         </cdk-virtual-scroll-viewport>
     </div>
