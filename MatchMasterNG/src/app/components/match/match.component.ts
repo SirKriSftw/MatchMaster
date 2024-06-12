@@ -3,7 +3,7 @@ import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Options {
   new: number;
