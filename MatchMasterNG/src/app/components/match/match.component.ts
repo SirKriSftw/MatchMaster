@@ -51,7 +51,6 @@ export class MatchComponent {
   }   
 
   ngOnInit(): void {
-    console.log(this.creatorId)
     this.currentUserId = this.authService.getCurrentUserId();
     if(this.currentUserId == this.creatorId)
     {

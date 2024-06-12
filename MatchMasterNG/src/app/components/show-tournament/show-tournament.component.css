@@ -8,6 +8,10 @@
     color: white;
 }
 
+.viewport {
+    height: 900px;
+}
+
 .creator-link:hover {
     cursor: pointer;
     color: #CD3C3C;
@@ -61,7 +65,9 @@
 .add-btn {
     color: green;
 }
-
+.matches {
+    padding-bottom: 200px;
+}
 .match {
     display: flex;
     justify-content: center;
@@ -86,3 +92,39 @@
 .panel-title {
     flex: 1;
 }
+
+/* Hide the default scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+  }
+
+  /* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Height of the scrollbar */
+  ::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  /* Width and height of the scrollbar handle */
+  ::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 8px;
+  }

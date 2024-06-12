@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
@@ -25,6 +25,13 @@ export class ShowTournamentComponent {
     acceptingParticipants: true
   }; // Initialize to an empty object with default values
 
+  emptyMatch: Match = {
+    tournamentId: this.tournament.tournamentId,
+    matchTitle: "New Match Title",
+    description: "",
+    matchStart: new Date()
+  };
+
   creatorUsername: string = "";
   matches: Match[] = [];
   newMatches: Match[] = [];
@@ -44,6 +51,7 @@ export class ShowTournamentComponent {
               private userService: UserService,
               private authService: AuthenticationService, 
               private route: ActivatedRoute,
+              private changeDetectorRef: ChangeDetectorRef,
               private router: Router) {}
 
   ngOnInit(): void {
@@ -102,13 +110,10 @@ export class ShowTournamentComponent {
 
   makeMatch()
   {
-    let newMatch = {
-      tournamentId: this.tournament.tournamentId,
-      matchTitle: "New Match Title",
-      description: "",
-      matchStart: new Date()
-    }
-    this.newMatches.push(newMatch);
+    // Cannot add new match DIRECTLY to matches array because it won't trigger the detect change
+    // Instead make a temp array with just an empty match and concat them (with new match in front)
+    const tempMatches = [this.emptyMatch];
+    this.matches = tempMatches.concat(this.matches);
   }
 
   joinTournament()
