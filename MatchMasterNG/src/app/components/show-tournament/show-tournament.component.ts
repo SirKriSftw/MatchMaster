@@ -87,10 +87,10 @@ export class ShowTournamentComponent {
     this.tournamentService.getTournamentMatches(this.tournamentId)
     .subscribe(
       matches => 
-        {
+      {
         this.matches = matches;
         this.updateMatchesList();
-        })
+      })
   }
 
   getParticipants()
@@ -148,7 +148,8 @@ export class ShowTournamentComponent {
   saveChanges()
   {
     this.tournamentService.updateTournament(this.tournament).subscribe(
-      (r) => {
+      (r) => 
+      {
         this.originalTitle = this.tournament.title;
         this.originalDescription = this.tournament.description;
         this.originalStart = this.tournament.tournamentStart;
@@ -179,15 +180,6 @@ export class ShowTournamentComponent {
     this.tournamentService.removeParticipant(this.tournament.tournamentId, userId).subscribe(
       (r) => {
         this.getParticipants();
-      }
-    );
-  }
-
-  deleteMatch(matchId: number)
-  {
-    this.matchService.deleteMatch(matchId).subscribe(
-      (r) => {
-        this.getMatches();
       }
     );
   }

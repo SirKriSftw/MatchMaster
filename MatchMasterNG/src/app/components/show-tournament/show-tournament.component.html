@@ -25,8 +25,7 @@
     <div class = "matches-space">
         <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
             <div class = "matches" *cdkVirtualFor = "let match of matches; let i = index">
-                <button mat-icon-button class = "del-btn" *ngIf = "match.matchId && isEditing" matTooltip = "Delete Match" [matTooltipShowDelay] = "400" [matTooltipHideDelay] = "200" (click) = "deleteMatch(match.matchId)"><mat-icon>delete</mat-icon></button>
-                <app-match class = "match"  (cancelNewMatch) = "cancelMatch($event)" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+                <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" (cancelNewMatchEvent) = "cancelMatch($event)" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
             </div>
         </cdk-virtual-scroll-viewport>
     </div>

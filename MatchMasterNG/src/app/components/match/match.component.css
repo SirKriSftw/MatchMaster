@@ -29,19 +29,28 @@
     flex-direction: column;
 }
 
-.cancel-icon {
+.red-icon {
     color: red;
+    margin: 0;
+    padding: 0;
 }
 
 .row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap;   
 }
 
 .form-field {
     padding: 20px;
     flex: 1;
-    margin-right: 10px;
+}
+
+.form-title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    display:flex;
+    align-content: center;
 }
 
 .form-btn {

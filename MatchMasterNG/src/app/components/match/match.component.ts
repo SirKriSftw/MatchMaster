@@ -22,7 +22,8 @@ export class MatchComponent {
   @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
 
-  @Output() cancelNewMatch = new EventEmitter();
+  @Output() cancelNewMatchEvent = new EventEmitter();
+  @Output() deleteMatchEvent = new EventEmitter();
 
   currentUserId = -1;
   isCreator: boolean = false;
@@ -64,7 +65,17 @@ export class MatchComponent {
 
   emitCancelEvent()
   {
-    this.cancelNewMatch.emit(this.matchIndex);
+    this.cancelNewMatchEvent.emit(this.matchIndex);
+  }
+
+  emitDeleteEvent()
+  {
+    this.deleteMatchEvent.emit();
+  }
+
+  deleteMatch(matchId :number)
+  {
+    this.matchService.deleteMatch(matchId).subscribe(r => this.emitDeleteEvent());
   }
 
   initForm()

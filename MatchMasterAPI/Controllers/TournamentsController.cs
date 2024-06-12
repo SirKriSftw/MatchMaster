@@ -80,6 +80,7 @@ namespace MatchMaster.Controllers
                 user => user.UserId,
                 (entry, user) => new UserDto {UserId = user.UserId, Username = user.Username, Email = user.Email}
             )
+            .OrderBy(users => users.Username)
             .ToListAsync();
 
             if (participants == null || participants.Count == 0)

@@ -1,7 +1,9 @@
 <div class = "wrapper">
     <mat-expansion-panel *ngIf = "!isEditing" class = "full-panel" hideToggle (opened) = "loadParticipants()">
         <mat-expansion-panel-header class = "panel-header"> 
-            <mat-panel-title class = "match-title">{{match.matchTitle}}</mat-panel-title>
+            <mat-panel-title class = "match-title">
+                {{match.matchTitle}}
+            </mat-panel-title>
             <mat-panel-description class = "match-sub-title">{{match.matchStart | date: "MMM d y | h:mm a"}}</mat-panel-description>
             <button mat-icon-button matTooltip = "Edit Match" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "startEditing()" *ngIf = "isCreator" class = "edit-btn"><mat-icon>edit_calendar</mat-icon></button>
         </mat-expansion-panel-header>
@@ -13,13 +15,14 @@
 
     <div class = "edit-match" *ngIf = "isEditing">
         <form [formGroup] = "matchForm" (submit) = "validateAndSaveMatch()" class = "match-form">
-            <div class =  "row">
-                <mat-form-field class = "form-field">
-                    <mat-label class = "form-title" [ngClass]="{'error': matchForm.get('title')?.invalid && matchForm.get('title')?.touched}">Title</mat-label>
+            <div class =  "row">                
+                <mat-form-field class = "form-field form-title">
+                    <button mat-icon-button matPrefix class = "red-icon" *ngIf = "match.matchId" matTooltip = "Delete Match" [matTooltipShowDelay] = "400" [matTooltipHideDelay] = "200" (click) = "deleteMatch(match.matchId)"><mat-icon>delete</mat-icon></button>
+                    <mat-label [ngClass]="{'error': matchForm.get('title')?.invalid && matchForm.get('title')?.touched}">Title</mat-label>
                     <input matInput type = "text" formControlName = "title">
-                    <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>
-                </mat-form-field>
-                <button mat-icon-button matTooltip = "Cancel edit" type = "button" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
+                    <button mat-icon-button matSuffix class = "red-icon" matTooltip = "Cancel edit" type = "button" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "cancelEditing()"><mat-icon>cancel</mat-icon></button>
+                    <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>                    
+                </mat-form-field>                
             </div>  
             <div class =  "row">
                 <mat-form-field class = "form-field">
