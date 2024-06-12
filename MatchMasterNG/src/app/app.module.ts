@@ -29,6 +29,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ParticipantsComponent } from './components/participants/participants.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ParticipantsComponent } from './components/participants/participants.co
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    ScrollingModule
   ],
   providers: [
     provideAnimationsAsync()

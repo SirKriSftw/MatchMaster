@@ -8,10 +8,21 @@
     color: white;
     overflow-y: auto;
     
+    display: flex;
+    justify-content: center;
+}
+
+.tournaments-space {
+    width: 80%;
 }
 
 .tournaments {
-    padding-bottom: 200px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.viewport {
+    height: 900px;
 }
 
 .tournament-link {
@@ -34,3 +45,40 @@
 }
 
 
+/* Hide the default scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the scrollbar track */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+  }
+
+  /* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Height of the scrollbar */
+  ::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  /* Width and height of the scrollbar handle */
+  ::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 8px;
+  }
+  
+  
