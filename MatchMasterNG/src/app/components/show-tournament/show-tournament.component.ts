@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
@@ -27,7 +27,7 @@ export class ShowTournamentComponent {
 
   emptyMatch: Match = {
     tournamentId: this.tournament.tournamentId,
-    matchTitle: "New Match Title",
+    matchTitle: "",
     description: "",
     matchStart: new Date()
   };
@@ -51,7 +51,6 @@ export class ShowTournamentComponent {
               private userService: UserService,
               private authService: AuthenticationService, 
               private route: ActivatedRoute,
-              private changeDetectorRef: ChangeDetectorRef,
               private router: Router) {}
 
   ngOnInit(): void {
@@ -84,8 +83,14 @@ export class ShowTournamentComponent {
 
   getMatches()
   {
+    this.matches = [];
     this.tournamentService.getTournamentMatches(this.tournamentId)
-    .subscribe(matches => this.matches = matches)
+    .subscribe(
+      matches => 
+        {
+        this.matches = matches;
+        this.updateMatchesList();
+        })
   }
 
   getParticipants()
@@ -110,10 +115,8 @@ export class ShowTournamentComponent {
 
   makeMatch()
   {
-    // Cannot add new match DIRECTLY to matches array because it won't trigger the detect change
-    // Instead make a temp array with just an empty match and concat them (with new match in front)
-    const tempMatches = [this.emptyMatch];
-    this.matches = tempMatches.concat(this.matches);
+    this.matches.unshift(this.emptyMatch);
+    this.updateMatchesList();
   }
 
   joinTournament()
@@ -187,6 +190,24 @@ export class ShowTournamentComponent {
         this.getMatches();
       }
     );
+  }
+
+  cancelMatch(index: number)
+  {
+    this.matches.splice(index, 1)
+    this.updateMatchesList();
+  }
+
+  // Helper function to update the matches list after ever add/delete from the list
+  updateMatchesList()
+  {
+    // For some reason the list display wont update if it references the same 
+    // list in memory, so I use temp to make a new list in memory then 
+    // make this.matches point to the new one
+    let temp: Match[] = [];
+    temp = temp.concat(this.matches);
+    this.matches = [];
+    this.matches = temp;
   }
 }
 

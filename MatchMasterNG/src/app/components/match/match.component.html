@@ -19,7 +19,7 @@
                     <input matInput type = "text" formControlName = "title">
                     <mat-error *ngIf = "matchForm.get('title')?.hasError('required') && matchForm.get('title')?.touched" class="error-message">Title is required</mat-error>
                 </mat-form-field>
-                <button mat-icon-button matTooltip = "Cancel edit" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
+                <button mat-icon-button matTooltip = "Cancel edit" type = "button" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "cancelEditing()"><mat-icon class = "cancel-icon">cancel</mat-icon></button>
             </div>  
             <div class =  "row">
                 <mat-form-field class = "form-field">

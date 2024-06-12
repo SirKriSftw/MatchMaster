@@ -1,5 +1,6 @@
-<div class = "wrapper" (keydown.escape) = "cancelEdit()">
+<div class = "wrapper">
     <div class = "tournament-info">
+        <button mat-icon-button class = "edit-btn" matTooltip = "Edit Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "editTournament()"><mat-icon>edit</mat-icon></button>
         <h1 class = "title header">{{tournament.title}}</h1>
         <p class = "host header">Hosted by <a class = "creator-link" (click) = "goToProfile(tournament.creatorId)">{{creatorUsername}}</a></p>
 
@@ -23,8 +24,9 @@
 
     <div class = "matches-space">
         <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-            <div class = "matches" *cdkVirtualFor = "let match of matches">
-                <app-match class = "match"  [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [isEditing] = "match.matchId ? false : true"></app-match>
+            <div class = "matches" *cdkVirtualFor = "let match of matches; let i = index">
+                <button mat-icon-button class = "del-btn" *ngIf = "match.matchId && isEditing" matTooltip = "Delete Match" [matTooltipShowDelay] = "400" [matTooltipHideDelay] = "200" (click) = "deleteMatch(match.matchId)"><mat-icon>delete</mat-icon></button>
+                <app-match class = "match"  (cancelNewMatch) = "cancelMatch($event)" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
             </div>
         </cdk-virtual-scroll-viewport>
     </div>

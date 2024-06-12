@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
@@ -17,9 +17,12 @@ interface Options {
 })
 export class MatchComponent {
   @Input() match!: Match;
+  @Input() matchIndex!: number;
   @Input() tournamentId!: number;
   @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
+
+  @Output() cancelNewMatch = new EventEmitter();
 
   currentUserId = -1;
   isCreator: boolean = false;
@@ -59,6 +62,11 @@ export class MatchComponent {
     this.initForm();
   }
 
+  emitCancelEvent()
+  {
+    this.cancelNewMatch.emit(this.matchIndex);
+  }
+
   initForm()
   {
     this.matchForm = this.formBuilder.group({
@@ -96,11 +104,18 @@ export class MatchComponent {
 
   cancelEditing()
   {
-    this.match.matchTitle = this.originalTitle;
-    this.match.description = this.originalDescription;
-    this.match.matchStart = this.originalTime;
-    this.isEditing = false;
-    this.addingParticipant = false;
+    if(this.match.matchId)
+    {
+      this.match.matchTitle = this.originalTitle;
+      this.match.description = this.originalDescription;
+      this.match.matchStart = this.originalTime;
+      this.isEditing = false;
+      this.addingParticipant = false;
+    }
+    else
+    {
+      this.emitCancelEvent();
+    }
   }
 
   validateAndSaveMatch()
