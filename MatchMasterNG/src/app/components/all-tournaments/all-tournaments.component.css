@@ -6,6 +6,12 @@
     height: 100%;
     background-color: #1c1b1b;
     color: white;
+    overflow-y: auto;
+    
+}
+
+.tournaments {
+    padding-bottom: 200px;
 }
 
 .tournament-link {
@@ -24,6 +30,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-    padding-bottom: 20px;
-
+    padding-bottom: 5px
 }
+
+

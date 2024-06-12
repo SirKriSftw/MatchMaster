@@ -15,3 +15,12 @@
 .right {
     display: flex;
 }
+
+
+.icon-btn {
+    color: white;
+}
+
+.icon-btn:hover {
+    color: #E0E0E0;
+}

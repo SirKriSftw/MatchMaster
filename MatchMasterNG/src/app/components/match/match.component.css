@@ -10,9 +10,15 @@
     width: 90%;
 }
 
+.edit-btn:hover {
+    color: #CD3C3C;
+}
+
 .edit-match {
     background-color: #868383;
 }
+
+
   
 .error {
     color: red !important;
