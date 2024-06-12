@@ -95,6 +95,22 @@ export class ShowTournamentComponent {
     );
   }
 
+  isParticipating()
+  {
+    return this.participants.some(participant => participant.userId == this.currentUserId)
+  }
+
+  makeMatch()
+  {
+    let newMatch = {
+      tournamentId: this.tournament.tournamentId,
+      matchTitle: "New Match Title",
+      description: "",
+      matchStart: new Date()
+    }
+    this.newMatches.push(newMatch);
+  }
+
   joinTournament()
   {
     this.userService.joinTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
@@ -102,28 +118,6 @@ export class ShowTournamentComponent {
         this.getParticipants()
       }
     );
-  }
-
-  leaveTournament()
-  {
-    this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
-      (r) => {
-        this.getParticipants()
-      }
-    );
-  }
-
-  isParticipating()
-  {
-    return this.participants.some(participant => participant.userId == this.currentUserId)
-  }
-
-  deleteTournament(tournamentId: number)
-  {
-    this.tournamentService.deleteTournament(tournamentId)
-     .subscribe(
-      (r) => this.router.navigate(["/"])
-     );
   }
 
   editTournament()
@@ -155,6 +149,23 @@ export class ShowTournamentComponent {
     this.isEditing = false;
   }
 
+  leaveTournament()
+  {
+    this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
+      (r) => {
+        this.getParticipants()
+      }
+    );
+  }
+
+  deleteTournament(tournamentId: number)
+  {
+    this.tournamentService.deleteTournament(tournamentId)
+     .subscribe(
+      (r) => this.router.navigate(["/"])
+     );
+  }
+
   removeParticipant(userId: number)
   {
     this.tournamentService.removeParticipant(this.tournament.tournamentId, userId).subscribe(
@@ -162,17 +173,6 @@ export class ShowTournamentComponent {
         this.getParticipants();
       }
     );
-  }
-
-  makeMatch()
-  {
-    let newMatch = {
-      tournamentId: this.tournament.tournamentId,
-      matchTitle: "New Match Title",
-      description: "",
-      matchStart: new Date()
-    }
-    this.newMatches.push(newMatch);
   }
 
   deleteMatch(matchId: number)

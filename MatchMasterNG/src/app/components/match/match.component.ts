@@ -125,7 +125,7 @@ export class MatchComponent {
       "matchStart": utcDateTime,
     }
 
-    if(match.matchId != 0)
+    if(match.matchId != null)
     {
       this.matchService.updateMatch(match).subscribe(
         (r) => {

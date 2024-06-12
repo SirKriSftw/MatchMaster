@@ -43,6 +43,24 @@
     font-size: smaller;
 }
 
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.join-btn {
+    color: green;
+}
+
+.leave-btn {
+    color: red;
+}
+
+.add-btn {
+    color: green;
+}
 
 .match {
     display: flex;

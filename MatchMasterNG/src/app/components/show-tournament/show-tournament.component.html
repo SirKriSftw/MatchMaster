@@ -10,13 +10,19 @@
                         Tournament Participants
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <app-participants [participantsList] = "participants"></app-participants>
+                <div class = "center">
+                    <button mat-icon-button *ngIf = "!isParticipating()" class = "join-btn" matTooltip = "Join Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "joinTournament()"><mat-icon>person_add_alt_1</mat-icon></button>
+                    <button mat-icon-button *ngIf = "isParticipating()" class = "leave-btn" matTooltip = "Leave Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "leaveTournament()"><mat-icon>person_remove</mat-icon></button>
+                    <app-participants [participantsList] = "participants"></app-participants>
+                </div>
             </mat-expansion-panel>
         </mat-accordion>
+        <button mat-icon-button class = "add-btn" matTooltip = "Add New Match" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "makeMatch()"><mat-icon>add_box</mat-icon></button>
     </div>
 
 
     <div class = "matches">
+        <app-match class = "match" *ngFor = "let match of newMatches" [isEditing] = true [match] = match [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId"></app-match>
         <app-match class = "match" *ngFor = "let match of matches" [match] = match [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId"></app-match>
     </div>
 </div>
