@@ -1,28 +1,25 @@
 <div class = "wrapper">
     <div class = "container">
-            <div class = "match">
-                <div class = "left">
-                    <p class = "match-title">{{match.matchTitle}}</p>
-                    <div class = "participant-box" *ngFor = "let participant of participants">
-                        <div class = "participant-name">{{participant.username}}</div>
-                        <div class = "winner"></div>
-                    </div>
-                    <div class = "participant-box" *ngIf = "participants.length <= 1">
-                        <div class = "participant-name"></div>
-                        <div class = "winner"></div>
-                    </div>
-                    <div class = "participant-box" *ngIf = "participants.length == 0">
-                        <div class = "participant-name"></div>
-                        <div class = "winner"></div>
-                    </div>
-
-                    <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+        <div class = "match">
+            <div class = "left">
+                <p class = "match-title">{{match.matchTitle}}</p>
+                <div class = "participant-box" *ngFor = "let participant of participants">
+                    <div class = "participant-name">{{participant.username}}</div>
+                    <div class = "winner"></div>
                 </div>
-                <div class = "right">
-                    <button mat-icon-button><mat-icon>add</mat-icon></button>
+                <div class = "participant-box" *ngIf = "participants.length <= 1">
+                    <div class = "participant-name"></div>
+                    <div class = "winner"></div>
                 </div>
-                
+                <div class = "participant-box" *ngIf = "participants.length == 0">
+                    <div class = "participant-name"></div>
+                    <div class = "winner"></div>
+                </div>
+                <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
             </div>
-        
+            <div class = "right">
+                <button mat-icon-button *ngIf = "isCreator"><mat-icon>add</mat-icon></button>
+            </div>
+        </div>
     </div>
 </div>
