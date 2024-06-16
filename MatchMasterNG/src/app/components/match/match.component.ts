@@ -283,12 +283,6 @@ export class MatchComponent {
     this.participantsToAdd.push(-1);
   }
 
-  loadParticipants()
-  {
-    console.log("Loading participants");
-    this.getParticipants();
-  }
-
   getParticipants()
   {
     this.matchService.getMatchParticipants(this.match.matchId!)

@@ -2,13 +2,19 @@
     width: 90%;
 }
 
-.border-box {
-    border: 2px solid white; 
-    width: 170px;
+.container {
+    width: 250px;
+}
+
+.match {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
 }
 
 .match-title {
     text-align: center;
+    font-weight: bold;
 }
 
 .participant-box {
@@ -16,20 +22,30 @@
 }
 
 .participant-name {
-    border: 2px solid white; 
+    border: 1px solid white; 
     height: 20px; 
-    width: 150px; 
+    width: 180px; 
     padding: 0; 
     margin: 0; 
-    border-radius: 50px; 
     text-align: center;
 }
 
 .winner {
-    border: 2px solid white; 
+    border: 1px solid white; 
     height: 20px; 
     width: 20px; 
     padding: 0; 
     margin: 0; 
-    border-radius: 50px;
+}
+
+.match-time {
+    text-align: center;
+    padding-top: 5px;
+    font-size: small;
+    color: #CDCBCB;
+}
+
+.right {
+    width: 50px; 
+    text-align: center;
 }
