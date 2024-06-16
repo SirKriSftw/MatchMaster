@@ -113,6 +113,11 @@ export class ShowTournamentComponent {
     return this.participants.some(participant => participant.userId == this.currentUserId)
   }
 
+  isCreator()
+  {
+    return this.authService.getCurrentUserId() == this.tournament.creatorId;
+  }
+
   joinTournament()
   {
     this.userService.joinTournament(this.currentUserId, this.tournament.tournamentId).subscribe(

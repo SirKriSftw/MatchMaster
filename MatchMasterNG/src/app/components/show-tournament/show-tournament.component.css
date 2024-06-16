@@ -54,18 +54,6 @@
     align-items: center;
 }
 
-.join-btn {
-    color: green;
-}
-
-.leave-btn {
-    color: red;
-}
-
-.add-btn {
-    color: green;
-}
-
 .match {
     display: flex;
     justify-content: center;
@@ -98,4 +86,17 @@
 
 .levels {
     flex: 1;
+}
+
+.match-box {
+    display: flex;
+    align-items: center;
+}
+
+.add {
+    color: green;
+}
+
+.remove {
+    color: red;
 }

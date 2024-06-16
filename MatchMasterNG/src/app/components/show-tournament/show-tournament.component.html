@@ -1,6 +1,6 @@
 <div class = "wrapper">
     <div class = "tournament-info">
-        <button mat-icon-button class = "edit-btn" matTooltip = "Edit Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button *ngIf = "isCreator()" class = "edit-btn" matTooltip = "Edit Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300"><mat-icon>edit</mat-icon></button>
         <h1 class = "title header">{{tournament.title}}</h1>
         <p class = "host header">Hosted by <a class = "creator-link" (click) = "goToProfile(tournament.creatorId)">{{creatorUsername}}</a></p>
 
@@ -12,8 +12,8 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class = "center">
-                    <button mat-icon-button *ngIf = "!isParticipating()" class = "join-btn" matTooltip = "Join Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "joinTournament()"><mat-icon>person_add_alt_1</mat-icon></button>
-                    <button mat-icon-button *ngIf = "isParticipating()" class = "leave-btn" matTooltip = "Leave Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "leaveTournament()"><mat-icon>person_remove</mat-icon></button>
+                    <button mat-icon-button *ngIf = "!isParticipating()" class = "add" matTooltip = "Join Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "joinTournament()"><mat-icon>person_add_alt_1</mat-icon></button>
+                    <button mat-icon-button *ngIf = "isParticipating()" class = "remove" matTooltip = "Leave Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "leaveTournament()"><mat-icon>person_remove</mat-icon></button>
                     <app-participants [participantsList] = "participants"></app-participants>
                 </div>
             </mat-expansion-panel>
@@ -23,9 +23,10 @@
 
     <div class = "matches-space">
         <div class = "levels" *ngFor = "let level of matches | keyvalue">
-            <h1>Level: {{level.key}}</h1>
-            <div *ngFor = "let match of level.value; let i = index;">
+            <div class = "match-box" *ngFor = "let match of level.value; let i = index;">
+                <button mat-icon-button *ngIf = "isCreator()" class = "remove btn-icons"><mat-icon>remove</mat-icon></button>
                 <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+                <button mat-icon-button *ngIf = "isCreator()" class = " add btn-icons"><mat-icon>add</mat-icon></button>
             </div>                
         </div>
     </div>

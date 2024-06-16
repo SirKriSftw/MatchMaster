@@ -3,7 +3,7 @@
 }
 
 .container {
-    width: 250px;
+    width: 220px;
 }
 
 .match {
@@ -44,9 +44,4 @@
     padding-top: 5px;
     font-size: small;
     color: #CDCBCB;
-}
-
-.right {
-    width: 50px; 
-    text-align: center;
 }
