@@ -60,6 +60,7 @@ export class MatchComponent {
     {
       this.isCreator = true;
     }
+    this.getParticipants();
     this.initForm();
   }
 

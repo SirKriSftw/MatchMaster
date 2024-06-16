@@ -1,58 +1,35 @@
-.full-panel {
-    background-color: #868383;
-}
-
-.full-panel:hover {
-    background-color: #B8B7B7;
-}
-
 .wrapper {
     width: 90%;
 }
 
-.edit-btn:hover {
-    color: #CD3C3C;
+.border-box {
+    border: 2px solid white; 
+    width: 170px;
 }
 
-.edit-match {
-    background-color: #868383;
+.match-title {
+    text-align: center;
 }
 
-
-  
-.error {
-    color: red !important;
-}
-
-.match-form {
+.participant-box {
     display: flex;
-    flex-direction: column;
 }
 
-.red-icon {
-    color: red;
-    margin: 0;
-    padding: 0;
+.participant-name {
+    border: 2px solid white; 
+    height: 20px; 
+    width: 150px; 
+    padding: 0; 
+    margin: 0; 
+    border-radius: 50px; 
+    text-align: center;
 }
 
-.row {
-    display: flex;
-    flex-wrap: wrap;   
-}
-
-.form-field {
-    padding: 20px;
-    flex: 1;
-}
-
-.form-title {
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-    display:flex;
-    align-content: center;
-}
-
-.form-btn {
-    margin: 10px;
+.winner {
+    border: 2px solid white; 
+    height: 20px; 
+    width: 20px; 
+    padding: 0; 
+    margin: 0; 
+    border-radius: 50px;
 }
