@@ -41,7 +41,7 @@ namespace MatchMaster.Controllers
 
         // GET: api/Tournaments/5/Matches
         [HttpGet("{id}/Matches")]
-        public async Task<ActionResult<IEnumerable<Match>>> GetTournamentMatches(int id)
+        public async Task<ActionResult<IEnumerable<Match>>> GetAllTournamentMatches(int id)
         {
             try
             {
@@ -66,6 +66,82 @@ namespace MatchMaster.Controllers
                 // Return a generic error message to the client
                 return StatusCode(500, "An error occurred while processing your request");
             }
+        }
+
+        // GET: api/Tournaments/5/Matches/2
+        [HttpGet("{id}/Matches/{num}")]
+        public async Task<ActionResult<IEnumerable<Match>>> GetSomeUpcomingTournamentMatches(int id, int num)
+        {
+            try
+            {
+                var tournament = await _context.Tournaments.FindAsync(id);
+
+                if (tournament == null)
+                {
+                    return NotFound();
+                }
+                var currTime = DateTime.UtcNow;
+                var matches = await _context.Matches
+                .Where(match => match.TournamentId == id && match.MatchStart > currTime)
+                .OrderBy(match => match.MatchStart)
+                .Take(num)
+                .ToListAsync();
+
+                return matches;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception for debugging purposes
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                // Return a generic error message to the client
+                return StatusCode(500, "An error occurred while processing your request");
+            }
+        }
+
+        // GET: api/Tournaments/5/Matches/Group
+        [HttpGet("{id}/Matches/Group")]
+        public async Task<ActionResult<Dictionary<int, List<Match>>>> GetTournamentMatchesGrouped(int id)
+        {
+            var tournament = await _context.Tournaments.FindAsync(id);
+        
+            if (tournament == null)
+            {
+                return NotFound();
+            }
+
+            List<Match> matches = await _context.Matches
+                .Where(match => match.TournamentId == id)
+                .ToListAsync();
+
+            Dictionary<int, List<Match>> groupedMatches = new Dictionary<int, List<Match>>();
+            List<Match> startingMatches = matches
+            .Where(match => match.PrevMatch == null || match.PrevMatch == 0)
+            .OrderBy(match => match.MatchStart)
+            .ToList();
+            int currentLevel = 1;
+            groupedMatches[currentLevel] = startingMatches; 
+            List<Match> currentMatches = startingMatches;
+
+            while (currentMatches.Any())
+            {
+                currentLevel++;
+                List<Match> nextMatches = new List<Match>();
+                foreach (var match in currentMatches)
+                {
+                    if (match.NextMatch.HasValue && match.NextMatch != 0)
+                    {
+                        var nextMatch = matches.Where(m => m.MatchId == match.NextMatch).FirstOrDefault();
+                        if(nextMatch != null)
+                        {
+                            nextMatches.Add(nextMatch);
+                        }                        
+                    }
+                }
+                groupedMatches[currentLevel] = nextMatches;
+                currentMatches = nextMatches;
+            }
+
+            return groupedMatches;
         }
 
         // GET: api/Tournaments/5/Participants
