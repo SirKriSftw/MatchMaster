@@ -22,12 +22,11 @@
 
 
     <div class = "matches-space">
-
-            <div class = "matches" *ngFor = "let level of matches | keyvalue">
-                <h1>Level: {{level.key}}</h1>
-                <div *ngFor = "let match of level.value; let i = index;">
-                    <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
-                </div>                
-            </div>
+        <div class = "levels" *ngFor = "let level of matches | keyvalue">
+            <h1>Level: {{level.key}}</h1>
+            <div *ngFor = "let match of level.value; let i = index;">
+                <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+            </div>                
+        </div>
     </div>
 </div>

@@ -91,3 +91,11 @@
     flex: 1;
 }
 
+.matches-space {
+    display: flex;
+    align-items: center;
+}
+
+.levels {
+    flex: 1;
+}
