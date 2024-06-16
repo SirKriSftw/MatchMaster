@@ -115,12 +115,14 @@ namespace MatchMaster.Controllers
 
             Dictionary<int, List<Match>> groupedMatches = new Dictionary<int, List<Match>>();
             List<Match> startingMatches = matches
-            .Where(match => match.PrevMatch == null || match.PrevMatch == 0)
-            .OrderBy(match => match.MatchStart)
-            .ToList();
+                .Where(match => match.PrevMatch == null || match.PrevMatch == 0)
+                .OrderBy(match => match.MatchStart)
+                .ToList();
+
             int currentLevel = 1;
             groupedMatches[currentLevel] = startingMatches; 
             List<Match> currentMatches = startingMatches;
+            HashSet<int> alreadyAddedMatches = new HashSet<int>();
 
             while (currentMatches.Any())
             {
@@ -128,12 +130,13 @@ namespace MatchMaster.Controllers
                 List<Match> nextMatches = new List<Match>();
                 foreach (var match in currentMatches)
                 {
-                    if (match.NextMatch.HasValue && match.NextMatch != 0)
+                    if (match.NextMatch.HasValue && match.NextMatch != 0 && !alreadyAddedMatches.Contains(match.NextMatch.Value))
                     {
                         var nextMatch = matches.Where(m => m.MatchId == match.NextMatch).FirstOrDefault();
                         if(nextMatch != null)
                         {
                             nextMatches.Add(nextMatch);
+                            alreadyAddedMatches.Add(match.NextMatch.Value);
                         }                        
                     }
                 }

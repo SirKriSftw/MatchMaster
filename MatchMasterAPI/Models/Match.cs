@@ -10,7 +10,7 @@ public partial class Match
 
     public int TournamentId { get; set; }
 
-    public string MatchTitle { get; set; } = null!;
+    public string? MatchTitle { get; set; } = null!;
 
     public string? Description { get; set; }
 
@@ -26,7 +26,7 @@ public partial class Match
     [JsonIgnore]
     public virtual ICollection<Match> InverseNextMatchNavigation { get; set; } = new List<Match>();
 
-        [JsonIgnore]
+    [JsonIgnore]
     public virtual ICollection<Match> InversePrevMatchNavigation { get; set; } = new List<Match>();
 
     [JsonIgnore]
