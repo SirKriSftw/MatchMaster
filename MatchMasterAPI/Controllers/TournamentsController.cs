@@ -140,7 +140,11 @@ namespace MatchMaster.Controllers
                         }                        
                     }
                 }
-                groupedMatches[currentLevel] = nextMatches;
+                
+                if(nextMatches.Count >= 1)
+                {
+                    groupedMatches[currentLevel] = nextMatches;
+                }                
                 currentMatches = nextMatches;
             }
 

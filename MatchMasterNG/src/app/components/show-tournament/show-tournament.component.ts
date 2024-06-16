@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
+import { Dictionary } from '../../models/dictionary.model';
 import { User } from '../../models/user.model';
 import { TournamentService } from '../../services/tournament.service';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -33,7 +34,7 @@ export class ShowTournamentComponent {
   };
 
   creatorUsername: string = "";
-  matches: Match[] = [];
+  matches: Dictionary<Match> = {};
   newMatches: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
@@ -84,12 +85,11 @@ export class ShowTournamentComponent {
   getMatches()
   {
     this.matches = [];
-    this.tournamentService.getTournamentMatches(this.tournamentId)
+    this.tournamentService.getTournamentGroupedMatches(this.tournamentId)
     .subscribe(
       matches => 
       {
         this.matches = matches;
-        this.updateMatchesList();
       })
   }
 
@@ -113,12 +113,6 @@ export class ShowTournamentComponent {
     return this.participants.some(participant => participant.userId == this.currentUserId)
   }
 
-  makeMatch()
-  {
-    this.matches.unshift(this.emptyMatch);
-    this.updateMatchesList();
-  }
-
   joinTournament()
   {
     this.userService.joinTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
@@ -128,36 +122,7 @@ export class ShowTournamentComponent {
     );
   }
 
-  editTournament()
-  {
-    if(this.currentUserId == this.tournament.creatorId)
-    {
-      this.isEditing = true;
-    }
-    
-  }
-
-  cancelEdit()
-  {
-    this.isEditing = false;
-    this.tournament.title = this.originalTitle;
-    this.tournament.description = this.originalDescription;
-    this.tournament.tournamentStart = this.originalStart;
-  }
-
-  saveChanges()
-  {
-    this.tournamentService.updateTournament(this.tournament).subscribe(
-      (r) => 
-      {
-        this.originalTitle = this.tournament.title;
-        this.originalDescription = this.tournament.description;
-        this.originalStart = this.tournament.tournamentStart;
-      }
-    );
-    this.isEditing = false;
-  }
-
+  
   leaveTournament()
   {
     this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
@@ -165,6 +130,10 @@ export class ShowTournamentComponent {
         this.getParticipants()
       }
     );
+  }
+  makeMatch()
+  {
+
   }
 
   deleteTournament(tournamentId: number)
@@ -182,24 +151,6 @@ export class ShowTournamentComponent {
         this.getParticipants();
       }
     );
-  }
-
-  cancelMatch(index: number)
-  {
-    this.matches.splice(index, 1)
-    this.updateMatchesList();
-  }
-
-  // Helper function to update the matches list after ever add/delete from the list
-  updateMatchesList()
-  {
-    // For some reason the list display wont update if it references the same 
-    // list in memory, so I use temp to make a new list in memory then 
-    // make this.matches point to the new one
-    let temp: Match[] = [];
-    temp = temp.concat(this.matches);
-    this.matches = [];
-    this.matches = temp;
   }
 }
 

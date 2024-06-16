@@ -6,6 +6,7 @@ import { Match } from '../models/match.model';
 import { ApiConfigService } from './api-config.service';
 import { AuthenticationService } from './authentication.service';
 import { User } from '../models/user.model';
+import { Dictionary } from '../models/dictionary.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,10 @@ export class TournamentService {
 
   getTournamentMatches(tournamentId: number): Observable<Match[]> {
     return this.http.get<Match[]>(`${this.apiUrl}/${tournamentId}/Matches`);
+  }
+
+  getTournamentGroupedMatches(tournamentId: number): Observable<Dictionary<Match>> {
+    return this.http.get<Dictionary<Match>>(`${this.apiUrl}/${tournamentId}/Matches/Group`);
   }
 
   getTournamentById(tournamentId: number): Observable<Tournament> {

@@ -1,6 +1,6 @@
 <div class = "wrapper">
     <div class = "tournament-info">
-        <button mat-icon-button class = "edit-btn" matTooltip = "Edit Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "editTournament()"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button class = "edit-btn" matTooltip = "Edit Tournament" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300"><mat-icon>edit</mat-icon></button>
         <h1 class = "title header">{{tournament.title}}</h1>
         <p class = "host header">Hosted by <a class = "creator-link" (click) = "goToProfile(tournament.creatorId)">{{creatorUsername}}</a></p>
 
@@ -18,15 +18,16 @@
                 </div>
             </mat-expansion-panel>
         </mat-accordion>
-        <button mat-icon-button class = "add-btn" matTooltip = "Add New Match" [matTooltipShowDelay] = "700" [matTooltipHideDelay] = "300" (click) = "makeMatch()"><mat-icon>add_box</mat-icon></button>
     </div>
 
 
     <div class = "matches-space">
-        <cdk-virtual-scroll-viewport itemSize="50" class="viewport">
-            <div class = "matches" *cdkVirtualFor = "let match of matches; let i = index">
-                <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" (cancelNewMatchEvent) = "cancelMatch($event)" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+
+            <div class = "matches" *ngFor = "let level of matches | keyvalue">
+                <h1>Level: {{level.key}}</h1>
+                <div *ngFor = "let match of level.value; let i = index;">
+                    <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+                </div>                
             </div>
-        </cdk-virtual-scroll-viewport>
     </div>
 </div>
