@@ -12,6 +12,8 @@ public partial class MatchParticipant
 
     public int UserId { get; set; }
 
+    public int Score { get; set; }
+
     [JsonIgnore]
     public virtual Match? Match { get; set; } = null!;
 

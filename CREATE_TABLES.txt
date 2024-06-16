@@ -17,7 +17,7 @@
 -- This way a user who is not attending the tournament can not randomly join a match
 CREATE TABLE Users (
     UserId INT IDENTITY(1,1) PRIMARY KEY,
-    Username VARCHAR(50),
+    Username VARCHAR(50) NOT NULL,
     Email VARCHAR(100) UNIQUE NOT NULL,
     HashedPassword VARBINARY(64),
     Salt VARBINARY(MAX)
@@ -43,8 +43,8 @@ CREATE TABLE Tournaments (
     Title VARCHAR(100) NOT NULL,
     Description TEXT,
     CreatorId INT NOT NULL,
-    CategoryId INT DEFAULT(1),
-    AcceptingParticipants BIT NULL DEFAULT(1),
+    CategoryId INT DEFAULT 1,
+    AcceptingParticipants BIT DEFAULT 1,
     TournamentStart DATETIME,
     FOREIGN KEY (CreatorId) REFERENCES Users(UserId),
     FOREIGN KEY (CategoryId) REFERENCES Categories(CategoryId)
@@ -53,14 +53,16 @@ CREATE TABLE Tournaments (
 CREATE TABLE Matches (
     MatchId INT IDENTITY(1,1) PRIMARY KEY,
     TournamentId INT NOT NULL,
-    MatchTitle VARCHAR(100) NOT NULL,
+    MatchTitle VARCHAR(100),
     Description TEXT,
-    MatchStart DATETIME,
+    MatchStart DATETIME DEFAULT CURRENT_TIMESTAMP,
     WinnerId INT,
-    NextMatch INT NULL,
+    NextMatch INT,
+    PrevMatch INT,
     FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId) ON DELETE CASCADE,
     FOREIGN KEY (WinnerId) REFERENCES Users(UserId),
-    FOREIGN KEY (NextMatch) REFERENCES Match(MatchId)
+    FOREIGN KEY (NextMatch) REFERENCES Matches(MatchId) ON DELETE NO ACTION,
+    FOREIGN KEY (PrevMatch) REFERENCES Matches(MatchId) ON DELETE NO ACTION
 );
 
 CREATE TABLE TournamentParticipants (
@@ -75,16 +77,16 @@ CREATE TABLE MatchParticipants (
     MatchParticipantId INT IDENTITY(1,1) PRIMARY KEY,
     MatchId INT NOT NULL,
     UserId INT NOT NULL,
+    Score INT DEFAULT 0,
     FOREIGN KEY (MatchId) REFERENCES Matches(MatchId) ON DELETE CASCADE,
     FOREIGN KEY (UserId) REFERENCES Users(UserId)
 );
 
-
+CREATE INDEX IX_Users_Email ON Users (Email);
 CREATE INDEX IX_TournamentParticipants_UserId ON TournamentParticipants (UserId);
 CREATE INDEX IX_TournamentParticipants_TournamentId ON TournamentParticipants (TournamentId);
 CREATE INDEX IX_Matches_TournamentId ON Matches (TournamentId);
 CREATE INDEX IX_Tournaments_Title ON Tournaments (Title);
 CREATE INDEX IX_Tournaments_CategoryId ON Tournaments (CategoryId);
-
 CREATE INDEX IX_MatchParticipants_MatchId ON MatchParticipants (MatchId);
 CREATE INDEX IX_OAuthInfo_UserId ON OAuthInfos (UserId);
