@@ -178,8 +178,15 @@ export class ShowTournamentComponent {
     this.editingMatch.push(this.matches[e[0]][e[1]]);
   }
 
-  stopEdit(m: Match)
+  stopEdit(m: Match, l: string, i: number)
   {
+    let level = parseInt(l);
+
+    if(m.matchId == 0 || m.matchId == undefined)
+    {
+      this.matches[level].splice(i, 1);
+    }
+
     this.editingMatch = this.editingMatch.filter(match => m != match)
   }
 
