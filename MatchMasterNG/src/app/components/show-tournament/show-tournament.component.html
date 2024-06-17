@@ -25,8 +25,8 @@
         <div class = "levels" *ngFor = "let level of matches | keyvalue">
             <div class = "match-box" *ngFor = "let match of level.value; let i = index;">
                 <button mat-icon-button *ngIf = "isCreator()" class = "remove btn-icons"><mat-icon>remove</mat-icon></button>
-                <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match.matchId ? match : emptyMatch" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
-                <button mat-icon-button *ngIf = "isCreator()" class = " add btn-icons"><mat-icon>add</mat-icon></button>
+                <app-match class = "match"  (deleteMatchEvent) = "this.getMatches()" [match] = "match" [creatorId] = "tournament.creatorId" [tournamentId]= "tournamentId" [matchIndex] = "i" [isEditing] = "match.matchId ? false : true"></app-match>
+                <button mat-icon-button *ngIf = "isCreator()" class = "add btn-icons" (click) = "addMatch(match.matchId, level.key)"><mat-icon>add</mat-icon></button>
             </div>                
         </div>
     </div>

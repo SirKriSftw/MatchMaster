@@ -6,5 +6,6 @@ export interface Match {
     description: string;
     matchStart: Date;
     nextMatch?: number;
+    prevMatch?: number;
   }
   

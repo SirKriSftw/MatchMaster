@@ -2,7 +2,7 @@
     <div class = "container">
         <div class = "match">
             <div>
-                <p class = "match-title">{{match.matchTitle}}</p>
+                <p *ngIf = "!isEditing" class = "match-title">{{match.matchTitle}}</p>
                 <div class = "participant-box" *ngFor = "let participant of participants">
                     <div class = "participant-name">{{participant.username}}</div>
                     <div class = "winner"></div>

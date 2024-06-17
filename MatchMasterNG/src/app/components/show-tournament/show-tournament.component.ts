@@ -16,7 +16,8 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './show-tournament.component.css'
 })
 export class ShowTournamentComponent {
-  tournament: Tournament = {
+  tournament: Tournament = 
+  {
     tournamentId: 0,
     creatorId: 0,
     categoryId: 1,
@@ -24,18 +25,10 @@ export class ShowTournamentComponent {
     description: '',
     tournamentStart: new Date(),
     acceptingParticipants: true
-  }; // Initialize to an empty object with default values
-
-  emptyMatch: Match = {
-    tournamentId: this.tournament.tournamentId,
-    matchTitle: "",
-    description: "",
-    matchStart: new Date()
-  };
+  }; 
 
   creatorUsername: string = "";
   matches: Dictionary<Match> = {};
-  newMatches: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
   tournamentId: number = -1;
@@ -127,7 +120,6 @@ export class ShowTournamentComponent {
     );
   }
 
-  
   leaveTournament()
   {
     this.userService.leaveTournament(this.currentUserId, this.tournament.tournamentId).subscribe(
@@ -135,18 +127,6 @@ export class ShowTournamentComponent {
         this.getParticipants()
       }
     );
-  }
-  makeMatch()
-  {
-
-  }
-
-  deleteTournament(tournamentId: number)
-  {
-    this.tournamentService.deleteTournament(tournamentId)
-     .subscribe(
-      (r) => this.router.navigate(["/"])
-     );
   }
 
   removeParticipant(userId: number)
@@ -157,5 +137,39 @@ export class ShowTournamentComponent {
       }
     );
   }
+
+  deleteTournament(tournamentId: number)
+  {
+    this.tournamentService.deleteTournament(tournamentId)
+     .subscribe(
+      (r) => this.router.navigate(["/"])
+     );
+  }
+
+  addMatch(id: number | undefined, level: string)
+  {
+    if(id)
+    {
+      let newMatch = {
+        tournamentId: this.tournament.tournamentId,
+        matchTitle: "",
+        description: "",
+        matchStart: new Date(),
+        prevMatch: id
+      }
+
+      if(this.matches[parseInt(level) + 1])
+      {
+        this.matches[parseInt(level) + 1].push(newMatch);
+      }
+      else
+      {
+        this.matches[parseInt(level) + 1] = [newMatch];
+      }
+
+    }
+  }
+
+  
 }
 
