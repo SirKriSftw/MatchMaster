@@ -18,11 +18,12 @@ interface Options {
 export class MatchComponent {
   @Input() match!: Match;
   @Input() matchIndex!: number;
+  @Input() matchLevel!: string;
   @Input() tournamentId!: number;
   @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
 
-  @Output() cancelNewMatchEvent = new EventEmitter();
+  @Output() editEvent = new EventEmitter();
   @Output() deleteMatchEvent = new EventEmitter();
 
   currentUserId = -1;
@@ -64,9 +65,9 @@ export class MatchComponent {
     this.initForm();
   }
 
-  emitCancelEvent()
+  emitEditEvent()
   {
-    this.cancelNewMatchEvent.emit(this.matchIndex);
+    this.editEvent.emit([parseInt(this.matchLevel), this.matchIndex]);
   }
 
   emitDeleteEvent()
@@ -85,6 +86,8 @@ export class MatchComponent {
       title: [this.match.matchTitle, [Validators.required]],
       description: [this.match.description, []],
       matchDate: [this.match.matchStart],
+      participantOne: [this.participants[0]],
+      participantTwo: [this.participants[1]],
       // For some STRANGE reason you need to recreate the date obj to be able to use functions like getHours()
       matchTime: [this.getTimeFromDate(new Date(this.match.matchStart))]
     });
@@ -105,29 +108,14 @@ export class MatchComponent {
 
   startEditing()
   {
-    if(this.currentUserId == this.creatorId)
-    {
-      this.isEditing = true;
-      this.originalTitle = this.match.matchTitle;
-      this.originalDescription = this.match.description;
-      this.originalTime = this.match.matchStart;
-    }
+    this.isEditing = true;
+    this.emitEditEvent();
   }
 
   cancelEditing()
   {
-    if(this.match.matchId)
-    {
-      this.match.matchTitle = this.originalTitle;
-      this.match.description = this.originalDescription;
-      this.match.matchStart = this.originalTime;
-      this.isEditing = false;
-      this.addingParticipant = false;
-    }
-    else
-    {
-      this.emitCancelEvent();
-    }
+    this.isEditing = false;
+    this.emitEditEvent();
   }
 
   validateAndSaveMatch()

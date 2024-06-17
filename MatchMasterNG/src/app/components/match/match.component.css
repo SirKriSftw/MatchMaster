@@ -17,6 +17,14 @@
     font-weight: bold;
 }
 
+.edit-input {
+    background-color: #535050;
+    color: white;
+    border: 1px solid white;
+    height: 20px; 
+    width: 180px;
+}
+
 .participant-box {
     display: flex;
     background-color: #535050;
@@ -24,6 +32,7 @@
 
 .participant-name {
     border: 1px solid white; 
+    color: white;
     height: 20px; 
     width: 180px; 
     padding: 0; 
@@ -44,4 +53,8 @@
     padding-top: 5px;
     font-size: small;
     color: #CDCBCB;
+}
+
+.edit-time {
+    margin-top: 8px;
 }

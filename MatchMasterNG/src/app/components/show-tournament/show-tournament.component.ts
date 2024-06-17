@@ -29,6 +29,7 @@ export class ShowTournamentComponent {
 
   creatorUsername: string = "";
   matches: Dictionary<Match> = {};
+  editingMatch: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
   tournamentId: number = -1;
@@ -167,9 +168,21 @@ export class ShowTournamentComponent {
         this.matches[parseInt(level) + 1] = [newMatch];
       }
 
+      this.editingMatch.push(newMatch);
     }
   }
 
-  
+  editMatch(e: any)
+  {
+    console.log(e);
+    this.editingMatch.push(this.matches[e[0]][e[1]]);
+  }
+
+  stopEdit(m: Match)
+  {
+    this.editingMatch = this.editingMatch.filter(match => m != match)
+  }
+
+
 }
 
