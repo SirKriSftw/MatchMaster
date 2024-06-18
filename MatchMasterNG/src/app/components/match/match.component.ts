@@ -17,11 +17,13 @@ interface Options {
 })
 export class MatchComponent {
   @Input() match!: Match;
-  @Input() matchIndex!: number;
-  @Input() matchLevel!: string;
   @Input() tournamentId!: number;
   @Input() creatorId: number = -1;
   @Input() tournamentParticipants: User[] = [];
+
+  @Input() matchIndex: number = 0;
+  @Input() matchLevel: string = "0";
+  @Input() isEditing = false;
 
   @Output() editEvent = new EventEmitter();
   @Output() deleteMatchEvent = new EventEmitter();
@@ -29,40 +31,48 @@ export class MatchComponent {
   currentUserId = -1;
   isCreator: boolean = false;
   participants: User[] = [];
-  participantIds: Options[] = [];
-  participantsToAdd: number[] = [];
   matchForm: FormGroup;
-
-  // Flags for when to show description or edit
-  @Input() isEditing = false;
-  changed = false;
-  addingParticipant = false;
-
-  // Used for cancelling edit
-  originalTitle = "";
-  originalDescription = "";
-  originalTime!: Date;
 
   constructor(private authService: AuthenticationService,
               private formBuilder: FormBuilder,
               private matchService: MatchService) 
   {
     this.matchForm = this.formBuilder.group({
-      title: [],
-      description: [],
-      matchDate: new Date(),
-      matchTime: {},
+      title: '',
+      description: '',
+      participants: this.formBuilder.array([]),
+      time: ''
     });
   }   
 
-  ngOnInit(): void {
+  ngOnInit(): void 
+  {
     this.currentUserId = this.authService.getCurrentUserId();
     if(this.currentUserId == this.creatorId)
     {
       this.isCreator = true;
     }
-    this.getParticipants();
-    this.initForm();
+    this.getParticipants();    
+  }
+
+  getParticipants()
+  {
+    this.matchService.getMatchParticipants(this.match.matchId!)
+     .subscribe(
+      (r) => {
+        this.participants = r;
+        if (this.participants.length == 1)
+        {
+          this.participants.push({userId: 0, username: "", email: ""});
+        }
+        this.initForm();
+      },
+      (e) => {
+        this.participants.push({userId: 0, username: "", email: ""});
+        this.participants.push({userId: 0, username: "", email: ""});
+        this.initForm();
+      }
+     )
   }
 
   emitEditEvent()
@@ -75,35 +85,22 @@ export class MatchComponent {
     this.deleteMatchEvent.emit();
   }
 
-  deleteMatch(matchId :number)
-  {
-    this.matchService.deleteMatch(matchId).subscribe(r => this.emitDeleteEvent());
-  }
-
   initForm()
   {
+    let idList: any[] = [];
+    console.log(idList);
+    this.participants.forEach(p => idList.push(p.userId))
     this.matchForm = this.formBuilder.group({
-      title: [this.match.matchTitle, [Validators.required]],
-      description: [this.match.description, []],
-      matchDate: [this.match.matchStart],
-      participantOne: [this.participants[0]],
-      participantTwo: [this.participants[1]],
-      // For some STRANGE reason you need to recreate the date obj to be able to use functions like getHours()
-      matchTime: [this.getTimeFromDate(new Date(this.match.matchStart))]
+      title: this.match.matchTitle,
+      description: this.match.description,
+      participants: this.formBuilder.array(idList),
+      time: this.match.matchStart
     });
   }
 
-  getTimeFromDate(dateTime: Date)
+  onSubmit()
   {
-    const hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes();
-    const timeString = `${this.padZeroTime(hours)}:${this.padZeroTime(minutes)}`;
-    return timeString;
-  }
-
-  padZeroTime(n: number)
-  {
-    return n < 10 ? `0${n}` : `${n}`;
+    console.log(this.matchForm.value);
   }
 
   startEditing()
@@ -112,178 +109,8 @@ export class MatchComponent {
     this.emitEditEvent();
   }
 
-  cancelEditing()
+  deleteMatch(matchId: number)
   {
-    this.isEditing = false;
-    this.emitEditEvent();
+    this.matchService.deleteMatch(matchId).subscribe(() => this.emitDeleteEvent());
   }
-
-  validateAndSaveMatch()
-  {
-    if(this.matchForm.valid)
-    {
-      this.saveMatch();
-    }
-  }
-
-  saveMatch()
-  {
-    const localDateTime = this.combineDateTime(this.matchForm.get("matchDate")?.value,this.matchForm.get("matchTime")?.value)
-    const utcDateTime = new Date(localDateTime.getTime() - (localDateTime.getTimezoneOffset() * 60000))
-    let match : Match =
-    {
-      "tournamentId": this.tournamentId,
-      "matchId": this.match ? this.match.matchId : 0,
-      "matchTitle": this.matchForm.get("title")?.value,
-      "description": this.matchForm.get("description")?.value,
-      "matchStart": utcDateTime,
-    }
-
-    if(match.matchId != null)
-    {
-      this.matchService.updateMatch(match).subscribe(
-        (r) => {
-          this.matchService.getMatch(this.match.matchId!).subscribe(
-            (r) => {
-              this.match = r;
-            }
-          )
-          this.isEditing = false;
-        }
-      );
-    }
-    else
-    {
-      this.matchService.newMatch(match).subscribe(
-        (r) => {
-          this.match = r;
-          this.isEditing = false;
-        }
-      );
-    }
-  }
-
-  combineDateTime(date: Date, time: string)
-  {
-    // For some STRANGE reason you need to recreate the date obj to be able to use functions like getFullYear()
-    date = new Date(date);
-    const splitTime = time.split(":");
-    const hours = parseInt(splitTime[0]);
-    const minutes = parseInt(splitTime[1]);
-
-    const combinedDateTime: Date = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      hours,
-      minutes
-    )
-
-    return combinedDateTime
-  }
-
-
-  saveEditing()
-  {
-    if(this.match.matchId == null)
-    {
-      this.saveNewMatch();
-    }
-    
-    else
-    {
-      if(this.match.matchTitle != "")
-      {
-        this.matchService.updateMatch(this.match).subscribe();
-      }
-
-      // If a match participant was changed
-      if(this.changed)
-      {
-        this.updateParticipants();
-      }
-
-      // If adding a new participant
-      if(this.addingParticipant)
-      {
-        this.saveNewParticipants();   
-      }
-    }
-
-    this.isEditing = false;    
-  }
-
-  saveNewMatch()
-  {
-    this.matchService.newMatch(this.match).subscribe(
-      (r) => {
-        this.match.matchId = r.matchId;
-        this.saveNewParticipants();
-      }
-    );
-  }
-
-  updateParticipants()
-  {
-    this.changed = false;
-    const changedOptions = this.participantIds.filter(p => p.new !== p.old);
-    changedOptions.forEach(p => {
-        if(p.new == -1)
-        {
-          this.matchService.removeMatchParticipant(this.match.matchId!, p.old).subscribe(
-            (r) => this.getParticipants()
-          );
-        }
-        else
-        {
-          this.matchService.updateMatchParticipant(this.match.matchId!, p.old, p.new).subscribe(
-            (r) => this.getParticipants()
-          );
-        }
-    })
-  }
-
-  saveNewParticipants()
-  {
-    this.addingParticipant = false;
-      this.participantsToAdd.forEach(p => {
-        if(p != -1)
-        {
-          this.matchService.newMatchParticipant(this.match.matchId!, p).subscribe(
-            (r) => {
-              this.getParticipants();
-            }
-        
-          )
-        }
-      })
-      this.participantsToAdd = [];
-  }
-
-  hasChanged()
-  {
-    this.changed = true;
-  }
-
-  addParticipant()
-  {
-    this.addingParticipant = true;
-    this.participantsToAdd.push(-1);
-  }
-
-  getParticipants()
-  {
-    this.matchService.getMatchParticipants(this.match.matchId!)
-     .subscribe(
-      (r) => {
-        this.participants = r;
-        this.participantIds = this.participants.map(participant => ({new: participant.userId, old: participant.userId}));
-      },
-      (e) => {
-        this.participants = [];
-        this.participantIds = [];
-      }
-     )
-  }
-
 }

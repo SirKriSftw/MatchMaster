@@ -3,13 +3,11 @@
 }
 
 .container {
-    width: 220px;
+    width: 200px;
 }
 
 .match {
-    display: flex; 
-    align-items: center; 
-    justify-content: space-between;
+
 }
 
 .match-title {

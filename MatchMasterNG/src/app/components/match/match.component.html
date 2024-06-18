@@ -2,51 +2,29 @@
     <div class = "container">
         <div *ngIf = "!isEditing" class = "match" (dblclick) = "startEditing()">
             <div>
-                <p class = "match-title">{{match.matchTitle}}</p>
+                <p class = "match-title" [matTooltip] = "matchForm.get('description')?.value" >{{matchForm.get("title")?.value}}</p>
                 <div class = "participant-box" *ngFor = "let participant of participants">
                     <div class = "participant-name">{{participant.username}}</div>
-                    <div class = "winner"></div>
-                </div>
-                <div class = "participant-box" *ngIf = "participants.length <= 1">
-                    <div class = "participant-name"></div>
-                    <div class = "winner"></div>
-                </div>
-                <div class = "participant-box" *ngIf = "participants.length == 0">
-                    <div class = "participant-name"></div>
                     <div class = "winner"></div>
                 </div>
                 <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
             </div>
         </div>
-        <div *ngIf = "isEditing" class = "match">
-            
-            <form [formGroup] = "matchForm">
-                <div>                
-                    <input matInput formControlName = "title" class = "match-title edit-input" [value] = "match.matchTitle" placeholder = "Match Title">
-                    <div class = "participant-box" *ngFor = "let participant of participants; let i = index;">
-                        <mat-select class = "participant-name" [(value)] = "participants[i].userId">
-                            <mat-option value = "0">No participant</mat-option>
-                            <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" [value] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>
-                        </mat-select>
-                        <div class = "winner"></div>
-                    </div>
-                    <div class = "participant-box" *ngIf = "participants.length <= 1">
-                        <mat-select class = "participant-name" >
-                            <mat-option value = "0">No participant</mat-option>
-                            <mat-option class = "participant-name" *ngFor = "let tournamentParticipant of tournamentParticipants" value = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>
-                        </mat-select>
-                        <div class = "winner"></div>
-                    </div>
-                    <div class = "participant-box" *ngIf = "participants.length == 0">
-                        <mat-select class = "participant-name">
-                            <mat-option value = "0">No participant</mat-option>
-                            <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" value = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>
-                        </mat-select>
-                        <div class = "winner"></div>
-                    </div>
-                    <input class = "edit-input edit-time" type = "datetime-local" [value] = "match.matchStart">
-                </div>
-            </form>
-        </div>
+
+        <form [formGroup] = "matchForm" (ngSubmit) = "onSubmit()" *ngIf = "isEditing" class = "match">
+            <button>Submit</button>
+            <input matInput formControlName = "title" class = "match-title edit-input" placeholder = "Match Title">
+            <input matInput formControlName = "description" class = "match-title edit-input" placeholder = "Match Description">  
+            <div *ngIf = "participants">
+                <div formArrayName = "participants" class = "participant-box" *ngFor = "let participant of this.matchForm.get('participants')?.value; let i = index;">
+                    <mat-select class = "participant-name"  formControlName = "{{i}}">
+                        <mat-option [value] = 0>No participant</mat-option>
+                        <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" [value] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>                            
+                    </mat-select>
+                    <div class = "winner"></div>
+                </div>                    
+            </div>       
+            <input formControlName = "time" class = "edit-input edit-time" type = "datetime-local">
+        </form>
     </div>
 </div>
