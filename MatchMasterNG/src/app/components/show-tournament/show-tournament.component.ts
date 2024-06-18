@@ -27,7 +27,6 @@ export class ShowTournamentComponent {
     acceptingParticipants: true
   }; 
 
-
   creatorUsername: string = "";
   matches: Dictionary<Match> = {};
   editingMatch: Match[] = [];
@@ -170,7 +169,6 @@ export class ShowTournamentComponent {
       }
 
       this.editingMatch.push(newMatch);
-      console.log(this.matches)
     }
   }
 

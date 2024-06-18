@@ -88,14 +88,25 @@ export class MatchComponent {
   initForm()
   {
     let idList: any[] = [];
-    console.log(idList);
     this.participants.forEach(p => idList.push(p.userId))
     this.matchForm = this.formBuilder.group({
       title: this.match.matchTitle,
       description: this.match.description,
       participants: this.formBuilder.array(idList),
-      time: this.match.matchStart
+      time: this.formatDate(this.match.matchStart)
     });
+  }
+
+  formatDate(dateToFormat: Date)
+  {
+    let date = new Date(dateToFormat);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   onSubmit()
