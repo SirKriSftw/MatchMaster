@@ -15,9 +15,9 @@
             <button>Submit</button>
             <input matInput formControlName = "title" class = "match-title edit-input" placeholder = "Match Title">
             <input matInput formControlName = "description" class = "match-title edit-input" placeholder = "Match Description">  
-            <div *ngIf = "participants">
-                <div formArrayName = "participants" class = "participant-box" *ngFor = "let participant of this.matchForm.get('participants')?.value; let i = index;">
-                    <mat-select class = "participant-name"  formControlName = "{{i}}">
+            <div *ngIf = "participants" formArrayName = "participants">
+                <div  class = "participant-box" *ngFor = "let participant of participantControls; let i = index;">
+                    <mat-select class = "participant-name"  [formControlName] = "i">
                         <mat-option [value] = 0>No participant</mat-option>
                         <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" [value] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>                            
                     </mat-select>

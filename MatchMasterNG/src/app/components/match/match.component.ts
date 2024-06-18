@@ -3,7 +3,7 @@ import { Match } from '../../models/match.model';
 import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 interface Options {
   new: number;
@@ -52,7 +52,8 @@ export class MatchComponent {
     {
       this.isCreator = true;
     }
-    this.getParticipants();    
+    this.getParticipants(); 
+    this.initForm();   
   }
 
   getParticipants()
@@ -75,6 +76,11 @@ export class MatchComponent {
      )
   }
 
+  get participantControls()
+  {
+    return (<FormArray>this.matchForm.get("participants")).controls;
+  }
+
   emitEditEvent()
   {
     this.editEvent.emit([parseInt(this.matchLevel), this.matchIndex]);
@@ -87,18 +93,19 @@ export class MatchComponent {
 
   initForm()
   {
-    let idList: any[] = [];
-    this.participants.forEach(p => idList.push(p.userId))
+    const participantCtrls = this.participants.map(p => this.formBuilder.control(p.userId))
+
     this.matchForm = this.formBuilder.group({
       title: this.match.matchTitle,
       description: this.match.description,
-      participants: this.formBuilder.array(idList),
+      participants: this.formBuilder.array(participantCtrls),
       time: this.formatDate(this.match.matchStart)
     });
   }
 
   formatDate(dateToFormat: Date)
   {
+    // Ensure the passed in arg is a date obj
     let date = new Date(dateToFormat);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
