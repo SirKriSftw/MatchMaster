@@ -184,6 +184,10 @@ export class ShowTournamentComponent {
     if(m.matchId == 0 || m.matchId == undefined)
     {
       this.matches[level].splice(i, 1);
+      if(this.matches[level].length == 0)
+      {
+        delete this.matches[level];
+      }
     }
 
     this.editingMatch = this.editingMatch.filter(match => m != match)
