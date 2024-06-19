@@ -126,33 +126,62 @@ export class MatchComponent {
 
   onSubmit()
   {
-    if("participants" in this.oldForm)
+    if(this.match.matchId)
     {
-      let oldParticipantIds: number[] = this.oldForm["participants"];
-      let newParticipantIds = this.matchForm.get("participants")?.value;
-
-      newParticipantIds.forEach( (id: number, i: number) => {
-        if(id != oldParticipantIds[i])
-        {
-            if(oldParticipantIds[i] == 0)
-            {
-              console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
-            }
-            else if(id == 0)
-            {
-              console.log(`Delete match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]}`);
-            }
-            else
-            {
-              
-              console.log(`Change match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]} to newUserId: ${id}`);
-            }
-        }
-      })
+      this.updateParticipants();
     }
-      
+    else
+    {
+      this.saveMatch();
+      this.newMatchParticipants();
+    }
+  }
 
-    console.log(this.matchForm.value);
+  saveMatch()
+  {
+    this.match.matchTitle = this.matchForm.get("title")?.value;
+    this.match.description = this.matchForm.get("description")?.value;
+    this.match.matchStart = this.matchForm.get("time")?.value;
+
+    this.matchService.newMatch(this.match).subscribe((r) => {
+      
+    });
+  }
+
+  updateParticipants()
+  {
+    if("participants" in this.oldForm)
+      {
+        let oldParticipantIds: number[] = this.oldForm["participants"];
+        let newParticipantIds = this.matchForm.get("participants")?.value;
+  
+        newParticipantIds.forEach( (id: number, i: number) => {
+          if(id != oldParticipantIds[i])
+          {
+              if(oldParticipantIds[i] == 0)
+              {
+                console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
+              }
+              else if(id == 0)
+              {
+                console.log(`Delete match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]}`);
+              }
+              else
+              {
+                
+                console.log(`Change match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]} to newUserId: ${id}`);
+              }
+          }
+        })
+      }
+  }
+
+  newMatchParticipants()
+  {
+    let newParticipantIds = this.matchForm.get("participants")?.value;
+    newParticipantIds.forEach((id: number) => {
+      console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
+    })
   }
 
   startEditing()

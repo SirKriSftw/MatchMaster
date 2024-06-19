@@ -69,6 +69,17 @@ namespace MatchMaster.Controllers
             _context.Matches.Add(match);
             await _context.SaveChangesAsync();
 
+            if(match.PrevMatch != null || match.PrevMatch != 0)
+            {
+                var prevMatch = await _context.Matches
+                .Where(m => m.MatchId == match.PrevMatch)
+                .FirstOrDefaultAsync();
+                prevMatch.NextMatch = match.MatchId;
+                _context.Entry(match).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+
             return CreatedAtAction(nameof(GetMatch), new { id = match.MatchId }, match);
         }
 
@@ -119,8 +130,6 @@ namespace MatchMaster.Controllers
         [HttpPut("{id}/Participant/{userId}/{newUserId}")]
         public async Task<IActionResult> EditMatchParticipant(int id, int userId, int newUserId)
         {
-            Console.WriteLine(userId);
-            Console.WriteLine(newUserId);
             var participantToEdit = await _context.MatchParticipants
                 .Where(p => p.MatchId == id && p.UserId == userId)
                 .FirstOrDefaultAsync();    
