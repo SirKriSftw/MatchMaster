@@ -1,5 +1,6 @@
 <div class = "wrapper">
     <div class = "container">
+        
         <div *ngIf = "!isEditing" class = "match" (dblclick) = "startEditing()">
             <div>
                 <p class = "match-title" [matTooltip] = "matchForm.get('description')?.value" >{{matchForm.get("title")?.value}}</p>
@@ -11,20 +12,28 @@
             </div>
         </div>
 
-        <form [formGroup] = "matchForm" (ngSubmit) = "onSubmit()" *ngIf = "isEditing" class = "match">
-            <button>Submit</button>
-            <input matInput formControlName = "title" class = "match-title edit-input" placeholder = "Match Title">
-            <input matInput formControlName = "description" class = "match-title edit-input" placeholder = "Match Description">  
-            <div *ngIf = "participants" formArrayName = "participants">
-                <div  class = "participant-box" *ngFor = "let participant of participantControls; let i = index;">
-                    <mat-select class = "participant-name"  [formControlName] = "i">
-                        <mat-option [value] = 0>No participant</mat-option>
-                        <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" [value] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>                            
-                    </mat-select>
-                    <div class = "winner"></div>
-                </div>                    
-            </div>       
-            <input formControlName = "time" class = "edit-input edit-time" type = "datetime-local">
-        </form>
+        <div *ngIf = "isEditing" class = "match">
+            <button mat-icon-button class = "cancel btn-icons" (click) = "cancelEdit();"><mat-icon>cancel</mat-icon></button>
+            <form [formGroup] = "matchForm" (ngSubmit) = "onSubmit()" class = "match">
+                <div>
+                    <input matInput formControlName = "title" class = "match-title edit-input" placeholder = "Match Title">
+                    <input matInput formControlName = "description" class = "match-title edit-input" placeholder = "Match Description">  
+                    <div *ngIf = "participants" formArrayName = "participants">
+                        <div  class = "participant-box" *ngFor = "let participant of participantControls; let i = index;">
+                            <mat-select class = "participant-name"  [formControlName] = "i">
+                                <mat-option [value] = 0>No participant</mat-option>
+                                <mat-option *ngFor = "let tournamentParticipant of tournamentParticipants" [value] = "tournamentParticipant.userId">{{tournamentParticipant.username}}</mat-option>                            
+                            </mat-select>
+                            <div class = "winner"></div>
+                        </div>                    
+                    </div>       
+                    <input formControlName = "time" class = "edit-input edit-time" type = "datetime-local">
+                </div>
+
+                <div>
+                    <button mat-icon-button *ngIf = "isEditing" class = "save btn-icons"><mat-icon>save</mat-icon></button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

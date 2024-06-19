@@ -26,12 +26,14 @@ export class MatchComponent {
   @Input() isEditing = false;
 
   @Output() editEvent = new EventEmitter();
+  @Output() cancelEditEvent = new EventEmitter();
   @Output() deleteMatchEvent = new EventEmitter();
 
   currentUserId = -1;
   isCreator: boolean = false;
   participants: User[] = [];
   matchForm: FormGroup;
+  oldForm: any;
 
   constructor(private authService: AuthenticationService,
               private formBuilder: FormBuilder,
@@ -91,6 +93,11 @@ export class MatchComponent {
     this.deleteMatchEvent.emit();
   }
 
+  emitCancelEditEvent()
+  {
+    this.cancelEditEvent.emit([this.match.matchId, parseInt(this.matchLevel), this.matchIndex]);
+  }
+
   initForm()
   {
     const participantCtrls = this.participants.map(p => this.formBuilder.control(p.userId))
@@ -124,7 +131,15 @@ export class MatchComponent {
   startEditing()
   {
     this.isEditing = true;
+    this.oldForm = this.matchForm.value;
     this.emitEditEvent();
+  }
+
+  cancelEdit()
+  {
+    this.isEditing = false;
+    this.matchForm.patchValue(this.oldForm);
+    this.emitCancelEditEvent();
   }
 
   deleteMatch(matchId: number)

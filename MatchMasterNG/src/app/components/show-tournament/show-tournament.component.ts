@@ -177,20 +177,23 @@ export class ShowTournamentComponent {
     this.editingMatch.push(this.matches[e[0]][e[1]]);
   }
 
-  stopEdit(m: Match, l: string, i: number)
+  stopEdit(e: any)
   {
-    let level = parseInt(l);
+    let matchId = e[0];
+    let level = e[1];
+    let index = e[2];
+    
 
-    if(m.matchId == 0 || m.matchId == undefined)
+    if(matchId == 0 || matchId == undefined)
     {
-      this.matches[level].splice(i, 1);
+      this.matches[level].splice(index, 1);
       if(this.matches[level].length == 0)
       {
         delete this.matches[level];
       }
     }
 
-    this.editingMatch = this.editingMatch.filter(match => m != match)
+    this.editingMatch = this.editingMatch.filter(match => matchId != match.matchId)
   }
 }
 

@@ -4,10 +4,13 @@
 
 .container {
     width: 200px;
+    display: flex;
+    align-items: center;
 }
 
 .match {
-
+    display: flex;
+    align-items: center;
 }
 
 .match-title {
@@ -56,3 +59,13 @@
 .edit-time {
     margin-top: 8px;
 }
+
+.cancel {
+    color: red;
+}
+
+.save {
+    color: green;
+}
+
+
