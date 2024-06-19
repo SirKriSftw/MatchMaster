@@ -86,7 +86,7 @@ export class MatchComponent {
 
   emitEditEvent()
   {
-    this.editEvent.emit([parseInt(this.matchLevel), this.matchIndex]);
+    this.editEvent.emit([this.match.matchId,parseInt(this.matchLevel), this.matchIndex]);
   }
 
   emitDeleteEvent()
