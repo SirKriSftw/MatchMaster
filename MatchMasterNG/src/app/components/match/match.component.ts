@@ -133,7 +133,6 @@ export class MatchComponent {
     else
     {
       this.saveMatch();
-      this.newMatchParticipants();
     }
   }
 
@@ -144,7 +143,8 @@ export class MatchComponent {
     this.match.matchStart = this.matchForm.get("time")?.value;
 
     this.matchService.newMatch(this.match).subscribe((r) => {
-      
+      this.match = r;
+      this.newMatchParticipants();
     });
   }
 
@@ -180,7 +180,7 @@ export class MatchComponent {
   {
     let newParticipantIds = this.matchForm.get("participants")?.value;
     newParticipantIds.forEach((id: number) => {
-      console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
+      this.matchService.newMatchParticipant(this.match.matchId!, id).subscribe((r) => console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`));
     })
   }
 
