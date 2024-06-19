@@ -108,6 +108,7 @@ export class MatchComponent {
       participants: this.formBuilder.array(participantCtrls),
       time: this.formatDate(this.match.matchStart)
     });
+    this.oldForm = this.matchForm.value;
   }
 
   formatDate(dateToFormat: Date)
@@ -125,6 +126,32 @@ export class MatchComponent {
 
   onSubmit()
   {
+    if("participants" in this.oldForm)
+    {
+      let oldParticipantIds: number[] = this.oldForm["participants"];
+      let newParticipantIds = this.matchForm.get("participants")?.value;
+
+      newParticipantIds.forEach( (id: number, i: number) => {
+        if(id != oldParticipantIds[i])
+        {
+            if(oldParticipantIds[i] == 0)
+            {
+              console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
+            }
+            else if(id == 0)
+            {
+              console.log(`Delete match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]}`);
+            }
+            else
+            {
+              
+              console.log(`Change match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]} to newUserId: ${id}`);
+            }
+        }
+      })
+    }
+      
+
     console.log(this.matchForm.value);
   }
 
