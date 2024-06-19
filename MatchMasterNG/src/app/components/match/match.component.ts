@@ -4,6 +4,8 @@ import { User } from '../../models/user.model';
 import { MatchService } from '../../services/match.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, forkJoin } from 'rxjs';
+import { MatchParticipant } from '../../models/match-participant.model';
 
 interface Options {
   new: number;
@@ -71,8 +73,7 @@ export class MatchComponent {
         this.initForm();
       },
       (e) => {
-        this.participants.push({userId: 0, username: "", email: ""});
-        this.participants.push({userId: 0, username: "", email: ""});
+        this.participants = [{userId: 0, username: "", email: ""},{userId: 0, username: "", email: ""}];
         this.initForm();
       }
      )
@@ -95,6 +96,7 @@ export class MatchComponent {
 
   emitCancelEditEvent()
   {
+    this.isEditing = false;
     this.cancelEditEvent.emit([this.match.matchId, parseInt(this.matchLevel), this.matchIndex]);
   }
 
@@ -126,14 +128,7 @@ export class MatchComponent {
 
   onSubmit()
   {
-    if(this.match.matchId)
-    {
-      this.updateParticipants();
-    }
-    else
-    {
-      this.saveMatch();
-    }
+    this.saveMatch();
   }
 
   saveMatch()
@@ -142,46 +137,87 @@ export class MatchComponent {
     this.match.description = this.matchForm.get("description")?.value;
     this.match.matchStart = this.matchForm.get("time")?.value;
 
-    this.matchService.newMatch(this.match).subscribe((r) => {
-      this.match = r;
-      this.newMatchParticipants();
-    });
+    if(this.match.matchId)
+    {
+      this.matchService.updateMatch(this.match).subscribe((r) => {
+        this.updateParticipants();
+      });
+    }
+    
+    else
+    {
+      this.matchService.newMatch(this.match).subscribe((r) => {
+        this.match = r;
+        this.newMatchParticipants();
+      });
+    }
   }
 
   updateParticipants()
   {
     if("participants" in this.oldForm)
+    {
+      let oldParticipantIds: number[] = this.oldForm["participants"];
+      let newParticipantIds = this.matchForm.get("participants")?.value;
+
+      let observables: Observable<MatchParticipant>[] = [];
+
+      newParticipantIds.forEach( (id: number, i: number) => {
+        if(id != oldParticipantIds[i])
+        {
+            if(oldParticipantIds[i] == 0)
+            {
+              console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
+              observables.push(this.matchService.newMatchParticipant(this.match.matchId!, id));
+            }
+            else if(id == 0)
+            {
+              console.log(`Delete match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]}`);
+              observables.push(this.matchService.removeMatchParticipant(this.match.matchId!,oldParticipantIds[i]));
+            }
+            else
+            {
+              console.log(`Change match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]} to newUserId: ${id}`);
+              observables.push(this.matchService.updateMatchParticipant(this.match.matchId!,oldParticipantIds[i], id));
+            }
+        }
+      });
+
+      console.log(observables.length);
+      if(observables.length > 0)
       {
-        let oldParticipantIds: number[] = this.oldForm["participants"];
-        let newParticipantIds = this.matchForm.get("participants")?.value;
-  
-        newParticipantIds.forEach( (id: number, i: number) => {
-          if(id != oldParticipantIds[i])
-          {
-              if(oldParticipantIds[i] == 0)
-              {
-                console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`);
-              }
-              else if(id == 0)
-              {
-                console.log(`Delete match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]}`);
-              }
-              else
-              {
-                
-                console.log(`Change match participant with matchId: ${this.match.matchId} and userId: ${oldParticipantIds[i]} to newUserId: ${id}`);
-              }
-          }
-        })
+        forkJoin(observables).subscribe(() => {
+          this.getParticipants();
+          this.emitCancelEditEvent();
+        });
       }
+      else
+      {
+        this.emitCancelEditEvent();
+      }      
+    }
   }
 
   newMatchParticipants()
   {
     let newParticipantIds = this.matchForm.get("participants")?.value;
+    let observables: Observable<MatchParticipant>[] = [];
+
     newParticipantIds.forEach((id: number) => {
-      this.matchService.newMatchParticipant(this.match.matchId!, id).subscribe((r) => console.log(`New match participant with matchId: ${this.match.matchId} and userId: ${id}`));
+      observables.push(this.matchService.newMatchParticipant(this.match.matchId!, id));
     })
+
+    if(observables.length > 0)
+    {
+      forkJoin(observables).subscribe(() => {
+        this.getParticipants();
+        this.emitCancelEditEvent();
+      });
+    }
+    else
+    {
+      this.emitCancelEditEvent();
+    }  
   }
 
   startEditing()
@@ -193,7 +229,6 @@ export class MatchComponent {
 
   cancelEdit()
   {
-    this.isEditing = false;
     this.matchForm.patchValue(this.oldForm);
     this.emitCancelEditEvent();
   }

@@ -51,7 +51,7 @@ export class MatchService {
   updateMatchParticipant(matchId: number, userId: number, newUserId: number)
   {
     var body = { userId: userId, newUserId: newUserId}
-    return this.http.put<Match>(`${this.apiUrl}/${matchId}/participant/${userId}/${newUserId}`, body);
+    return this.http.put<MatchParticipant>(`${this.apiUrl}/${matchId}/participant/${userId}/${newUserId}`, body);
   }
 
   removeMatchParticipant(matchId: number, userId: number)
