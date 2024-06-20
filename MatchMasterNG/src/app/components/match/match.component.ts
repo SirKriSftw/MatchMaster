@@ -202,7 +202,10 @@ export class MatchComponent {
     let observables: Observable<MatchParticipant>[] = [];
 
     newParticipantIds.forEach((id: number) => {
-      observables.push(this.matchService.newMatchParticipant(this.match.matchId!, id));
+      if(id != 0)
+      {
+        observables.push(this.matchService.newMatchParticipant(this.match.matchId!, id));
+      }      
     })
 
     if(observables.length > 0)

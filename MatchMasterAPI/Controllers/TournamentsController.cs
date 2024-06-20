@@ -119,7 +119,7 @@ namespace MatchMaster.Controllers
                 .OrderBy(match => match.MatchStart)
                 .ToList();
 
-            int currentLevel = 1;
+            int currentLevel = 0;
             groupedMatches[currentLevel] = startingMatches; 
             List<Match> currentMatches = startingMatches;
             HashSet<int> alreadyAddedMatches = new HashSet<int>();
@@ -139,7 +139,7 @@ namespace MatchMaster.Controllers
                             alreadyAddedMatches.Add(match.WinMatch.Value);
                         }                        
                     }
-                    
+
                     if (match.LoseMatch.HasValue && match.LoseMatch != 0 && !alreadyAddedMatches.Contains(match.LoseMatch.Value))
                     {
                         var nextMatch = matches.Where(m => m.MatchId == match.LoseMatch).FirstOrDefault();

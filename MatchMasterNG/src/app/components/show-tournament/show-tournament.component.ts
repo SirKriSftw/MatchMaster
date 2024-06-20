@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Tournament } from '../../models/tournament.model';
 import { Match } from '../../models/match.model';
@@ -35,6 +35,8 @@ export class ShowTournamentComponent {
   tournamentId: number = -1;
 
   isEditing = false;
+  isShiftPressed = false;
+  matchLinking = 0;
   editingParticipants = false;
   originalTitle = "";
   originalDescription = "";
@@ -48,6 +50,24 @@ export class ShowTournamentComponent {
               private route: ActivatedRoute,
               private router: Router) {}
 
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.shiftKey) {
+      this.isShiftPressed = true;
+    }
+    if (event.key == 'Escape')
+    {
+      this.stopLinking();
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+    if (!event.shiftKey) {
+      this.isShiftPressed = false;
+    }
+  }
+  
   ngOnInit(): void {
     this.tournamentId = parseInt(this.route.snapshot.paramMap.get("id")!);
     this.currentUserId = this.authService.getCurrentUserId();
@@ -84,6 +104,7 @@ export class ShowTournamentComponent {
       matches => 
       {
         this.matches = matches;
+        console.log(this.matches)
       })
   }
 
@@ -147,30 +168,37 @@ export class ShowTournamentComponent {
      );
   }
 
-  addMatch(id: number | undefined, level: string)
+  addStartingMatch()
   {
-    if(id)
-    {
-      let newMatch = {
-        tournamentId: this.tournament.tournamentId,
-        matchTitle: "",
-        description: "",
-        matchStart: new Date(),
-        prevMatch: id
-      }
 
-      if(this.matches[parseInt(level) + 1])
-      {
-        this.matches[parseInt(level) + 1].push(newMatch);
-      }
-      else
-      {
-        this.matches[parseInt(level) + 1] = [newMatch];
-      }
-
-      //this.editingMatch.push(newMatch);
+    let newMatch = {
+      tournamentId: this.tournament.tournamentId,
+      matchTitle: "",
+      matchStart: new Date(),
+      startingMatch: true
     }
+
+    if(this.matches[0])
+    {
+      this.matches[0].unshift(newMatch);
+    }
+    else
+    {
+      this.matches[0] = [newMatch];
+    }
+
   }
+
+  addLink(id: number)
+  {
+    this.matchLinking = id;
+  }
+
+  stopLinking()
+  {
+    this.matchLinking = 0;
+  }
+
 
   editMatch(e: any)
   {

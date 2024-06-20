@@ -58,8 +58,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 5px;
     padding-bottom: 10px;
+    width: 220px;
 }
+
+.linking:hover {
+    background-color: green;
+    cursor: pointer;
+}
+
+.linking.active:hover {
+    background-color: red;
+}
+
 
 .participants {
     padding-top: 20px;
@@ -79,9 +91,15 @@
     flex: 1;
 }
 
+.center {
+    text-align: center;
+}
+
+
 .matches-space {
     display: flex;
     align-items: center;
+    width: 200px;
 }
 
 .levels {
@@ -100,3 +118,4 @@
 .remove {
     color: red;
 }
+
