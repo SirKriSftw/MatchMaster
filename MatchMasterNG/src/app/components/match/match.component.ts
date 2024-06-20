@@ -106,7 +106,6 @@ export class MatchComponent {
 
     this.matchForm = this.formBuilder.group({
       title: this.match.matchTitle,
-      description: this.match.description,
       participants: this.formBuilder.array(participantCtrls),
       time: this.formatDate(this.match.matchStart)
     });
@@ -134,7 +133,6 @@ export class MatchComponent {
   saveMatch()
   {
     this.match.matchTitle = this.matchForm.get("title")?.value;
-    this.match.description = this.matchForm.get("description")?.value;
     this.match.matchStart = this.matchForm.get("time")?.value;
 
     if(this.match.matchId)

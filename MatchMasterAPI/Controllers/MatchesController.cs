@@ -68,18 +68,7 @@ namespace MatchMaster.Controllers
         {
             _context.Matches.Add(match);
             await _context.SaveChangesAsync();
-
-            if(match.PrevMatch != null || match.PrevMatch != 0)
-            {
-                var prevMatch = await _context.Matches
-                .Where(m => m.MatchId == match.PrevMatch)
-                .FirstOrDefaultAsync();
-                prevMatch.NextMatch = match.MatchId;
-                _context.Entry(match).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-            }
-
+            
             return CreatedAtAction(nameof(GetMatch), new { id = match.MatchId }, match);
         }
 

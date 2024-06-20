@@ -115,7 +115,7 @@ namespace MatchMaster.Controllers
 
             Dictionary<int, List<Match>> groupedMatches = new Dictionary<int, List<Match>>();
             List<Match> startingMatches = matches
-                .Where(match => match.PrevMatch == null || match.PrevMatch == 0)
+                .Where(match => match.StartingMatch == true)
                 .OrderBy(match => match.MatchStart)
                 .ToList();
 
@@ -130,13 +130,23 @@ namespace MatchMaster.Controllers
                 List<Match> nextMatches = new List<Match>();
                 foreach (var match in currentMatches)
                 {
-                    if (match.NextMatch.HasValue && match.NextMatch != 0 && !alreadyAddedMatches.Contains(match.NextMatch.Value))
+                    if (match.WinMatch.HasValue && match.WinMatch != 0 && !alreadyAddedMatches.Contains(match.WinMatch.Value))
                     {
-                        var nextMatch = matches.Where(m => m.MatchId == match.NextMatch).FirstOrDefault();
+                        var nextMatch = matches.Where(m => m.MatchId == match.WinMatch).FirstOrDefault();
                         if(nextMatch != null)
                         {
                             nextMatches.Add(nextMatch);
-                            alreadyAddedMatches.Add(match.NextMatch.Value);
+                            alreadyAddedMatches.Add(match.WinMatch.Value);
+                        }                        
+                    }
+                    
+                    if (match.LoseMatch.HasValue && match.LoseMatch != 0 && !alreadyAddedMatches.Contains(match.LoseMatch.Value))
+                    {
+                        var nextMatch = matches.Where(m => m.MatchId == match.LoseMatch).FirstOrDefault();
+                        if(nextMatch != null)
+                        {
+                            nextMatches.Add(nextMatch);
+                            alreadyAddedMatches.Add(match.LoseMatch.Value);
                         }                        
                     }
                 }

@@ -3,7 +3,7 @@
         
         <div *ngIf = "!isEditing" class = "match" (dblclick) = "startEditing()">
             <div>
-                <p class = "match-title" [matTooltip] = "matchForm.get('description')?.value" >{{matchForm.get("title")?.value}}</p>
+                <p class = "match-title">{{matchForm.get("title")?.value}}</p>
                 <div class = "participant-box" *ngFor = "let participant of participants">
                     <div class = "participant-name">{{participant.username}}</div>
                     <div class = "winner"></div>
@@ -17,7 +17,6 @@
             <form [formGroup] = "matchForm" (ngSubmit) = "onSubmit()" class = "match">
                 <div>
                     <input matInput formControlName = "title" class = "match-title edit-input" placeholder = "Match Title">
-                    <input matInput formControlName = "description" class = "match-title edit-input" placeholder = "Match Description">  
                     <div *ngIf = "participants" formArrayName = "participants">
                         <div  class = "participant-box" *ngFor = "let participant of participantControls; let i = index;">
                             <mat-select class = "participant-name"  [formControlName] = "i">

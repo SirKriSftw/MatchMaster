@@ -3,9 +3,8 @@ export interface Match {
     tournamentId: number;
     winnerId?: number;
     matchTitle: string;
-    description: string;
     matchStart: Date;
-    nextMatch?: number;
-    prevMatch?: number;
+    winMatch?: number;
+    loseMatch?: number;
   }
   

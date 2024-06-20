@@ -54,15 +54,15 @@ CREATE TABLE Matches (
     MatchId INT IDENTITY(1,1) PRIMARY KEY,
     TournamentId INT NOT NULL,
     MatchTitle VARCHAR(100),
-    Description TEXT,
     MatchStart DATETIME DEFAULT CURRENT_TIMESTAMP,
     WinnerId INT,
-    NextMatch INT,
-    PrevMatch INT,
+    WinMatch INT,
+    LoseMatch INT,
+    StartingMatch BIT DEFAULT 1,
     FOREIGN KEY (TournamentId) REFERENCES Tournaments(TournamentId) ON DELETE CASCADE,
     FOREIGN KEY (WinnerId) REFERENCES Users(UserId),
-    FOREIGN KEY (NextMatch) REFERENCES Matches(MatchId) ON DELETE NO ACTION,
-    FOREIGN KEY (PrevMatch) REFERENCES Matches(MatchId) ON DELETE NO ACTION
+    FOREIGN KEY (WinMatch) REFERENCES Matches(MatchId),
+    FOREIGN KEY (LoseMatch) REFERENCES Matches(MatchId)
 );
 
 CREATE TABLE TournamentParticipants (
@@ -90,3 +90,23 @@ CREATE INDEX IX_Tournaments_Title ON Tournaments (Title);
 CREATE INDEX IX_Tournaments_CategoryId ON Tournaments (CategoryId);
 CREATE INDEX IX_MatchParticipants_MatchId ON MatchParticipants (MatchId);
 CREATE INDEX IX_OAuthInfo_UserId ON OAuthInfos (UserId);
+CREATE INDEX IX_Matches_StartingMatch ON Matches (StartingMatch);
+
+-- When a match is deleted, update matches that reference it
+CREATE TRIGGER UpdateMatchesOnDelete
+ON Matches
+AFTER DELETE
+AS
+BEGIN
+    DECLARE @DeletedMatchId INT = (SELECT MatchId FROM deleted);
+	DECLARE @DeletedWinMatchId INT = (SELECT WinMatch FROM deleted);
+    DECLARE @DeletedLoseMatchId INT = (SELECT LoseMatch FROM deleted);
+
+    -- IF deleted match had a win/lose match change reference to that (can be null)
+    UPDATE Matches
+    SET WinMatch = CASE WHEN WinMatch = @DeletedMatchId THEN @DeletedWinMatchId ELSE WinMatch END,
+        LoseMatch = CASE WHEN LoseMatch = @DeletedMatchId THEN @DeletedLoseMatchId ELSE LoseMatch END
+    WHERE WinMatch = @DeletedMatchId OR LoseMatch = @DeletedMatchId;
+END;
+
+

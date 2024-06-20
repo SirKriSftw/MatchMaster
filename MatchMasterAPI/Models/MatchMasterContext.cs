@@ -31,7 +31,7 @@ public partial class MatchMasterContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-                if (!optionsBuilder.IsConfigured)
+        if (!optionsBuilder.IsConfigured)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -56,51 +56,51 @@ public partial class MatchMasterContext : DbContext
 
         modelBuilder.Entity<Match>(entity =>
         {
-            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C8172F35B1DB");
+            entity.HasKey(e => e.MatchId).HasName("PK__Matches__4218C817587D7431");
 
-            entity.HasIndex(e => e.TournamentId, "IX_Matches_TournamentId");
+            entity.ToTable(tb => tb.HasTrigger("UpdateMatchesOnDelete"));
 
-            entity.Property(e => e.Description).HasColumnType("text");
+            entity.HasIndex(e => e.StartingMatch, "IX_Matches_StartingMatch");
+
             entity.Property(e => e.MatchStart)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.MatchTitle)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.StartingMatch).HasDefaultValue(true);
 
-            entity.HasOne(d => d.NextMatchNavigation).WithMany(p => p.InverseNextMatchNavigation)
-                .HasForeignKey(d => d.NextMatch)
-                .HasConstraintName("FK__Matches__NextMat__7E02B4CC");
-
-            entity.HasOne(d => d.PrevMatchNavigation).WithMany(p => p.InversePrevMatchNavigation)
-                .HasForeignKey(d => d.PrevMatch)
-                .HasConstraintName("FK__Matches__PrevMat__7EF6D905");
+            entity.HasOne(d => d.LoseMatchNavigation).WithMany(p => p.InverseLoseMatchNavigation)
+                .HasForeignKey(d => d.LoseMatch)
+                .HasConstraintName("FK__Matches__LoseMat__27F8EE98");
 
             entity.HasOne(d => d.Tournament).WithMany(p => p.Matches)
                 .HasForeignKey(d => d.TournamentId)
-                .HasConstraintName("FK__Matches__Tournam__7C1A6C5A");
+                .HasConstraintName("FK__Matches__Tournam__251C81ED");
+
+            entity.HasOne(d => d.WinMatchNavigation).WithMany(p => p.InverseWinMatchNavigation)
+                .HasForeignKey(d => d.WinMatch)
+                .HasConstraintName("FK__Matches__WinMatc__2704CA5F");
 
             entity.HasOne(d => d.Winner).WithMany(p => p.Matches)
                 .HasForeignKey(d => d.WinnerId)
-                .HasConstraintName("FK__Matches__WinnerI__7D0E9093");
+                .HasConstraintName("FK__Matches__WinnerI__2610A626");
         });
 
         modelBuilder.Entity<MatchParticipant>(entity =>
         {
-            entity.HasKey(e => e.MatchParticipantId).HasName("PK__MatchPar__7BB53638AD9DBBA5");
-
-            entity.HasIndex(e => e.MatchId, "IX_MatchParticipants_MatchId");
+            entity.HasKey(e => e.MatchParticipantId).HasName("PK__MatchPar__7BB5363837C3BA00");
 
             entity.Property(e => e.Score).HasDefaultValue(0);
 
             entity.HasOne(d => d.Match).WithMany(p => p.MatchParticipants)
                 .HasForeignKey(d => d.MatchId)
-                .HasConstraintName("FK__MatchPart__Match__0697FACD");
+                .HasConstraintName("FK__MatchPart__Match__2F9A1060");
 
             entity.HasOne(d => d.User).WithMany(p => p.MatchParticipants)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__MatchPart__UserI__078C1F06");
+                .HasConstraintName("FK__MatchPart__UserI__308E3499");
         });
 
         modelBuilder.Entity<OauthInfo>(entity =>
@@ -136,11 +136,7 @@ public partial class MatchMasterContext : DbContext
 
         modelBuilder.Entity<Tournament>(entity =>
         {
-            entity.HasKey(e => e.TournamentId).HasName("PK__Tourname__AC631313DE0AACFC");
-
-            entity.HasIndex(e => e.CategoryId, "IX_Tournaments_CategoryId");
-
-            entity.HasIndex(e => e.Title, "IX_Tournaments_Title");
+            entity.HasKey(e => e.TournamentId).HasName("PK__Tourname__AC631313EA22C7DC");
 
             entity.Property(e => e.AcceptingParticipants).HasDefaultValue(true);
             entity.Property(e => e.CategoryId).HasDefaultValue(1);
@@ -152,30 +148,26 @@ public partial class MatchMasterContext : DbContext
 
             entity.HasOne(d => d.Category).WithMany(p => p.Tournaments)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__Tournamen__Categ__6CD828CA");
+                .HasConstraintName("FK__Tournamen__Categ__2057CCD0");
 
             entity.HasOne(d => d.Creator).WithMany(p => p.Tournaments)
                 .HasForeignKey(d => d.CreatorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Tournamen__Creat__6BE40491");
+                .HasConstraintName("FK__Tournamen__Creat__1F63A897");
         });
 
         modelBuilder.Entity<TournamentParticipant>(entity =>
         {
-            entity.HasKey(e => e.TournamentParticipantId).HasName("PK__Tourname__1E66AF14CFDF11AA");
-
-            entity.HasIndex(e => e.TournamentId, "IX_TournamentParticipants_TournamentId");
-
-            entity.HasIndex(e => e.UserId, "IX_TournamentParticipants_UserId");
+            entity.HasKey(e => e.TournamentParticipantId).HasName("PK__Tourname__1E66AF14EACE8D30");
 
             entity.HasOne(d => d.Tournament).WithMany(p => p.TournamentParticipants)
                 .HasForeignKey(d => d.TournamentId)
-                .HasConstraintName("FK__Tournamen__Tourn__01D345B0");
+                .HasConstraintName("FK__Tournamen__Tourn__2AD55B43");
 
             entity.HasOne(d => d.User).WithMany(p => p.TournamentParticipants)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Tournamen__UserI__02C769E9");
+                .HasConstraintName("FK__Tournamen__UserI__2BC97F7C");
         });
 
         modelBuilder.Entity<User>(entity =>
