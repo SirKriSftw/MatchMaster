@@ -223,9 +223,12 @@ export class MatchComponent {
 
   startEditing()
   {
-    this.isEditing = true;
-    this.oldForm = this.matchForm.value;
-    this.emitEditEvent();
+    if(this.isCreator)
+    {
+      this.isEditing = true;
+      this.oldForm = this.matchForm.value;
+      this.emitEditEvent();
+    }
   }
 
   cancelEdit()
