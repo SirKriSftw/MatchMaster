@@ -21,7 +21,7 @@
     </div>
 
     <div class = "center">
-        <button mat-icon-button class = "add btn-icons" (click) = "addStartingMatch()"><mat-icon>add_box</mat-icon></button>
+        <button mat-icon-button class = "add btn-icons" *ngIf = "isCreator()" (click) = "addStartingMatch()"><mat-icon>add_box</mat-icon></button>
     </div>
 
     <div class = "matches-space">
