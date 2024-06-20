@@ -67,7 +67,7 @@ export class ShowTournamentComponent {
       this.isShiftPressed = false;
     }
   }
-  
+
   ngOnInit(): void {
     this.tournamentId = parseInt(this.route.snapshot.paramMap.get("id")!);
     this.currentUserId = this.authService.getCurrentUserId();
@@ -192,6 +192,21 @@ export class ShowTournamentComponent {
   addLink(id: number)
   {
     this.matchLinking = id;
+  }
+
+  createLink(id: number)
+  {
+    if(id)
+    {
+      if(this.isShiftPressed)
+      {
+        this.matchService.setLoseMatch(this.matchLinking, id).subscribe();
+      }
+      else
+      {
+        this.matchService.setWinMatch(this.matchLinking, id).subscribe();
+      }
+    }
   }
 
   stopLinking()

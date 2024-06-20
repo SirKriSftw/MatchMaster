@@ -32,6 +32,16 @@ export class MatchService {
     return this.http.put<Match>(`${this.apiUrl}/${match.matchId}`, match)
   }
 
+  setWinMatch(matchId: number, winMatchId: number)
+  {
+    return this.http.put<Match>(`${this.apiUrl}/${matchId}/WinMatch/${winMatchId}`,{})
+  }
+
+  setLoseMatch(matchId: number, loseMatchId: number)
+  {
+    return this.http.put<Match>(`${this.apiUrl}/${matchId}/LoseMatch/${loseMatchId}`,{})
+  }
+
   deleteMatch(matchId: number)
   {
     return this.http.delete(`${this.apiUrl}/${matchId}`)

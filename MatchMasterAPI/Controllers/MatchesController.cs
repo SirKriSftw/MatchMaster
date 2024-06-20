@@ -68,7 +68,7 @@ namespace MatchMaster.Controllers
         {
             _context.Matches.Add(match);
             await _context.SaveChangesAsync();
-            
+
             return CreatedAtAction(nameof(GetMatch), new { id = match.MatchId }, match);
         }
 
@@ -114,6 +114,83 @@ namespace MatchMaster.Controllers
 
             return NoContent();
         }
+
+        // PUT: api/Matches/5/WinMatch/6
+        [HttpPut("{id}/WinMatch/{winMatchId}")]
+        public async Task<IActionResult> SetWinMatch(int id, int winMatchId)
+        {
+            try
+            {
+                var match = await _context.Matches
+                .Where(m => m.MatchId == id)
+                .FirstOrDefaultAsync();
+
+                var winMatch = await _context.Matches
+                .Where(m => m.MatchId == winMatchId)
+                .FirstOrDefaultAsync();
+
+                match.WinMatch = winMatchId;
+                winMatch.StartingMatch = false;
+
+                _context.Entry(match).State = EntityState.Modified;
+                _context.Entry(winMatch).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatchExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        // PUT: api/Matches/5/WinMatch/6
+        [HttpPut("{id}/LoseMatch/{loseMatchId}")]
+        public async Task<IActionResult> SetLoseMatch(int id, int loseMatchId)
+        {
+            try
+            {
+                var match = await _context.Matches
+                .Where(m => m.MatchId == id)
+                .FirstOrDefaultAsync();
+
+                var loseMatch = await _context.Matches
+                .Where(m => m.MatchId == loseMatchId)
+                .FirstOrDefaultAsync();
+
+                match.LoseMatch = loseMatchId;
+                loseMatch.StartingMatch = false;
+
+                _context.Entry(match).State = EntityState.Modified;
+                _context.Entry(loseMatch).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+            }
+
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatchExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         // PUT: api/Matches/5/Participants
         [HttpPut("{id}/Participant/{userId}/{newUserId}")]
