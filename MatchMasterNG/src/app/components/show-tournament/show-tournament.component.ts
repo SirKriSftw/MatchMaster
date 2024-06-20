@@ -111,7 +111,10 @@ export class ShowTournamentComponent {
   getParticipants()
   {
     this.tournamentService.getTournamentParticipants(this.tournamentId)
-    .subscribe(participants => this.participants = participants)
+    .subscribe(
+      (participants) => this.participants = participants,
+      () => this.participants = []
+    )
   }
 
   getCreatorName()
