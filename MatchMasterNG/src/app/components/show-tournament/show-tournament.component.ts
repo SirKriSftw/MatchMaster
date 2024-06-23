@@ -10,6 +10,11 @@ import { UserService } from '../../services/user.service';
 import { MatchService } from '../../services/match.service';
 import { CategoryService } from '../../services/category.service';
 
+interface GroupedMatches {
+  winnersSide: Dictionary<Match>;
+  losersSide: Dictionary<Match>;
+}
+
 @Component({
   selector: 'app-show-tournament',
   templateUrl: './show-tournament.component.html',
@@ -28,7 +33,9 @@ export class ShowTournamentComponent {
   }; 
 
   creatorUsername: string = "";
-  matches: Dictionary<Match> = {};
+  matches: GroupedMatches = { winnersSide: {}, losersSide: {}};
+  winnersSide: Dictionary<Match> = {};
+  losersSide: Dictionary<Match> = {};
   editingMatch: Match[] = [];
   participants: User[] = [];
   currentUserId: number = -1;
@@ -98,13 +105,15 @@ export class ShowTournamentComponent {
 
   getMatches()
   {
-    this.matches = [];
+    this.matches = { winnersSide: {}, losersSide: {} };
     this.tournamentService.getTournamentGroupedMatches(this.tournamentId)
     .subscribe(
       matches => 
       {
         this.matches = matches;
         console.log(this.matches)
+        this.winnersSide = this.matches.winnersSide;
+        this.losersSide = this.matches.losersSide;
       })
   }
 
@@ -181,13 +190,13 @@ export class ShowTournamentComponent {
       startingMatch: true
     }
 
-    if(this.matches[0])
+    if(this.winnersSide[0])
     {
-      this.matches[0].unshift(newMatch);
+      this.winnersSide[0].unshift(newMatch);
     }
     else
     {
-      this.matches[0] = [newMatch];
+      this.winnersSide[0] = [newMatch];
     }
 
   }
@@ -223,7 +232,7 @@ export class ShowTournamentComponent {
     console.log(e[0])
     if(e[0] != 0 || e[0] != undefined)
     {
-      this.editingMatch.push(this.matches[e[1]][e[2]]);
+      this.editingMatch.push(this.winnersSide[e[1]][e[2]]);
     }
   }
 
@@ -235,10 +244,10 @@ export class ShowTournamentComponent {
     
     if(matchId == 0 || matchId == undefined)
     {
-      this.matches[level].splice(index, 1);
-      if(this.matches[level].length == 0)
+      this.winnersSide[level].splice(index, 1);
+      if(this.winnersSide[level].length == 0)
       {
-        delete this.matches[level];
+        delete this.winnersSide[level];
       }
     }
     else

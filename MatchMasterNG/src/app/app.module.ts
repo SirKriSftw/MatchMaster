@@ -30,6 +30,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ParticipantsComponent } from './components/participants/participants.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatchesComponent } from './components/matches/matches.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     TournamentComponent,
     NavbarComponent,
     ParticipantsComponent,
+    MatchesComponent,
   ],
   imports: [
     BrowserModule,

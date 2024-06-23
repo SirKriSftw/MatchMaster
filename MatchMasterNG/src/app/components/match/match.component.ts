@@ -7,11 +7,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, forkJoin } from 'rxjs';
 import { MatchParticipant } from '../../models/match-participant.model';
 
-interface Options {
-  new: number;
-  old: number;
-}
-
 @Component({
   selector: 'app-match',
   templateUrl: './match.component.html',
