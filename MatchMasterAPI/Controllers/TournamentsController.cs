@@ -100,7 +100,7 @@ namespace MatchMaster.Controllers
 
         // GET: api/Tournaments/5/Matches/Group
         [HttpGet("{id}/Matches/Group")]
-        public async Task<ActionResult<Dictionary<int, List<Match>>>> GetTournamentMatchesGrouped(int id)
+        public async Task<IActionResult> GetTournamentMatchesGrouped(int id)
         {
             var tournament = await _context.Tournaments.FindAsync(id);
         
@@ -113,21 +113,24 @@ namespace MatchMaster.Controllers
                 .Where(match => match.TournamentId == id)
                 .ToListAsync();
 
-            Dictionary<int, List<Match>> groupedMatches = new Dictionary<int, List<Match>>();
+            Dictionary<int, List<Match>> winnersSide = new Dictionary<int, List<Match>>();
+            Dictionary<int, List<Match>> losersSide = new Dictionary<int, List<Match>>();
+
             List<Match> startingMatches = matches
                 .Where(match => match.StartingMatch == true)
                 .OrderBy(match => match.MatchStart)
                 .ToList();
 
             int currentLevel = 0;
-            groupedMatches[currentLevel] = startingMatches; 
+            winnersSide[currentLevel] = startingMatches; 
             List<Match> currentMatches = startingMatches;
             HashSet<int> alreadyAddedMatches = new HashSet<int>();
 
             while (currentMatches.Any())
             {
                 currentLevel++;
-                List<Match> nextMatches = new List<Match>();
+                List<Match> winnerMatches = new List<Match>();
+                List<Match> loserMatches = new List<Match>();
                 foreach (var match in currentMatches)
                 {
                     if (match.WinMatch.HasValue && match.WinMatch != 0 && !alreadyAddedMatches.Contains(match.WinMatch.Value))
@@ -135,7 +138,7 @@ namespace MatchMaster.Controllers
                         var nextMatch = matches.Where(m => m.MatchId == match.WinMatch).FirstOrDefault();
                         if(nextMatch != null)
                         {
-                            nextMatches.Add(nextMatch);
+                            winnerMatches.Add(nextMatch);
                             alreadyAddedMatches.Add(match.WinMatch.Value);
                         }                        
                     }
@@ -145,20 +148,27 @@ namespace MatchMaster.Controllers
                         var nextMatch = matches.Where(m => m.MatchId == match.LoseMatch).FirstOrDefault();
                         if(nextMatch != null)
                         {
-                            nextMatches.Add(nextMatch);
+                            loserMatches.Add(nextMatch);
                             alreadyAddedMatches.Add(match.LoseMatch.Value);
                         }                        
                     }
                 }
                 
-                if(nextMatches.Count >= 1)
+                if(winnerMatches.Count >= 1)
                 {
-                    groupedMatches[currentLevel] = nextMatches;
-                }                
-                currentMatches = nextMatches;
+                    winnersSide[currentLevel] = winnerMatches;
+                }
+
+                if(loserMatches.Count >= 1)
+                {
+                    losersSide[currentLevel] = loserMatches;
+                }   
+
+                currentMatches = winnerMatches.Concat(loserMatches).ToList();
             }
 
-            return groupedMatches;
+
+            return Ok(new { WinnersSide = winnersSide, LosersSide = losersSide} );
         }
 
         // GET: api/Tournaments/5/Participants
