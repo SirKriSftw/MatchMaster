@@ -7,7 +7,6 @@
 .match-title {
     text-align: center;
     font-weight: bold;
-    border: 1px purple solid;
 }
 
 .match-time {
@@ -29,8 +28,15 @@
 .side {
     display: flex;
     align-items: center;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 20px;
+    height: 600px;
+    cursor: grab;
+    overflow-x: auto;
+    user-select: none;
+}
+
+.side:active {
+    cursor: grabbing;
 }
 
 .winners {
@@ -39,12 +45,15 @@
 
 .losers {
     border: 1px red solid;
+    margin-top: 20px;
+    margin-bottom: 200px;
 }
 
 .match-level {
     display: flex;
     flex: 1;
     flex-direction: column;
+    margin-right: 20px;
 }
 
 .match-box {

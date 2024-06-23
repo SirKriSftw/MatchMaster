@@ -6,9 +6,13 @@
     </div>
 </div>
 
-<div class = "wrapper">
-    <div *ngIf = "!preview" class = "container">
-        <div class = "winners side">
+<div *ngIf = "!preview" class = "wrapper">
+    <div class = "container">
+        <div #slider  *ngIf = "hasWinners" class = "winners side"
+        (mousedown) = "startDragging($event, slider)"
+        (mouseup) = "stopDragging()"
+        (mouseleave) = "stopDragging()"
+        (mousemove) = "moveEvent($event, slider)">
             <div *ngFor = "let level of winnersSide | keyvalue" class = "match-level">
                 <div *ngFor = "let match of level.value" class = "match-box">
                     <div>
@@ -20,7 +24,7 @@
             </div>
         </div>
 
-        <div class = "losers side">
+        <div class = "losers side" *ngIf = "hasLosers">
             <div *ngFor = "let level of losersSide | keyvalue" class = "match-level">
                 <div *ngFor = "let match of level.value" class = "match-box">
                     <div>

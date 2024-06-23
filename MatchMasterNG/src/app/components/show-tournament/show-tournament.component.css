@@ -6,6 +6,8 @@
     height: 100%;
     background-color: #1c1b1b;
     color: white;
+
+    overflow-y: scroll;
 }
 
 .viewport {
@@ -47,31 +49,6 @@
     font-size: smaller;
 }
 
-.center {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.match {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    width: 220px;
-}
-
-.linking:hover {
-    background-color: green;
-    cursor: pointer;
-}
-
-.linking.active:hover {
-    background-color: red;
-}
-
 
 .participants {
     padding-top: 20px;
@@ -95,20 +72,6 @@
     text-align: center;
 }
 
-
-.matches-space {
-    display: flex;
-    align-items: center;
-}
-
-.levels {
-    flex: 1;
-}
-
-.match-box {
-    display: flex;
-    align-items: center;
-}
 
 .add {
     color: green;
