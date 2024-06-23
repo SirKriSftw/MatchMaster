@@ -23,6 +23,10 @@ export class TournamentService {
     return this.http.get<Match[]>(`${this.apiUrl}/${tournamentId}/Matches`);
   }
 
+  getSomeTournamentMatches(tournamentId: number, count: number): Observable<Match[]> {
+    return this.http.get<Match[]>(`${this.apiUrl}/${tournamentId}/Matches/${count}`);
+  }
+
   getTournamentGroupedMatches(tournamentId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${tournamentId}/Matches/Group`);
   }

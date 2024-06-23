@@ -25,45 +25,6 @@
     </div>
 
     <div class = "matches-space">
-        <div class = "levels" *ngFor = "let level of winnersSide | keyvalue">            
-            <div class = "match-box" *ngFor = "let match of level.value; let i = index;">
-                <button mat-icon-button *ngIf = "isCreator() && isEditing" class = "remove btn-icons" matTooltip = "Delete Match"><mat-icon>remove</mat-icon></button>
-                <app-match class = "match" (click) = "createLink(match.matchId!)" 
-                    [ngClass] = "{'linking': matchLinking != 0 && matchLinking != match.matchId && !editingMatch.includes(match),'active' : isShiftPressed}" 
-                    (deleteMatchEvent) = "getMatches()" 
-                    (editEvent) = "editMatch($event)" 
-                    (cancelEditEvent) = "stopEdit($event)" 
-                    [match] = "match" 
-                    [creatorId] = "tournament.creatorId" 
-                    [tournamentId]= "tournamentId" 
-                    [matchLevel] = "level.key" 
-                    [matchIndex] = "i" 
-                    [tournamentParticipants] = "participants" 
-                    [isEditing] = "editingMatch.includes(match) || match.matchId == undefined">
-                </app-match>
-                <button mat-icon-button *ngIf = "(isCreator() && !editingMatch.includes(match)) && match.matchId != undefined && matchLinking == 0" class = "add btn-icons" (click) = "addLink(match.matchId)"><mat-icon>add_link</mat-icon></button>
-            </div>                
-        </div>
-    </div>
-    <div class = "matches-space">
-        <div class = "levels" *ngFor = "let level of losersSide | keyvalue">            
-            <div class = "match-box" *ngFor = "let match of level.value; let i = index;">
-                <button mat-icon-button *ngIf = "isCreator() && isEditing" class = "remove btn-icons" matTooltip = "Delete Match"><mat-icon>remove</mat-icon></button>
-                <app-match class = "match" (click) = "createLink(match.matchId!)" 
-                    [ngClass] = "{'linking': matchLinking != 0 && matchLinking != match.matchId && !editingMatch.includes(match),'active' : isShiftPressed}" 
-                    (deleteMatchEvent) = "getMatches()" 
-                    (editEvent) = "editMatch($event)" 
-                    (cancelEditEvent) = "stopEdit($event)" 
-                    [match] = "match" 
-                    [creatorId] = "tournament.creatorId" 
-                    [tournamentId]= "tournamentId" 
-                    [matchLevel] = "level.key" 
-                    [matchIndex] = "i" 
-                    [tournamentParticipants] = "participants" 
-                    [isEditing] = "editingMatch.includes(match) || match.matchId == undefined">
-                </app-match>
-                <button mat-icon-button *ngIf = "(isCreator() && !editingMatch.includes(match)) && match.matchId != undefined && matchLinking == 0" class = "add btn-icons" (click) = "addLink(match.matchId)"><mat-icon>add_link</mat-icon></button>
-            </div>                
-        </div>
+        <app-matches [tournamentId] = "tournamentId"></app-matches>
     </div>
 </div>
