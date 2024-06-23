@@ -4,11 +4,6 @@ import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
 import { MatchService } from '../../services/match.service';
 
-interface GroupedMatches {
-  winnersSide: Dictionary<Match[]>;
-  losersSide: Dictionary<Match[]>;
-}
-
 @Component({
   selector: 'app-matches',
   templateUrl: './matches.component.html',
@@ -18,7 +13,7 @@ export class MatchesComponent {
   @Input() tournamentId!: number;
   @Input() preview: boolean = false;
   
-  allMatches: GroupedMatches = { winnersSide: {}, losersSide: {}};
+  previewMatches: Match[] = [];
   winnersSide: Dictionary<Match[]> = {};
   losersSide: Dictionary<Match[]> = {};
 
@@ -41,11 +36,20 @@ export class MatchesComponent {
 
   getGroupedMatches() 
   {
-    this.tournamentService.getTournamentGroupedMatches(this.tournamentId).subscribe();
+    this.tournamentService.getTournamentGroupedMatches(this.tournamentId).subscribe(
+      matches => {
+        this.winnersSide = matches.winnersSide;
+        this.losersSide = matches.winnersSide;
+      }
+    );
   }
 
   getSomeMatches(count: number)
   {
-    this.tournamentService.getSomeTournamentMatches(this.tournamentId, count).subscribe();
+    this.tournamentService.getSomeTournamentMatches(this.tournamentId, count).subscribe(
+      matches => {
+        this.previewMatches = matches;
+      }
+    );
   }
 }

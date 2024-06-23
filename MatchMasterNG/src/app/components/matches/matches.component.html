@@ -1,1 +1,7 @@
-
+<div *ngIf = "preview" class = "preview-matches">
+    <div *ngFor = "let match of previewMatches" class = "preview-match">
+        <p class = "match-title">{{match.matchTitle}}</p>
+        <app-participants [matchId] = "match.matchId"></app-participants>
+        <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+    </div>
+</div>

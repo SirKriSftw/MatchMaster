@@ -1,0 +1,42 @@
+.preview-matches {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.match-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.participant-box {
+    display: flex;
+    background-color: #535050;
+}
+
+.participant-name {
+    border: 1px solid white; 
+    color: white;
+    height: 20px; 
+    width: 180px; 
+    padding: 0; 
+    margin: 0; 
+    text-align: center;
+}
+
+.winner {
+    border: 1px solid white; 
+    height: 20px; 
+    width: 20px; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.match-time {
+    text-align: center;
+    padding-top: 5px;
+    font-size: small;
+    color: #CDCBCB;
+}
+
+

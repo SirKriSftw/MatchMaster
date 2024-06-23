@@ -9,8 +9,6 @@
             </mat-panel-description>           
         </mat-expansion-panel-header>
         {{tournament.description}}
-        <div class = "matches" *ngFor = "let match of matches">
-            <app-match [match] = match></app-match>
-        </div>
+        <app-matches [tournamentId] = "tournament.tournamentId" [preview] = "true"></app-matches>
     </mat-expansion-panel>
 </mat-accordion>

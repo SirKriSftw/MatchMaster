@@ -1,5 +1,12 @@
-<mat-selection-list #participants [multiple] = "false" hideSingleSelectionIndicator>
+<mat-selection-list *ngIf = "!matchId" #participants [multiple] = "false" hideSingleSelectionIndicator>
     @for (participant of participantsList; track participant) {
         <mat-list-option class = "list-item" [value] = "participant.userId" (click) = "goToProfile(participant.userId)">{{participant.username}}</mat-list-option>
     }
 </mat-selection-list>
+
+<div *ngIf = "matchId">
+    <div class = "participant-box" *ngFor = "let participant of participantsList">
+        <div class = "participant-name">{{participant.username}}</div>
+        <div class = "winner"></div>
+    </div>
+</div>
