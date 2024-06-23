@@ -8,29 +8,23 @@
 
 <div *ngIf = "!preview" class = "wrapper">
     <div class = "container">
-        <div #slider  *ngIf = "hasWinners" class = "winners side"
-        (mousedown) = "startDragging($event, slider)"
-        (mouseup) = "stopDragging()"
-        (mouseleave) = "stopDragging()"
-        (mousemove) = "moveEvent($event, slider)">
-            <div *ngFor = "let level of winnersSide | keyvalue" class = "match-level">
-                <div *ngFor = "let match of level.value" class = "match-box">
-                    <div>
-                        <p class = "match-title">{{match.matchTitle}}</p>
-                        <app-participants [matchId] = "match.matchId"></app-participants>
-                        <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class = "losers side" *ngIf = "hasLosers">
-            <div *ngFor = "let level of losersSide | keyvalue" class = "match-level">
-                <div *ngFor = "let match of level.value" class = "match-box">
-                    <div>
-                        <p class = "match-title">{{match.matchTitle}}</p>
-                        <app-participants [matchId] = "match.matchId"></app-participants>
-                        <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+        <div *ngFor = "let side of matches; let s = index;">
+            <div #slider  *ngIf = "(hasWinners && s == 0) || (hasLosers && s == 1)" class = "side"
+            [ngClass] = "{ winners: s == 0, losers: s == 1 }"
+            (mousedown) = "startDragging($event, slider)"
+            (mouseup) = "stopDragging()"
+            (mouseleave) = "stopDragging()"
+            (mousemove) = "moveEvent($event, slider)">
+                <div *ngFor = "let level of side | keyvalue" class = "match-level">
+                    <div *ngFor = "let match of level.value" class = "match-box">
+                        <div>
+                            <div class = "suffix-btn">                            
+                                <p class = "match-title">{{match.matchTitle}}</p>
+                                <button mat-icon-button *ngIf = "isCreator()" class = "small-icon-btn"><mat-icon>edit</mat-icon></button>
+                            </div>
+                            <app-participants [matchId] = "match.matchId"></app-participants>
+                            <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+                        </div>
                     </div>
                 </div>
             </div>

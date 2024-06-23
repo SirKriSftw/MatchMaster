@@ -3,6 +3,7 @@ import { Dictionary } from '../../models/dictionary.model';
 import { Match } from '../../models/match.model';
 import { TournamentService } from '../../services/tournament.service';
 import { MatchService } from '../../services/match.service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-matches',
@@ -11,24 +12,27 @@ import { MatchService } from '../../services/match.service';
 })
 export class MatchesComponent {
   @Input() tournamentId!: number;
+  @Input() creatorId!: number;
   @Input() preview: boolean = false;
   
   previewMatches: Match[] = [];
-  winnersSide: Dictionary<Match> = {};
+  matches: Dictionary<Match>[] = [];
   hasWinners: boolean = false;
-  losersSide: Dictionary<Match> = {};
   hasLosers: boolean = false;
+  currentUserId: number = 0;
 
   mouseDown: boolean = false;
   startX : any;
   scrollLeft: any;
 
   constructor(private tournamentService: TournamentService,
-              private matchService: MatchService
+              private matchService: MatchService,
+              private authService: AuthenticationService
               ) {}
 
   ngOnInit() {
     const previewCount: number = 3;
+    this.currentUserId = this.authService.getCurrentUserId();
 
     if(this.preview)
     {
@@ -40,17 +44,22 @@ export class MatchesComponent {
     }
   }
 
+  isCreator()
+  {
+    return this.currentUserId == this.creatorId;
+  }
+
   getGroupedMatches() 
   {
     this.tournamentService.getTournamentGroupedMatches(this.tournamentId).subscribe(
       matches => {
-        this.winnersSide = matches.winnersSide;
-        if (this.winnersSide[0].length > 1)
+        this.matches[0] = matches.winnersSide;
+        if (this.matches[0][0].length > 1)
         {
           this.hasWinners = true;
         }
-        this.losersSide = matches.losersSide;
-        if (this.losersSide[1])
+        this.matches[1] = matches.losersSide;
+        if (Object.keys(this.matches[1]).length !== 0)
         {
           this.hasLosers = true;
         }
@@ -69,7 +78,6 @@ export class MatchesComponent {
 
   startDragging(e: MouseEvent, slider: HTMLElement)
   {
-    console.log(e);
     e.preventDefault();
     this.mouseDown = true;
     this.startX = e.pageX - slider.offsetLeft;

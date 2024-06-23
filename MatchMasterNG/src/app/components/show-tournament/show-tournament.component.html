@@ -20,11 +20,7 @@
         </mat-accordion>
     </div>
 
-    <div class = "center">
-        <button mat-icon-button class = "add btn-icons" *ngIf = "isCreator()" (click) = "addStartingMatch()"><mat-icon>add_box</mat-icon></button>
-    </div>
-
     <div>
-        <app-matches [tournamentId] = "tournamentId"></app-matches>
+        <app-matches [tournamentId] = "tournamentId" [creatorId] = "tournament.creatorId"></app-matches>
     </div>
 </div>

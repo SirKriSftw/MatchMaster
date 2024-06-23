@@ -7,6 +7,7 @@
 .match-title {
     text-align: center;
     font-weight: bold;
+    flex: 1;
 }
 
 .match-time {
@@ -62,3 +63,6 @@
     margin-bottom: 20px;
 }
 
+.suffix-btn {
+    display: flex;
+}
