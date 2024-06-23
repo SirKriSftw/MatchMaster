@@ -14,8 +14,8 @@ export class MatchesComponent {
   @Input() preview: boolean = false;
   
   previewMatches: Match[] = [];
-  winnersSide: Dictionary<Match[]> = {};
-  losersSide: Dictionary<Match[]> = {};
+  winnersSide: Dictionary<Match> = {};
+  losersSide: Dictionary<Match> = {};
 
   constructor(private tournamentService: TournamentService,
               private matchService: MatchService
@@ -39,7 +39,7 @@ export class MatchesComponent {
     this.tournamentService.getTournamentGroupedMatches(this.tournamentId).subscribe(
       matches => {
         this.winnersSide = matches.winnersSide;
-        this.losersSide = matches.winnersSide;
+        this.losersSide = matches.losersSide;
       }
     );
   }

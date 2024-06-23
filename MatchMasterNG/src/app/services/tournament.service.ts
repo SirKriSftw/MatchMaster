@@ -8,6 +8,11 @@ import { AuthenticationService } from './authentication.service';
 import { User } from '../models/user.model';
 import { Dictionary } from '../models/dictionary.model';
 
+interface group {
+  winnersSide: Dictionary<Match[]>,
+  losersSide: Dictionary<Match[]>
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +33,7 @@ export class TournamentService {
   }
 
   getTournamentGroupedMatches(tournamentId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${tournamentId}/Matches/Group`);
+    return this.http.get<group>(`${this.apiUrl}/${tournamentId}/Matches/Group`);
   }
 
   getTournamentById(tournamentId: number): Observable<Tournament> {

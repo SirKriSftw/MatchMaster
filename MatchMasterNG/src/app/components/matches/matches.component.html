@@ -5,3 +5,31 @@
         <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
     </div>
 </div>
+
+<div class = "wrapper">
+    <div *ngIf = "!preview" class = "container">
+        <div class = "winners side">
+            <div *ngFor = "let level of winnersSide | keyvalue" class = "match-level">
+                <div *ngFor = "let match of level.value" class = "match-box">
+                    <div>
+                        <p class = "match-title">{{match.matchTitle}}</p>
+                        <app-participants [matchId] = "match.matchId"></app-participants>
+                        <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class = "losers side">
+            <div *ngFor = "let level of losersSide | keyvalue" class = "match-level">
+                <div *ngFor = "let match of level.value" class = "match-box">
+                    <div>
+                        <p class = "match-title">{{match.matchTitle}}</p>
+                        <app-participants [matchId] = "match.matchId"></app-participants>
+                        <p class = "match-time">{{match.matchStart | date : "h:mm a, MMM d y  "}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

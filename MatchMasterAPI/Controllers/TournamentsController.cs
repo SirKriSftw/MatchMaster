@@ -159,7 +159,7 @@ namespace MatchMaster.Controllers
                     winnersSide[currentLevel] = winnerMatches;
                 }
 
-                if(loserMatches.Count >= 1)
+                if(loserMatches.Count >= 1 && currentLevel != 0)
                 {
                     losersSide[currentLevel] = loserMatches;
                 }   

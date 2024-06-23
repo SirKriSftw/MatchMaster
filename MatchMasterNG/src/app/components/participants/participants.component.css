@@ -16,3 +16,11 @@
     margin: 0; 
     text-align: center;
 }
+
+.winner {
+  border: 1px solid white; 
+  height: 20px; 
+  width: 20px; 
+  padding: 0; 
+  margin: 0; 
+}
